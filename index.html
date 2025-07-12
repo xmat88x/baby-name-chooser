@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scelta Nome Bambina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .tab.active {
+            background: #007AFF;
+            color: white;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .name-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .name-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .name-card.red {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .name-card.green {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .name-card.dark-green {
+            background: #c8e6c9;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .name-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .name-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .santo-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .rating-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .rating-btn:hover {
+            transform: scale(1.1);
+            border-color: #007AFF;
+        }
+
+        .rating-btn.selected {
+            background: #007AFF;
+            color: white;
+            border-color: #007AFF;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            background: #007AFF;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #0051D5;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #86868b;
+        }
+
+        .btn-secondary:hover {
+            background: #515154;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #007AFF;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .user-info {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ranking-position {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007AFF;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+
+        .ranking-name {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .ranking-score {
+            font-size: 20px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .comment-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+
+        .comment {
+            background: #f5f5f7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #007AFF;
+            margin-bottom: 4px;
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .add-comment input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+        }
+
+        .info-section {
+            background: #f5f5f7;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .info-section h4 {
+            color: #007AFF;
+            margin-bottom: 8px;
+        }
+
+        .share-section {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .share-code {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007AFF;
+            letter-spacing: 2px;
+            margin: 16px 0;
+        }
+
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .letter-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .letter-btn:hover, .letter-btn.active {
+            background: #007AFF;
+            color: white;
+            border-color: #007AFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👶🏼‍♀️ Scelta Nome per la Nostra Bambina</h1>
+            <div class="user-info" id="userInfo">
+                <span>Benvenuto! Accedi per iniziare</span>
+                <button class="btn" onclick="showLoginModal()">Accedi</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('names')">📝 Nomi</button>
+            <button class="tab" onclick="switchTab('personal')">⭐ Le Mie Scelte</button>
+            <button class="tab" onclick="switchTab('ranking')">🏆 Classifica</button>
+            <button class="tab" onclick="switchTab('stats')">📊 Statistiche</button>
+            <button class="tab" onclick="switchTab('share')">🔗 Condividi</button>
+        </div>
+
+        <div class="content" id="content">
+            <!-- Content will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Accedi o Registrati</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="tua@email.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label>Il tuo nome</label>
+                <input type="text" id="loginName" placeholder="Es: Maria">
+            </div>
+            <div class="form-group">
+                <label>Codice famiglia (lascia vuoto per crearne uno nuovo)</label>
+                <input type="text" id="familyCode" placeholder="Es: ABC123">
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" onclick="login()">Accedi/Registrati</button>
+                <button class="btn btn-secondary" onclick="closeModal('loginModal')">Annulla</button>
+            </div>
+            <p style="margin-top: 16px; font-size: 14px; color: #666;">
+                I tuoi dati sono salvati localmente e puoi riaccedere con email e password.
+            </p>
+        </div>
+    </div>
+
+    <!-- Add Name Modal -->
+    <div class="modal" id="addNameModal">
+        <div class="modal-content">
+            <h2>Aggiungi un Nome</h2>
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" id="newNameInput" placeholder="Es: Giulia">
+            </div>
+            <div class="form-group">
+                <label>Santo/a (opzionale)</label>
+                <input type="text" id="newSantoInput" placeholder="Es: Santa Giulia">
+            </div>
+            <div class="form-group">
+                <label>Data Santo/a (opzionale)</label>
+                <input type="text" id="newDataInput" placeholder="Es: 22 maggio">
+            </div>
+            <div class="form-group">
+                <label>Significato</label>
+                <textarea id="newSignificatoInput" rows="3" placeholder="Es: Dal latino Julius, significa giovane"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Origine</label>
+                <input type="text" id="newOrigineInput" placeholder="Es: Latino">
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" onclick="addName()">Aggiungi</button>
+                <button class="btn btn-secondary" onclick="closeModal('addNameModal')">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial Italian female names database
+        const initialNames = [
+            { nome: "Alessandra", santo: "Sant'Alessandra", dataSanto: "20 marzo", significato: "Protettrice degli uomini", origine: "Greco" },
+            { nome: "Alice", santo: "Sant'Alice", dataSanto: "11 giugno", significato: "Nobile", origine: "Germanico" },
+            { nome: "Anna", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia, favore", origine: "Ebraico" },
+            { nome: "Arianna", santo: "Sant'Arianna", dataSanto: "18 settembre", significato: "Molto sacra", origine: "Greco" },
+            { nome: "Aurora", santo: "Sant'Aurora", dataSanto: "7 dicembre", significato: "Alba", origine: "Latino" },
+            { nome: "Beatrice", santo: "Santa Beatrice", dataSanto: "29 luglio", significato: "Colei che rende felici", origine: "Latino" },
+            { nome: "Bianca", santo: "Santa Bianca", dataSanto: "14 gennaio", significato: "Candida, pura", origine: "Germanico" },
+            { nome: "Camilla", santo: "Santa Camilla", dataSanto: "26 luglio", significato: "Fanciulla addetta al culto", origine: "Latino" },
+            { nome: "Carlotta", santo: "Santa Carlotta", dataSanto: "17 luglio", significato: "Forte, valente", origine: "Germanico" },
+            { nome: "Caterina", santo: "Santa Caterina", dataSanto: "29 aprile", significato: "Pura", origine: "Greco" },
+            { nome: "Chiara", santo: "Santa Chiara", dataSanto: "11 agosto", significato: "Luminosa, illustre", origine: "Latino" },
+            { nome: "Claudia", santo: "Santa Claudia", dataSanto: "20 marzo", significato: "Zoppa", origine: "Latino" },
+            { nome: "Cristina", santo: "Santa Cristina", dataSanto: "24 luglio", significato: "Cristiana", origine: "Latino" },
+            { nome: "Daniela", santo: "Santa Daniela", dataSanto: "21 luglio", significato: "Dio è il mio giudice", origine: "Ebraico" },
+            { nome: "Diana", santo: "Santa Diana", dataSanto: "10 giugno", significato: "Divina", origine: "Latino" },
+            { nome: "Elena", santo: "Sant'Elena", dataSanto: "18 agosto", significato: "Splendente", origine: "Greco" },
+            { nome: "Eleonora", santo: "Santa Eleonora", dataSanto: "21 febbraio", significato: "Cresciuta nella luce", origine: "Provenzale" },
+            { nome: "Elisa", santo: "Sant'Elisa", dataSanto: "26 giugno", significato: "Dio è il mio giuramento", origine: "Ebraico" },
+            { nome: "Elisabetta", santo: "Sant'Elisabetta", dataSanto: "4 luglio", significato: "Dio è il mio giuramento", origine: "Ebraico" },
+            { nome: "Emma", santo: "Sant'Emma", dataSanto: "19 aprile", significato: "Universale", origine: "Germanico" },
+            { nome: "Federica", santo: "Santa Federica", dataSanto: "18 luglio", significato: "Ricca di pace", origine: "Germanico" },
+            { nome: "Francesca", santo: "Santa Francesca", dataSanto: "9 marzo", significato: "Libera", origine: "Latino" },
+            { nome: "Gabriella", santo: "Santa Gabriella", dataSanto: "29 settembre", significato: "Forza di Dio", origine: "Ebraico" },
+            { nome: "Giada", santo: "", dataSanto: "", significato: "Pietra preziosa", origine: "Spagnolo" },
+            { nome: "Ginevra", santo: "Santa Ginevra", dataSanto: "11 gennaio", significato: "Bianca come la schiuma", origine: "Celtico" },
+            { nome: "Giorgia", santo: "Santa Giorgia", dataSanto: "15 febbraio", significato: "Agricoltrice", origine: "Greco" },
+            { nome: "Giovanna", santo: "Santa Giovanna", dataSanto: "30 maggio", significato: "Dio è misericordioso", origine: "Ebraico" },
+            { nome: "Giulia", santo: "Santa Giulia", dataSanto: "22 maggio", significato: "Giovane", origine: "Latino" },
+            { nome: "Greta", santo: "Santa Greta", dataSanto: "20 novembre", significato: "Perla", origine: "Greco" },
+            { nome: "Ilaria", santo: "Sant'Ilaria", dataSanto: "3 dicembre", significato: "Allegra", origine: "Latino" },
+            { nome: "Irene", santo: "Sant'Irene", dataSanto: "20 ottobre", significato: "Pace", origine: "Greco" },
+            { nome: "Isabella", santo: "Sant'Isabella", dataSanto: "22 febbraio", significato: "Dio è il mio giuramento", origine: "Ebraico" },
+            { nome: "Laura", santo: "Santa Laura", dataSanto: "19 ottobre", significato: "Alloro", origine: "Latino" },
+            { nome: "Letizia", santo: "Santa Letizia", dataSanto: "13 marzo", significato: "Gioia", origine: "Latino" },
+            { nome: "Lidia", santo: "Santa Lidia", dataSanto: "3 agosto", significato: "Donna della Lidia", origine: "Greco" },
+            { nome: "Lisa", santo: "Santa Lisa", dataSanto: "17 novembre", significato: "Dio è il mio giuramento", origine: "Ebraico" },
+            { nome: "Lucia", santo: "Santa Lucia", dataSanto: "13 dicembre", significato: "Luminosa", origine: "Latino" },
+            { nome: "Ludovica", santo: "Santa Ludovica", dataSanto: "31 gennaio", significato: "Combattente gloriosa", origine: "Germanico" },
+            { nome: "Luna", santo: "", dataSanto: "", significato: "Luna", origine: "Latino" },
+            { nome: "Margherita", santo: "Santa Margherita", dataSanto: "22 febbraio", significato: "Perla", origine: "Greco" },
+            { nome: "Maria", santo: "Santa Maria", dataSanto: "12 settembre", significato: "Amara, signora", origine: "Ebraico" },
+            { nome: "Marta", santo: "Santa Marta", dataSanto: "29 luglio", significato: "Signora", origine: "Aramaico" },
+            { nome: "Martina", santo: "Santa Martina", dataSanto: "30 gennaio", significato: "Dedicata a Marte", origine: "Latino" },
+            { nome: "Matilde", santo: "Santa Matilde", dataSanto: "14 marzo", significato: "Forte in battaglia", origine: "Germanico" },
+            { nome: "Michela", santo: "Santa Michela", dataSanto: "29 settembre", significato: "Chi è come Dio?", origine: "Ebraico" },
+            { nome: "Monica", santo: "Santa Monica", dataSanto: "27 agosto", significato: "Solitaria", origine: "Greco" },
+            { nome: "Nicoletta", santo: "Santa Nicoletta", dataSanto: "6 dicembre", significato: "Vittoria del popolo", origine: "Greco" },
+            { nome: "Nina", santo: "Santa Nina", dataSanto: "14 gennaio", significato: "Graziosa", origine: "Spagnolo" },
+            { nome: "Noemi", santo: "Santa Noemi", dataSanto: "14 dicembre", significato: "Mia gioia", origine: "Ebraico" },
+            { nome: "Paola", santo: "Santa Paola", dataSanto: "26 gennaio", significato: "Piccola", origine: "Latino" },
+            { nome: "Patrizia", santo: "Santa Patrizia", dataSanto: "25 agosto", significato: "Nobile", origine: "Latino" },
+            { nome: "Rachele", santo: "Santa Rachele", dataSanto: "30 settembre", significato: "Pecorella", origine: "Ebraico" },
+            { nome: "Rebecca", santo: "Santa Rebecca", dataSanto: "23 settembre", significato: "Legame", origine: "Ebraico" },
+            { nome: "Rita", santo: "Santa Rita", dataSanto: "22 maggio", significato: "Perla", origine: "Greco" },
+            { nome: "Roberta", santo: "Santa Roberta", dataSanto: "17 aprile", significato: "Splendente di gloria", origine: "Germanico" },
+            { nome: "Rosa", santo: "Santa Rosa", dataSanto: "23 agosto", significato: "Rosa", origine: "Latino" },
+            { nome: "Rossella", santo: "Santa Rossella", dataSanto: "23 agosto", significato: "Dai capelli rossi", origine: "Latino" },
+            { nome: "Sabrina", santo: "Santa Sabrina", dataSanto: "29 gennaio", significato: "Principessa", origine: "Celtico" },
+            { nome: "Sara", santo: "Santa Sara", dataSanto: "9 ottobre", significato: "Principessa", origine: "Ebraico" },
+            { nome: "Serena", santo: "Santa Serena", dataSanto: "7 maggio", significato: "Serena, tranquilla", origine: "Latino" },
+            { nome: "Silvia", santo: "Santa Silvia", dataSanto: "3 novembre", significato: "Selva, bosco", origine: "Latino" },
+            { nome: "Simona", santo: "Santa Simona", dataSanto: "28 ottobre", significato: "Dio ha ascoltato", origine: "Ebraico" },
+            { nome: "Sofia", santo: "Santa Sofia", dataSanto: "30 settembre", significato: "Sapienza", origine: "Greco" },
+            { nome: "Stefania", santo: "Santa Stefania", dataSanto: "18 settembre", significato: "Corona", origine: "Greco" },
+            { nome: "Stella", santo: "Santa Stella", dataSanto: "11 maggio", significato: "Stella", origine: "Latino" },
+            { nome: "Teresa", santo: "Santa Teresa", dataSanto: "15 ottobre", significato: "Cacciatrice", origine: "Greco" },
+            { nome: "Valentina", santo: "Santa Valentina", dataSanto: "25 luglio", significato: "Forte, vigorosa", origine: "Latino" },
+            { nome: "Valeria", santo: "Santa Valeria", dataSanto: "28 aprile", significato: "Forte, sana", origine: "Latino" },
+            { nome: "Vanessa", santo: "", dataSanto: "", significato: "Farfalla", origine: "Greco" },
+            { nome: "Vera", santo: "Santa Vera", dataSanto: "24 gennaio", significato: "Vera, veritiera", origine: "Latino" },
+            { nome: "Veronica", santo: "Santa Veronica", dataSanto: "12 luglio", significato: "Portatrice di vittoria", origine: "Greco" },
+            { nome: "Viola", santo: "Santa Viola", dataSanto: "3 maggio", significato: "Viola (fiore)", origine: "Latino" },
+            { nome: "Virginia", santo: "Santa Virginia", dataSanto: "7 gennaio", significato: "Vergine", origine: "Latino" },
+            { nome: "Vittoria", santo: "Santa Vittoria", dataSanto: "23 dicembre", significato: "Vittoria", origine: "Latino" },
+            { nome: "Viviana", santo: "Santa Viviana", dataSanto: "2 dicembre", significato: "Vivace, piena di vita", origine: "Latino" },
+            { nome: "Zoe", santo: "Santa Zoe", dataSanto: "2 maggio", significato: "Vita", origine: "Greco" }
+        ];
+
+        // State management
+        let currentUser = null;
+        let currentUserEmail = null;
+        let familyData = null;
+        let currentTab = 'names';
+        let searchTerm = '';
+        let selectedLetter = '';
+
+        // Initialize app
+        function init() {
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('currentUser');
+            const savedEmail = localStorage.getItem('currentUserEmail');
+            const savedFamilyCode = localStorage.getItem('familyCode');
+            
+            if (savedUser && savedEmail && savedFamilyCode) {
+                // Verify credentials
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+                if (users[savedEmail]) {
+                    currentUser = savedUser;
+                    currentUserEmail = savedEmail;
+                    loadFamilyData(savedFamilyCode);
+                }
+            }
+            
+            switchTab('names');
+        }
+
+        // User management
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const name = document.getElementById('loginName').value.trim();
+            const code = document.getElementById('familyCode').value.trim();
+            
+            if (!email || !password || !name) {
+                alert('Per favore compila tutti i campi');
+                return;
+            }
+            
+            // Simple email validation
+            if (!email.includes('@')) {
+                alert('Per favore inserisci un\'email valida');
+                return;
+            }
+            
+            // Get or create users database
+            let users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            // Check if user exists
+            if (users[email]) {
+                // Verify password
+                if (users[email].password !== btoa(password)) {
+                    alert('Password errata');
+                    return;
+                }
+                // Login successful
+                currentUser = users[email].name;
+                currentUserEmail = email;
+                
+                // Load their family data
+                if (users[email].familyCode) {
+                    loadFamilyData(users[email].familyCode);
+                }
+            } else {
+                // Register new user
+                users[email] = {
+                    name: name,
+                    password: btoa(password), // Simple encoding
+                    familyCode: code || generateFamilyCode()
+                };
+                localStorage.setItem('registeredUsers', JSON.stringify(users));
+                
+                currentUser = name;
+                currentUserEmail = email;
+                
+                if (code) {
+                    loadFamilyData(code);
+                } else {
+                    initializeFamilyData(users[email].familyCode);
+                }
+            }
+            
+            // Save login state
+            localStorage.setItem('currentUser', currentUser);
+            localStorage.setItem('currentUserEmail', currentUserEmail);
+            localStorage.setItem('familyCode', familyData.code);
+            
+            // Update user's family code
+            users[currentUserEmail].familyCode = familyData.code;
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+            
+            updateUserInfo();
+            closeModal('loginModal');
+            switchTab(currentTab);
+        }
+
+        function logout() {
+            currentUser = null;
+            currentUserEmail = null;
+            familyData = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUserEmail');
+            localStorage.removeItem('familyCode');
+            updateUserInfo();
+            switchTab(currentTab);
+        }
+
+        function updateUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            if (currentUser) {
+                userInfo.innerHTML = `
+                    <span>👤 ${currentUser} | 📧 ${currentUserEmail}</span>
+                    <button class="btn btn-secondary" onclick="logout()">Esci</button>
+                `;
+            } else {
+                userInfo.innerHTML = `
+                    <span>Benvenuto! Accedi per iniziare</span>
+                    <button class="btn" onclick="showLoginModal()">Accedi</button>
+                `;
+            }
+        }
+
+        // Family data management
+        function generateFamilyCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        function initializeFamilyData(code) {
+            familyData = {
+                code: code,
+                names: [...initialNames],
+                votes: {},
+                comments: {},
+                users: [currentUser]
+            };
+            saveFamilyData();
+            localStorage.setItem('familyCode', code);
+        }
+
+        function loadFamilyData(code) {
+            const saved = localStorage.getItem(`family_${code}`);
+            if (saved) {
+                familyData = JSON.parse(saved);
+                if (!familyData.users.includes(currentUser)) {
+                    familyData.users.push(currentUser);
+                    saveFamilyData();
+                }
+            } else {
+                initializeFamilyData(code);
+            }
+            localStorage.setItem('familyCode', code);
+        }
+
+        function saveFamilyData() {
+            if (familyData) {
+                localStorage.setItem(`family_${familyData.code}`, JSON.stringify(familyData));
+            }
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab styling
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab:nth-child(${['names', 'personal', 'ranking', 'stats', 'share'].indexOf(tab) + 1})`).classList.add('active');
+            
+            // Load content based on tab
+            const content = document.getElementById('content');
+            
+            if (!currentUser && tab !== 'share') {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <h2>👋 Benvenuto!</h2>
+                        <p style="margin: 20px 0; color: #666;">Per iniziare a votare e aggiungere nomi, accedi con la tua email.</p>
+                        <button class="btn" onclick="showLoginModal()">Accedi ora</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            switch(tab) {
+                case 'names':
+                    loadNamesTab();
+                    break;
+                case 'personal':
+                    loadPersonalTab();
+                    break;
+                case 'ranking':
+                    loadRankingTab();
+                    break;
+                case 'stats':
+                    loadStatsTab();
+                    break;
+                case 'share':
+                    loadShareTab();
+                    break;
+            }
+        }
+
+        // Names tab
+        function loadNamesTab() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Cerca un nome..." oninput="handleSearch()">
+                    <button class="btn" onclick="showAddNameModal()">+ Aggiungi Nome</button>
+                </div>
+                <div class="alphabet-filter" id="alphabetFilter"></div>
+                <div id="namesList"></div>
+            `;
+            
+            // Generate alphabet filter
+            const alphabetFilter = document.getElementById('alphabetFilter');
+            alphabetFilter.innerHTML = '<button class="letter-btn active" onclick="filterByLetter(\'\')">Tutti</button>';
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                alphabetFilter.innerHTML += `<button class="letter-btn" onclick="filterByLetter('${letter}')">${letter}</button>`;
+            }
+            
+            displayNames();
+        }
+
+        function handleSearch() {
+            searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            displayNames();
+        }
+
+        function filterByLetter(letter) {
+            selectedLetter = letter;
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            displayNames();
+        }
+
+        function displayNames() {
+            const namesList = document.getElementById('namesList');
+            let filteredNames = [...familyData.names];
+            
+            // Apply search filter
+            if (searchTerm) {
+                filteredNames = filteredNames.filter(n => 
+                    n.nome.toLowerCase().includes(searchTerm) ||
+                    (n.santo && n.santo.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Apply letter filter
+            if (selectedLetter) {
+                filteredNames = filteredNames.filter(n => n.nome.startsWith(selectedLetter));
+            }
+            
+            // Sort alphabetically
+            filteredNames.sort((a, b) => a.nome.localeCompare(b.nome));
+            
+            namesList.innerHTML = filteredNames.map(name => {
+                const userVote = getUserVote(name.nome);
+                const avgRating = getAverageRating(name.nome);
+                const cardClass = getCardClass(userVote);
+                
+                return `
+                    <div class="name-card ${cardClass}">
+                        <div class="name-header">
+                            <h3 class="name-title">${name.nome}</h3>
+                            ${avgRating > 0 ? `<span style="color: #666;">Media: ${avgRating.toFixed(1)} ⭐</span>` : ''}
+                        </div>
+                        ${name.santo ? `<div class="santo-info">🙏 ${name.santo} - ${name.dataSanto}</div>` : ''}
+                        ${name.significato ? `
+                            <div class="info-section">
+                                <h4>📖 Significato</h4>
+                                <p>${name.significato}</p>
+                                ${name.origine ? `<p><strong>Origine:</strong> ${name.origine}</p>` : ''}
+                            </div>
+                        ` : ''}
+                        <div class="rating-container">
+                            <span>Il tuo voto:</span>
+                            ${[1,2,3,4,5,6,7,8,9,10].map(rating => 
+                                `<button class="rating-btn ${userVote === rating ? 'selected' : ''}" 
+                                    onclick="vote('${name.nome}', ${rating})">${rating}</button>`
+                            ).join('')}
+                        </div>
+                        ${getCommentsSection(name.nome)}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getCardClass(vote) {
+            if (!vote) return '';
+            if (vote <= 5) return 'red';
+            if (vote <= 9) return 'green';
+            return 'dark-green';
+        }
+
+        function getUserVote(nome) {
+            return familyData.votes[nome]?.[currentUser] || 0;
+        }
+
+        function getAverageRating(nome) {
+            const votes = familyData.votes[nome];
+            if (!votes) return 0;
+            const voteValues = Object.values(votes);
+            if (voteValues.length === 0) return 0;
+            return voteValues.reduce((a, b) => a + b, 0) / voteValues.length;
+        }
+
+        function vote(nome, rating) {
+            if (!familyData.votes[nome]) {
+                familyData.votes[nome] = {};
+            }
+            familyData.votes[nome][currentUser] = rating;
+            saveFamilyData();
+            displayNames();
+        }
+
+        // Comments
+        function getCommentsSection(nome) {
+            const comments = familyData.comments[nome] || [];
+            let html = '<div class="comment-section">';
+            
+            if (comments.length > 0) {
+                html += '<h4>💬 Commenti</h4>';
+                comments.forEach(comment => {
+                    html += `
+                        <div class="comment">
+                            <div class="comment-author">${comment.author}</div>
+                            <div>${comment.text}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `
+                <div class="add-comment">
+                    <input type="text" placeholder="Aggiungi un commento..." id="comment-${nome}">
+                    <button class="btn" onclick="addComment('${nome}')">Invia</button>
+                </div>
+            </div>
+            `;
+            
+            return html;
+        }
+
+        function addComment(nome) {
+            const input = document.getElementById(`comment-${nome}`);
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            if (!familyData.comments[nome]) {
+                familyData.comments[nome] = [];
+            }
+            
+            familyData.comments[nome].push({
+                author: currentUser,
+                text: text,
+                date: new Date().toISOString()
+            });
+            
+            saveFamilyData();
+            displayNames();
+        }
+
+        // Add name modal
+        function showAddNameModal() {
+            document.getElementById('addNameModal').style.display = 'flex';
+        }
+
+        function addName() {
+            const nome = document.getElementById('newNameInput').value.trim();
+            const santo = document.getElementById('newSantoInput').value.trim();
+            const dataSanto = document.getElementById('newDataInput').value.trim();
+            const significato = document.getElementById('newSignificatoInput').value.trim();
+            const origine = document.getElementById('newOrigineInput').value.trim();
+            
+            if (!nome) {
+                alert('Il nome è obbligatorio');
+                return;
+            }
+            
+            // Check if name already exists
+            if (familyData.names.find(n => n.nome.toLowerCase() === nome.toLowerCase())) {
+                alert('Questo nome è già presente');
+                return;
+            }
+            
+            familyData.names.push({
+                nome: nome,
+                santo: santo,
+                dataSanto: dataSanto,
+                significato: significato,
+                origine: origine,
+                addedBy: currentUser
+            });
+            
+            saveFamilyData();
+            closeModal('addNameModal');
+            
+            // Clear form
+            document.getElementById('newNameInput').value = '';
+            document.getElementById('newSantoInput').value = '';
+            document.getElementById('newDataInput').value = '';
+            document.getElementById('newSignificatoInput').value = '';
+            document.getElementById('newOrigineInput').value = '';
+            
+            displayNames();
+        }
+
+        // Personal tab
+        function loadPersonalTab() {
+            const content = document.getElementById('content');
+            const myVotes = getMyVotes();
+            const favorites = myVotes.filter(v => v.vote >= 8).sort((a, b) => b.vote - a.vote);
+            const mediumVotes = myVotes.filter(v => v.vote >= 6 && v.vote <= 7).sort((a, b) => b.vote - a.vote);
+            const lowVotes = myVotes.filter(v => v.vote <= 5).sort((a, b) => a.vote - b.vote);
+            
+            content.innerHTML = `
+                <h2>⭐ Le Mie Scelte Personali</h2>
+                
+                ${favorites.length > 0 ? `
+                    <div style="margin-top: 24px;">
+                        <h3 style="color: #2e7d32; margin-bottom: 16px;">💚 I Miei Preferiti (voto 8-10)</h3>
+                        ${favorites.map(item => `
+                            <div class="name-card dark-green" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 24px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                                ${item.data.santo ? `<div class="santo-info">🙏 ${item.data.santo} - ${item.data.dataSanto}</div>` : ''}
+                                ${item.data.significato ? `<p style="margin-top: 8px; color: #666;">${item.data.significato}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${mediumVotes.length > 0 ? `
+                    <div style="margin-top: 32px;">
+                        <h3 style="color: #4caf50; margin-bottom: 16px;">💚 Voti Medi (6-7)</h3>
+                        ${mediumVotes.map(item => `
+                            <div class="name-card green" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 20px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${lowVotes.length > 0 ? `
+                    <div style="margin-top: 32px;">
+                        <h3 style="color: #f44336; margin-bottom: 16px;">❌ Voti Bassi (1-5)</h3>
+                        ${lowVotes.map(item => `
+                            <div class="name-card red" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 20px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${myVotes.length === 0 ? `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <p style="color: #666;">Non hai ancora votato nessun nome.</p>
+                        <button class="btn" onclick="switchTab('names')">Inizia a votare</button>
+                    </div>
+                ` : ''}
+                
+                <div style="margin-top: 40px; padding: 20px; background: #f5f5f7; border-radius: 12px;">
+                    <h4>📊 Riepilogo</h4>
+                    <p>Hai votato <strong>${myVotes.length}</strong> nomi</p>
+                    <p>Media dei tuoi voti: <strong>${myVotes.length > 0 ? (myVotes.reduce((a, b) => a + b.vote, 0) / myVotes.length).toFixed(1) : '0'}</strong></p>
+                </div>
+            `;
+        }
+        
+        function getMyVotes() {
+            const votes = [];
+            Object.entries(familyData.votes).forEach(([nome, userVotes]) => {
+                if (userVotes[currentUser]) {
+                    const nameData = familyData.names.find(n => n.nome === nome);
+                    if (nameData) {
+                        votes.push({
+                            nome: nome,
+                            vote: userVotes[currentUser],
+                            data: nameData
+                        });
+                    }
+                }
+            });
+            return votes;
+        }
+
+        // Ranking tab
+        function loadRankingTab() {
+            const content = document.getElementById('content');
+            const rankings = calculateRankings();
+            
+            content.innerHTML = `
+                <h2>🏆 Classifica Generale</h2>
+                <p style="color: #666; margin-bottom: 24px;">Media dei voti di tutti gli utenti</p>
+                <div id="rankingList">
+                    ${rankings.map((item, index) => `
+                        <div class="ranking-item">
+                            <div class="ranking-position">${index + 1}°</div>
+                            <div class="ranking-name">${item.nome}</div>
+                            <div>
+                                <div class="ranking-score">${item.average.toFixed(1)} ⭐</div>
+                                <div style="font-size: 14px; color: #666;">${item.voters} vot${item.voters === 1 ? 'o' : 'i'}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function calculateRankings() {
+            const rankings = [];
+            
+            familyData.names.forEach(name => {
+                const votes = familyData.votes[name.nome];
+                if (votes && Object.keys(votes).length > 0) {
+                    const voteValues = Object.values(votes);
+                    const average = voteValues.reduce((a, b) => a + b, 0) / voteValues.length;
+                    rankings.push({
+                        nome: name.nome,
+                        average: average,
+                        voters: voteValues.length
+                    });
+                }
+            });
+            
+            rankings.sort((a, b) => b.average - a.average);
+            return rankings;
+        }
+
+        // Stats tab
+        function loadStatsTab() {
+            const content = document.getElementById('content');
+            const stats = calculateStats();
+            
+            content.innerHTML = `
+                <h2>📊 Statistiche</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.totalNames}</div>
+                        <div class="stat-label">Nomi totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.votedNames}</div>
+                        <div class="stat-label">Nomi votati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.totalVotes}</div>
+                        <div class="stat-label">Voti totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.users}</div>
+                        <div class="stat-label">Partecipanti</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 32px;">👥 Partecipanti</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px;">
+                    ${familyData.users.map(user => `
+                        <div style="background: white; padding: 12px 20px; border-radius: 8px;">
+                            ${user} (${getUserVoteCount(user)} voti)
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <h3 style="margin-top: 32px;">🌟 I tuoi preferiti</h3>
+                <div style="margin-top: 16px;">
+                    ${getUserFavorites().map(fav => `
+                        <div class="ranking-item">
+                            <div class="ranking-name">${fav.nome}</div>
+                            <div class="ranking-score">${fav.vote} ⭐</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function calculateStats() {
+            const totalVotes = Object.values(familyData.votes).reduce((total, nameVotes) => 
+                total + Object.keys(nameVotes).length, 0
+            );
+            
+            return {
+                totalNames: familyData.names.length,
+                votedNames: Object.keys(familyData.votes).length,
+                totalVotes: totalVotes,
+                users: familyData.users.length
+            };
+        }
+
+        function getUserVoteCount(user) {
+            let count = 0;
+            Object.values(familyData.votes).forEach(nameVotes => {
+                if (nameVotes[user]) count++;
+            });
+            return count;
+        }
+
+        function getUserFavorites() {
+            const favorites = [];
+            Object.entries(familyData.votes).forEach(([nome, votes]) => {
+                if (votes[currentUser] && votes[currentUser] >= 8) {
+                    favorites.push({ nome, vote: votes[currentUser] });
+                }
+            });
+            favorites.sort((a, b) => b.vote - a.vote);
+            return favorites.slice(0, 10);
+        }
+
+        // Share tab
+        function loadShareTab() {
+            const content = document.getElementById('content');
+            
+            if (!familyData) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <h2>🔗 Condividi con la famiglia</h2>
+                        <p style="margin: 20px 0; color: #666;">Accedi per creare o unirti a un gruppo famiglia.</p>
+                        <button class="btn" onclick="showLoginModal()">Accedi ora</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <h2>🔗 Condividi con la famiglia</h2>
+                <div class="share-section">
+                    <p>Condividi questo codice con i tuoi familiari per permettere loro di votare:</p>
+                    <div class="share-code">${familyData.code}</div>
+                    <button class="btn" onclick="copyCode()">📋 Copia codice</button>
+                </div>
+                
+                <div style="margin-top: 32px;">
+                    <h3>📱 Come funziona?</h3>
+                    <ol style="text-align: left; line-height: 2;">
+                        <li>Condividi il codice <strong>${familyData.code}</strong> con i familiari</li>
+                        <li>Loro dovranno cliccare su "Accedi" e inserire il codice</li>
+                        <li>Tutti potranno votare e vedere la classifica in tempo reale</li>
+                        <li>I dati sono salvati nel browser di ogni partecipante</li>
+                    </ol>
+                </div>
+                
+                <div style="margin-top: 32px; padding: 20px; background: #fff3cd; border-radius: 12px;">
+                    <h4>⚠️ Importante</h4>
+                    <p>I dati sono salvati localmente nel browser. Per una sincronizzazione perfetta tra dispositivi, 
+                    ogni partecipante dovrebbe periodicamente condividere il proprio database aggiornato.</p>
+                </div>
+            `;
+        }
+
+        function copyCode() {
+            navigator.clipboard.writeText(familyData.code).then(() => {
+                alert('Codice copiato negli appunti!');
+            });
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
