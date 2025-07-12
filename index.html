@@ -2,1172 +2,1610 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>👶🏼‍♀️ Scelta Nome Bambina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scelta Nome Bambina</title>
     <style>
-        :root {
-            --primary-bg: #f5f5f7;
-            --secondary-bg: #ffffff;
-            --text-color: #1d1d1f;
-            --primary-accent: #0071e3;
-            --secondary-accent: #e5e5e5;
-            --red: #d70015;
-            --green: #28a745;
-            --dark-green: #1e7e34;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-        body {
-            font-family: var(--font-family);
-            background-color: var(--primary-bg);
-            color: var(--text-color);
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
-        #app {
+
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        header {
+
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px_6px rgba(0, 0, 0, 0.07);
+        }
+
+        .header h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
+
         .tabs {
             display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            background-color: var(--secondary-accent);
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(230, 230, 230, 0.7);
+            padding: 8px;
             border-radius: 12px;
-            padding: 5px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow-x: auto; /* Aggiunto per mobile */
+            -webkit-overflow-scrolling: touch; /* Aggiunto per mobile */
         }
-        .tab-button {
-            padding: 10px 20px;
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: transparent;
             border: none;
-            background-color: transparent;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 16px;
+            transition: all 0.3s ease;
             font-weight: 500;
-            border-radius: 9px;
-            transition: background-color 0.3s, color 0.3s;
-            white-space: nowrap;
+            white-space: nowrap; /* Aggiunto per mobile */
         }
-        .tab-button.active {
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+        .tab:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+
+        .tab.active {
+            background: #007AFF;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        
         .search-add-container {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
-        input[type="text"], input[type="email"], input[type="password"] {
+
+        .search-bar {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid var(--secondary-accent);
+            padding: 16px 20px;
+            border: 1px solid #e1e1e1;
             border-radius: 12px;
-            background-color: var(--secondary-bg);
-            box-sizing: border-box;
+            font-size: 16px; /* Previene lo zoom su iOS */
+            transition: all 0.3s ease;
         }
-        .list-container {
-            background-color: var(--secondary-bg);
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .name-card {
+            background: white;
             border-radius: 12px;
-            padding: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
         }
-        .list-item {
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            border-bottom: 1px solid var(--primary-bg);
+
+        .name-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
         }
-        .list-item:last-child { border-bottom: none; }
-        .item-main {
+
+        .name-card.red {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .name-card.green {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .name-card.dark-green {
+            background: #c8e6c9;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .name-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            margin-bottom: 12px;
         }
-        .item-info {
-            flex-grow: 1;
+
+        .name-title {
+            font-size: 24px;
+            font-weight: 600;
         }
-        .item-info h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
-        .item-info p { margin: 0; font-size: 0.9rem; color: #6e6e73; }
-        .item-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-        .vote-select {
-            padding: 8px;
+
+        .santo-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .rating-container {
+            display: flex;
+            flex-wrap: wrap; /* Aggiunto per mobile */
+            gap: 8px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .rating-btn {
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
-            border: 1px solid var(--secondary-accent);
-            background-color: white;
-            min-width: 60px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent; /* Rimuove flash su mobile */
         }
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 12px;
-            background-color: var(--primary-accent);
+
+        .rating-btn:hover {
+            transform: scale(1.1);
+            border-color: #007AFF;
+        }
+
+        .rating-btn.selected {
+            background: #007AFF;
             color: white;
-            font-size: 1rem;
+            border-color: #007AFF;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            background: #007AFF;
+            color: white;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
-        button:hover { background-color: #0077ed; }
-        .button-secondary {
-            background-color: var(--secondary-accent);
-            color: var(--text-color);
+
+        .btn:hover {
+            background: #0051D5;
+            transform: translateY(-1px);
         }
-        .button-secondary:hover { background-color: #dcdcdc; }
-        .button-danger { background-color: var(--red); }
-        .button-danger:hover { background-color: #e30017; }
+
+        .btn-secondary { background: #86868b; }
+        .btn-secondary:hover { background: #515154; }
+
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
         }
-        .modal-content {
-            background-color: var(--secondary-bg);
-            margin: auto;
-            padding: 20px;
-            border-radius: 18px;
-            width: 90%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h2 { margin: 0; }
-        .close-button { font-size: 1.5rem; cursor: pointer; color: #888; border: none; background: none; }
-        .vote-color-1, .vote-color-2, .vote-color-3, .vote-color-4, .vote-color-5 { background-color: rgba(215, 0, 21, 0.1); border-left: 4px solid var(--red); }
-        .vote-color-6, .vote-color-7, .vote-color-8, .vote-color-9 { background-color: rgba(40, 167, 69, 0.1); border-left: 4px solid var(--green); }
-        .vote-color-10 { background-color: rgba(30, 126, 52, 0.1); border-left: 4px solid var(--dark-green); }
-        .comment-section { margin-top: 15px; border-top: 1px solid var(--primary-bg); padding-top: 15px; }
-        .comment { background-color: var(--primary-bg); padding: 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem; }
-        .comment-author { font-weight: bold; }
-        #logout-button, #auth-status { margin: 10px; }
 
-        /* Stili Mobile */
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #007AFF;
+        }
+        .stat-label { color: #666; font-size: 14px; }
+
+        .user-info {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Aggiunto per mobile */
+            gap: 10px; /* Aggiunto per mobile */
+        }
+        .user-info span {
+             word-break: break-all;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .ranking-position {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007AFF;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+        .ranking-name { flex: 1; font-size: 18px; font-weight: 500; }
+        .ranking-score { font-size: 20px; font-weight: 600; color: #666; }
+
+        .comment-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        .comment {
+            background: #f5f5f7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .comment-author { font-weight: 600; color: #007AFF; margin-bottom: 4px; }
+        .add-comment { display: flex; gap: 8px; margin-top: 12px; }
+        .add-comment input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+        }
+
+        .info-section {
+            background: #f5f5f7;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        .info-section h4 { color: #007AFF; margin-bottom: 8px; }
+
+        .share-section {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 24px;
+            text-align: center;
+        }
+        .share-code {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007AFF;
+            letter-spacing: 2px;
+            margin: 16px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            word-break: break-all;
+        }
+
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .letter-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .letter-btn:hover, .letter-btn.active {
+            background: #007AFF;
+            color: white;
+            border-color: #007AFF;
+        }
+
+        /* --- STILI PER MOBILE --- */
         @media (max-width: 768px) {
-            body { padding: 0; }
-            #app { padding: 10px; }
-            h1 { font-size: 2rem; }
-            .tabs { padding: 3px; }
-            .tab-button { padding: 8px 12px; font-size: 0.9rem; }
-            .search-add-container { flex-direction: column; }
-            .item-main { flex-direction: column; align-items: flex-start; }
-            .item-actions { width: 100%; justify-content: space-between; margin-top: 15px; }
-            .modal-content { width: 95%; height: auto; max-height: 90vh; }
+            .container { padding: 10px; }
+            .header, .content { padding: 16px; }
+            h1 { font-size: 1.8rem; }
+            .tabs { padding: 4px; }
+            .tab { padding: 8px 12px; font-size: 14px; }
+
+            .search-add-container {
+                flex-direction: column;
+            }
+            .name-title { font-size: 20px; }
+            .name-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .rating-btn { width: 38px; height: 38px; }
+            .ranking-position { font-size: 20px; min-width: 40px; margin-right: 12px;}
+            .ranking-name { font-size: 16px; }
+            .ranking-score { font-size: 18px; }
+            .stat-number { font-size: 32px; }
         }
     </style>
 </head>
 <body>
-
-<div id="app">
-    <header>
-        <div id="auth-container">
-             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 10px;">
-                <span id="auth-status"></span>
-                <button id="logout-button" style="display: none;" class="button-secondary">Esci</button>
+    <div class="container">
+        <div class="header">
+            <h1>👶🏼‍♀️ Scelta Nome per la Nostra Bambina</h1>
+            <div class="user-info" id="userInfo">
+                <span>Benvenuto! Accedi per iniziare</span>
+                <button class="btn" onclick="showLoginModal()">Accedi</button>
             </div>
-            <button id="login-prompt-button">Accedi / Registrati</button>
         </div>
-        <h1>👶🏼‍♀️ Scelta Nome Bambina</h1>
-    </header>
 
-    <main id="main-content" style="display: none;">
         <div class="tabs">
-            <button class="tab-button active" onclick="openTab('nomi')">📝 Nomi</button>
-            <button class="tab-button" onclick="openTab('classifica')">🏆 Classifica</button>
-            <button class="tab-button" onclick="openTab('mie-scelte')">⭐ Le Mie Scelte</button>
-            <button class="tab-button" onclick="openTab('condividi')">🔗 Condividi</button>
+            <button class="tab active" onclick="switchTab('names')">📝 Nomi</button>
+            <button class="tab" onclick="switchTab('personal')">⭐ Le Mie Scelte</button>
+            <button class="tab" onclick="switchTab('ranking')">🏆 Classifica</button>
+            <button class="tab" onclick="switchTab('stats')">📊 Statistiche</button>
+            <button class="tab" onclick="switchTab('share')">🔗 Condividi</button>
         </div>
 
-        <div id="nomi" class="tab-content active">
-            <div class="search-add-container">
-                <input type="text" id="search-bar" placeholder="Cerca un nome...">
-                <button id="add-name-button">+ Aggiungi Nome</button>
+        <div class="content" id="content">
             </div>
-            <div class="list-container" id="nomi-list"></div>
-        </div>
-
-        <div id="classifica" class="tab-content">
-            <h2>Classifica Generale</h2>
-            <div class="list-container" id="classifica-list"></div>
-        </div>
-
-        <div id="mie-scelte" class="tab-content">
-             <h2>Le Mie Scelte Personali</h2>
-            <div id="my-stats"></div>
-            <div class="list-container" id="mie-scelte-list"></div>
-        </div>
-
-        <div id="condividi" class="tab-content">
-            <h2>Condividi con la Famiglia</h2>
-            <p>Condividi questo codice con gli altri membri della famiglia per votare insieme. Loro dovranno inserirlo al momento della registrazione.</p>
-            <input type="text" id="family-code-display" readonly>
-            <button onclick="copyFamilyCode()">Copia Codice</button>
-        </div>
-    </main>
-
-</div>
-
-<div id="login-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Accesso</h2>
-            <span class="close-button" id="close-login">&times;</span>
-        </div>
-        <p>Se è il tuo primo accesso, inserisci tutti i campi per registrarti. Per gli accessi successivi, bastano email e password.</p>
-        <input type="email" id="email-input" placeholder="La tua email">
-        <input type="password" id="password-input" placeholder="La tua password">
-        <input type="text" id="name-input" placeholder="Il tuo nome (solo per la prima registrazione)">
-        <input type="text" id="family-code-input" placeholder="Codice famiglia (se ne hai uno)">
-        <button id="login-button">Accedi / Registrati</button>
-        <p id="login-error" style="color: var(--red); text-align: center;"></p>
     </div>
-</div>
 
-<div id="add-name-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Aggiungi un Nuovo Nome</h2>
-            <span class="close-button" id="close-add-name">&times;</span>
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Accedi o Registrati</h2>
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="tua@email.com">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="loginName">Il tuo nome (solo per nuova registrazione)</label>
+                <input type="text" id="loginName" placeholder="Es: Maria">
+            </div>
+            <div class="form-group">
+                <label for="familyCode">Codice famiglia (opzionale)</label>
+                <input type="text" id="familyCode" placeholder="Es: ABC123">
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" onclick="login()">Accedi/Registrati</button>
+                <button class="btn btn-secondary" onclick="closeModal('loginModal')">Annulla</button>
+            </div>
+            <p style="margin-top: 16px; font-size: 14px; color: #666;">
+                <strong>Già registrato?</strong> Inserisci solo email e password.<br>
+                <strong>Nuovo utente?</strong> Compila tutti i campi per registrarti.
+            </p>
         </div>
-        <input type="text" id="new-name-nome" placeholder="Nome">
-        <input type="text" id="new-name-santo" placeholder="Santo di riferimento (o n/a)">
-        <input type="text" id="new-name-data" placeholder="Giorno onomastico (o n/a)">
-        <input type="text" id="new-name-significato" placeholder="Significato">
-        <input type="text" id="new-name-origine" placeholder="Origine">
-        <button id="save-name-button">Salva Nome</button>
     </div>
-</div>
 
-<div id="comment-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="comment-modal-title">Commenti per</h2>
-            <span class="close-button" id="close-comment">&times;</span>
+    <div class="modal" id="addNameModal">
+        <div class="modal-content">
+            <h2>Aggiungi un Nome</h2>
+            <div class="form-group">
+                <label for="newNameInput">Nome</label>
+                <input type="text" id="newNameInput" placeholder="Es: Giulia">
+            </div>
+            <div class="form-group">
+                <label for="newSantoInput">Santo/a (opzionale)</label>
+                <input type="text" id="newSantoInput" placeholder="Es: Santa Giulia">
+            </div>
+            <div class="form-group">
+                <label for="newDataInput">Data Santo/a (opzionale)</label>
+                <input type="text" id="newDataInput" placeholder="Es: 22 maggio">
+            </div>
+            <div class="form-group">
+                <label for="newSignificatoInput">Significato</label>
+                <textarea id="newSignificatoInput" rows="3" placeholder="Es: Sacra a Giove"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="newOrigineInput">Origine</label>
+                <input type="text" id="newOrigineInput" placeholder="Es: Latina">
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" onclick="addName()">Aggiungi</button>
+                <button class="btn btn-secondary" onclick="closeModal('addNameModal')">Annulla</button>
+            </div>
         </div>
-        <div id="comment-list"></div>
-        <input type="text" id="comment-input" placeholder="Aggiungi un commento...">
-        <button id="save-comment-button">Invia Commento</button>
     </div>
-</div>
 
+    <script>
+        // --- DATABASE NOMI AMPLIATO ---
+        const initialNames = [
+            { nome: "Ada", santo: "Santa Ada di Le Mans", dataSanto: "4 dicembre", significato: "Di nobile aspetto, adornata", origine: "Germanica" },
+            { nome: "Addolorata", santo: "Beata Vergine Addolorata", dataSanto: "15 settembre", significato: "Dolore, sofferenza", origine: "Latina" },
+            { nome: "Adelaide", santo: "Sant'Adelaide imperatrice", dataSanto: "16 dicembre", significato: "Di nobile stirpe", origine: "Germanica" },
+            { nome: "Adele", santo: "Sant'Adele di Pfalzel", dataSanto: "24 dicembre", significato: "Nobile", origine: "Germanica" },
+            { nome: "Adelina", santo: "Sant'Adelina", dataSanto: "20 ottobre", significato: "Nobile", origine: "Germanica" },
+            { nome: "Adriana", santo: "Sant'Adriano", dataSanto: "8 settembre", significato: "Nativa di Adria", origine: "Latina" },
+            { nome: "Agnese", santo: "Sant'Agnese", dataSanto: "21 gennaio", significato: "Pura, casta", origine: "Greca" },
+            { nome: "Agostina", santo: "Sant'Agostino", dataSanto: "28 agosto", significato: "Venerabile, consacrata", origine: "Latina" },
+            { nome: "Alba", santo: "Sant'Alba", dataSanto: "17 gennaio", significato: "Bianca, luminosa", origine: "Latina" },
+            { nome: "Alberta", santo: "Sant'Alberto Magno", dataSanto: "15 novembre", significato: "Molto illustre, famosa", origine: "Germanica" },
+            { nome: "Albina", santo: "Sant'Albina", dataSanto: "16 dicembre", significato: "Bianca", origine: "Latina" },
+            { nome: "Alda", santo: "Beata Alda da Siena", dataSanto: "26 aprile", significato: "Vecchia, saggia", origine: "Germanica" },
+            { nome: "Alessandra", santo: "Sant'Alessandro", dataSanto: "26 agosto", significato: "Protettrice di uomini", origine: "Greca" },
+            { nome: "Alessia", santo: "Sant'Alessio", dataSanto: "17 luglio", significato: "Colei che protegge", origine: "Greca" },
+            { nome: "Alfonsa", santo: "Sant'Alfonso Maria de' Liguori", dataSanto: "1 agosto", significato: "Nobile e veloce", origine: "Germanica" },
+            { nome: "Alfreda", santo: "Sant'Alfredo", dataSanto: "14 agosto", significato: "Consigliata dagli elfi", origine: "Germanica" },
+            { nome: "Alice", santo: "Sant'Alice di Schaerbeek", dataSanto: "15 giugno", significato: "Di nobile aspetto", origine: "Germanica" },
+            { nome: "Allegra", santo: "n/a", dataSanto: "n/a", significato: "Felice, gioiosa", origine: "Latina" },
+            { nome: "Alma", santo: "n/a", dataSanto: "1 novembre", significato: "Anima, che nutre", origine: "Latina" },
+            { nome: "Amalia", santo: "Sant'Amalberga di Maubeuge", dataSanto: "10 luglio", significato: "Lavoratrice", origine: "Germanica" },
+            { nome: "Amanda", santo: "Sant'Amando", dataSanto: "6 febbraio", significato: "Degna di essere amata", origine: "Latina" },
+            { nome: "Ambra", santo: "Sant'Ambrogio", dataSanto: "7 dicembre", significato: "Ambra, preziosa", origine: "Araba" },
+            { nome: "Amelia", santo: "Sant'Amelia", dataSanto: "5 gennaio", significato: "Lavoratrice, energica", origine: "Germanica" },
+            { nome: "Amina", santo: "n/a", dataSanto: "n/a", significato: "Fedele, onesta", origine: "Araba" },
+            { nome: "Anacleta", santo: "Sant'Anacleto", dataSanto: "13 luglio", significato: "Invocato", origine: "Greca" },
+            { nome: "Anastasia", santo: "Sant'Anastasia di Sirmio", dataSanto: "25 dicembre", significato: "Risorta", origine: "Greca" },
+            { nome: "Anatilde", santo: "n/a", dataSanto: "n/a", significato: "Forma composta di Anna e Matilde", origine: "Composto" },
+            { nome: "Ancilla", santo: "Sant'Ancilla", dataSanto: "1 novembre", significato: "Serva, ancella", origine: "Latina" },
+            { nome: "Andrea", santo: "Sant'Andrea apostolo", dataSanto: "30 novembre", significato: "Uomo, virile", origine: "Greca" },
+            { nome: "Angela", santo: "Sant'Angela Merici", dataSanto: "27 gennaio", significato: "Messaggera", origine: "Greca" },
+            { nome: "Angelica", santo: "Beata Angelica da Milazzo", dataSanto: "6 dicembre", significato: "Degli angeli", origine: "Greca" },
+            { nome: "Anita", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia, pietà (diminutivo di Anna)", origine: "Ebraica" },
+            { nome: "Anna", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia, pietà", origine: "Ebraica" },
+            { nome: "Annabella", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia e bellezza", origine: "Composto" },
+            { nome: "Annalisa", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia e consacrata a Dio", origine: "Composto" },
+            { nome: "Annamaria", santo: "Sant'Anna e Santa Maria", dataSanto: "26 luglio / 12 settembre", significato: "Grazia amara/amata", origine: "Composto" },
+            { nome: "Annunziata", santo: "Annunciazione del Signore", dataSanto: "25 marzo", significato: "Annunciata", origine: "Latina" },
+            { nome: "Antea", santo: "Sant'Antero papa", dataSanto: "3 gennaio", significato: "Colei che fiorisce", origine: "Greca" },
+            { nome: "Antonella", santo: "Sant'Antonio di Padova", dataSanto: "13 giugno", significato: "Inestimabile", origine: "Latina" },
+            { nome: "Antonia", santo: "Sant'Antonio abate", dataSanto: "17 gennaio", significato: "Inestimabile", origine: "Latina" },
+            { nome: "Antonietta", santo: "Beata Antonietta d'Orléans", dataSanto: "28 febbraio", significato: "Inestimabile", origine: "Latina" },
+            { nome: "Apollonia", santo: "Sant'Apollonia", dataSanto: "9 febbraio", significato: "Sacra ad Apollo", origine: "Greca" },
+            { nome: "Arabella", santo: "n/a", dataSanto: "n/a", significato: "Altare bello", origine: "Latina" },
+            { nome: "Arianna", santo: "Sant'Arianna di Primnesso", dataSanto: "18 settembre", significato: "Molto sacra, purissima", origine: "Greca" },
+            { nome: "Armida", santo: "n/a", dataSanto: "n/a", significato: "Nome letterario, forse 'armata'", origine: "Letteraria" },
+            { nome: "Artemisia", santo: "Sant'Artemide Zatti", dataSanto: "13 ottobre", significato: "Dedicata ad Artemide", origine: "Greca" },
+            { nome: "Asia", santo: "Sant'Asia", dataSanto: "15 aprile", significato: "Oriente, terra del sole", origine: "Greca" },
+            { nome: "Assunta", santo: "Assunzione di Maria", dataSanto: "15 agosto", significato: "Assunta in cielo", origine: "Latina" },
+            { nome: "Astrid", santo: "Sant'Astrid", dataSanto: "27 novembre", significato: "Bellezza divina", origine: "Norrena" },
+            { nome: "Augusta", santo: "Sant'Augusta di Serravalle", dataSanto: "27 marzo", significato: "Venerabile, consacrata", origine: "Latina" },
+            { nome: "Aura", santo: "Santa Aura", dataSanto: "19 luglio", significato: "Soffio, brezza", origine: "Latina" },
+            { nome: "Aurelia", santo: "Sant'Aurelia di Strasburgo", dataSanto: "15 ottobre", significato: "Dorata, splendente", origine: "Latina" },
+            { nome: "Aurora", santo: "Sant'Aurora", dataSanto: "20 ottobre", significato: "Aurea, luminosa", origine: "Latina" },
+            { nome: "Ausilia", santo: "Maria Ausiliatrice", dataSanto: "24 maggio", significato: "Aiuto", origine: "Latina" },
+            { nome: "Ave", santo: "n/a", dataSanto: "1 novembre", significato: "Saluto, vita", origine: "Latina" },
+            { nome: "Azzurra", santo: "n/a", dataSanto: "n/a", significato: "Colore del cielo", origine: "Persiana" },
+            { nome: "Barbara", santo: "Santa Barbara", dataSanto: "4 dicembre", significato: "Straniera", origine: "Greca" },
+            { nome: "Bartolomea", santo: "Santa Bartolomea Capitanio", dataSanto: "26 luglio", significato: "Figlia di Tolomeo", origine: "Aramaica" },
+            { nome: "Basilia", santo: "San Basilio Magno", dataSanto: "2 gennaio", significato: "Regina", origine: "Greca" },
+            { nome: "Beatrice", santo: "Beata Beatrice d'Este", dataSanto: "18 gennaio", significato: "Colei che rende felici", origine: "Latina" },
+            { nome: "Benedetta", santo: "San Benedetto da Norcia", dataSanto: "11 luglio", significato: "Benedetta", origine: "Latina" },
+            { nome: "Beniamina", santo: "San Beniamino", dataSanto: "31 marzo", significato: "Figlia della fortuna", origine: "Ebraica" },
+            { nome: "Bernadette", santo: "Santa Bernadette Soubirous", dataSanto: "16 aprile", significato: "Coraggiosa come un orso", origine: "Germanica" },
+            { nome: "Betta", santo: "Santa Elisabetta", dataSanto: "17 novembre", significato: "Diminutivo di Elisabetta", origine: "Ebraica" },
+            { nome: "Bianca", santo: "San Bianco", dataSanto: "14 gennaio", significato: "Candida, lucente", origine: "Germanica" },
+            { nome: "Bibiana", santo: "Santa Bibiana", dataSanto: "2 dicembre", significato: "Vivace, piena di vita", origine: "Latina" },
+            { nome: "Bice", santo: "Beata Beatrice d'Este", dataSanto: "18 gennaio", significato: "Diminutivo di Beatrice", origine: "Latina" },
+            { nome: "Brigida", santo: "Santa Brigida d'Irlanda", dataSanto: "1 febbraio", significato: "Eccelsa, forte", origine: "Celtica" },
+            { nome: "Bruna", santo: "San Bruno", dataSanto: "6 ottobre", significato: "Di colore scuro", origine: "Germanica" },
+            { nome: "Calogera", santo: "San Calogero", dataSanto: "18 giugno", significato: "Bel vecchio", origine: "Greca" },
+            { nome: "Camilla", santo: "Santa Camilla da Varano", dataSanto: "31 maggio", significato: "Giovane che assiste ai sacrifici", origine: "Latina" },
+            { nome: "Candida", santo: "Santa Candida", dataSanto: "10 settembre", significato: "Bianca, pura", origine: "Latina" },
+            { nome: "Capitolina", santo: "Santa Capitolina", dataSanto: "27 ottobre", significato: "Del Campidoglio", origine: "Latina" },
+            { nome: "Carla", santo: "San Carlo Borromeo", dataSanto: "4 novembre", significato: "Donna libera", origine: "Germanica" },
+            { nome: "Carlotta", santo: "Beata Carlotta della Visitazione", dataSanto: "17 luglio", significato: "Donna libera", origine: "Germanica" },
+            { nome: "Carmela", santo: "Beata Vergine del Carmelo", dataSanto: "16 luglio", significato: "Giardino, vigna di Dio", origine: "Ebraica" },
+            { nome: "Carmen", santo: "Beata Vergine del Carmelo", dataSanto: "16 luglio", significato: "Poesia, canto", origine: "Latina" },
+            { nome: "Carolina", santo: "Beata Carolina Kózka", dataSanto: "18 novembre", significato: "Donna libera", origine: "Germanica" },
+            { nome: "Casilda", santo: "Santa Casilda di Toledo", dataSanto: "9 aprile", significato: "Donna del combattimento", origine: "Germanica" },
+            { nome: "Cassandra", santo: "n/a", dataSanto: "1 novembre", significato: "Colei che splende sugli uomini", origine: "Greca" },
+            { nome: "Caterina", santo: "Santa Caterina da Siena", dataSanto: "29 aprile", significato: "Pura", origine: "Greca" },
+            { nome: "Cecilia", santo: "Santa Cecilia", dataSanto: "22 novembre", significato: "Cieca (dal nome della gens Cecilia)", origine: "Latina" },
+            { nome: "Celeste", santo: "San Celeste", dataSanto: "14 ottobre", significato: "Del cielo", origine: "Latina" },
+            { nome: "Celestina", santo: "San Celestino V", dataSanto: "19 maggio", significato: "Del cielo", origine: "Latina" },
+            { nome: "Cesira", santo: "San Cesario", dataSanto: "27 agosto", significato: "Chioma, capelli lunghi", origine: "Latina" },
+            { nome: "Chanel", santo: "n/a", dataSanto: "n/a", significato: "Canale (cognome francese)", origine: "Francese" },
+            { nome: "Chiara", santo: "Santa Chiara d'Assisi", dataSanto: "11 agosto", significato: "Luminosa, illustre", origine: "Latina" },
+            { nome: "Cinzia", santo: "n/a", dataSanto: "1 novembre", significato: "Nata a Cinto (epiteto di Artemide)", origine: "Greca" },
+            { nome: "Cira", santo: "Santi Ciro e Giovanni", dataSanto: "31 gennaio", significato: "Signora, padrona", origine: "Greca" },
+            { nome: "Clara", santo: "Santa Chiara d'Assisi", dataSanto: "11 agosto", significato: "Luminosa, illustre", origine: "Latina" },
+            { nome: "Claudia", santo: "Santa Claudia", dataSanto: "20 marzo", significato: "Zoppa (dal nome della gens Claudia)", origine: "Latina" },
+            { nome: "Clelia", santo: "Santa Clelia Barbieri", dataSanto: "13 luglio", significato: "Gloriosa", origine: "Latina" },
+            { nome: "Clementina", santo: "San Clemente", dataSanto: "23 novembre", significato: "Mite, indulgente", origine: "Latina" },
+            { nome: "Cleopatra", santo: "n/a", dataSanto: "1 novembre", significato: "Gloria del padre", origine: "Greca" },
+            { nome: "Cleofe", santo: "Santa Maria di Cleofa", dataSanto: "9 aprile", significato: "Gloria, visione", origine: "Greca" },
+            { nome: "Clio", santo: "n/a", dataSanto: "1 novembre", significato: "Colei che rende celebre (musa della storia)", origine: "Greca" },
+            { nome: "Clizia", santo: "n/a", dataSanto: "1 novembre", significato: "Famosa, celebre", origine: "Greca" },
+            { nome: "Cloe", santo: "n/a", dataSanto: "1 novembre", significato: "Erba tenera e verde", origine: "Greca" },
+            { nome: "Clorinda", santo: "n/a", dataSanto: "n/a", significato: "Nome letterario, forse 'famosa'", origine: "Letteraria" },
+            { nome: "Colomba", santo: "Santa Colomba di Sens", dataSanto: "31 dicembre", significato: "Colomba", origine: "Latina" },
+            { nome: "Concetta", santo: "Immacolata Concezione", dataSanto: "8 dicembre", significato: "Concepita (senza peccato)", origine: "Latina" },
+            { nome: "Consolata", santo: "Beata Vergine Consolata", dataSanto: "20 giugno", significato: "Consolata", origine: "Latina" },
+            { nome: "Cora", santo: "n/a", dataSanto: "1 novembre", significato: "Fanciulla, ragazza", origine: "Greca" },
+            { nome: "Cordelia", santo: "n/a", dataSanto: "n/a", significato: "Cuore, gioiello del mare", origine: "Latina/Celtica" },
+            { nome: "Corinna", santo: "n/a", dataSanto: "1 novembre", significato: "Fanciulla", origine: "Greca" },
+            { nome: "Cornelia", santo: "Santi Cornelio e Cipriano", dataSanto: "16 settembre", significato: "Forte come un corno", origine: "Latina" },
+            { nome: "Cosima", santo: "Santi Cosma e Damiano", dataSanto: "26 settembre", significato: "Ordine, universo", origine: "Greca" },
+            { nome: "Costanza", santo: "Santa Costanza", dataSanto: "18 febbraio", significato: "Costante, ferma", origine: "Latina" },
+            { nome: "Cristiana", santo: "Santa Cristiana di Termonde", dataSanto: "24 luglio", significato: "Seguace di Cristo", origine: "Latina" },
+            { nome: "Cristina", santo: "Santa Cristina di Bolsena", dataSanto: "24 luglio", significato: "Consacrata a Cristo", origine: "Greca" },
+            { nome: "Crocefissa", santo: "Santa Maria Crocifissa Di Rosa", dataSanto: "15 dicembre", significato: "Crocifissa con Cristo", origine: "Latina" },
+            { nome: "Dalila", santo: "n/a", dataSanto: "n/a", significato: "Delicata, fragile", origine: "Ebraica" },
+            { nome: "Dalma", santo: "n/a", dataSanto: "n/a", significato: "Originaria della Dalmazia", origine: "Latina" },
+            { nome: "Damiana", santo: "San Damiano", dataSanto: "26 settembre", significato: "Colei che doma", origine: "Greca" },
+            { nome: "Daniela", santo: "San Daniele profeta", dataSanto: "21 luglio", significato: "Il mio giudice è Dio", origine: "Ebraica" },
+            { nome: "Dafne", santo: "n/a", dataSanto: "1 novembre", significato: "Alloro", origine: "Greca" },
+            { nome: "Daria", santo: "Santi Crisante e Daria", dataSanto: "25 ottobre", significato: "Colei che possiede il bene", origine: "Persiana" },
+            { nome: "Dea", santo: "n/a", dataSanto: "n/a", significato: "Divinità femminile", origine: "Latina" },
+            { nome: "Debora", santo: "Santa Debora", dataSanto: "1 novembre", significato: "Ape", origine: "Ebraica" },
+            { nome: "Delfina", santo: "Beata Delfina di Signe", dataSanto: "26 novembre", significato: "Delfino, originaria di Delfi", origine: "Greca" },
+            { nome: "Delia", santo: "n/a", dataSanto: "1 novembre", significato: "Nata a Delo (epiteto di Artemide)", origine: "Greca" },
+            { nome: "Demelza", santo: "n/a", dataSanto: "n/a", significato: "Forte sulla collina", origine: "Cornica" },
+            { nome: "Demetria", santo: "Santa Demetria di Roma", dataSanto: "21 giugno", significato: "Sacra a Demetra", origine: "Greca" },
+            { nome: "Deodata", santo: "San Deodato", dataSanto: "9 ottobre", significato: "Data da Dio", origine: "Latina" },
+            { nome: "Desdemona", santo: "n/a", dataSanto: "n/a", significato: "Sfortunata", origine: "Greca" },
+            { nome: "Desideria", santo: "San Desiderio", dataSanto: "23 maggio", significato: "Desiderata", origine: "Latina" },
+            { nome: "Devota", santo: "Santa Devota", dataSanto: "27 gennaio", significato: "Devota, consacrata", origine: "Latina" },
+            { nome: "Diamante", santo: "n/a", dataSanto: "n/a", significato: "Indomabile, adamantino", origine: "Greca" },
+            { nome: "Diana", santo: "Beata Diana degli Andalò", dataSanto: "10 giugno", significato: "Divina, celeste", origine: "Latina" },
+            { nome: "Diletta", santo: "n/a", dataSanto: "8 maggio", significato: "Amata, prediletta", origine: "Latina" },
+            { nome: "Dina", santo: "Santa Dina", dataSanto: "4 settembre", significato: "Giudicata", origine: "Ebraica" },
+            { nome: "Dionisia", santo: "San Dionigi", dataSanto: "9 ottobre", significato: "Consacrata a Dioniso", origine: "Greca" },
+            { nome: "Doda", santo: "Santa Doda", dataSanto: "24 aprile", significato: "Dono", origine: "Greca" },
+            { nome: "Dolly", santo: "Beata Vergine Addolorata", dataSanto: "15 settembre", significato: "Bambola, diminutivo di Dolores", origine: "Spagnola/Inglese" },
+            { nome: "Dolores", santo: "Beata Vergine Addolorata", dataSanto: "15 settembre", significato: "Dolori", origine: "Spagnola" },
+            { nome: "Domenica", santo: "Santa Domenica", dataSanto: "6 luglio", significato: "Del Signore", origine: "Latina" },
+            { nome: "Domitilla", santo: "Santa Flavia Domitilla", dataSanto: "7 maggio", significato: "Domata, addomesticata", origine: "Latina" },
+            { nome: "Donata", santo: "Santa Donata", dataSanto: "31 dicembre", significato: "Donata da Dio", origine: "Latina" },
+            { nome: "Donatella", santo: "Santa Donata", dataSanto: "31 dicembre", significato: "Piccolo dono", origine: "Latina" },
+            { nome: "Donna", santo: "n/a", dataSanto: "1 novembre", significato: "Signora", origine: "Latina" },
+            { nome: "Dora", santo: "Santa Dorotea", dataSanto: "6 febbraio", significato: "Dono di Dio", origine: "Greca" },
+            { nome: "Doriana", santo: "n/a", dataSanto: "n/a", significato: "Originaria della Doride", origine: "Greca" },
+            { nome: "Dorotea", santo: "Santa Dorotea", dataSanto: "6 febbraio", significato: "Dono di Dio", origine: "Greca" },
+            { nome: "Druina", santo: "n/a", dataSanto: "n/a", significato: "Forza, quercia", origine: "Celtica" },
+            { nome: "Dulina", santo: "Santa Dula", dataSanto: "25 marzo", significato: "Serva", origine: "Greca" },
+            { nome: "Ebe", santo: "n/a", dataSanto: "1 novembre", significato: "Giovinezza", origine: "Greca" },
+            { nome: "Edda", santo: "Sant'Edvige", dataSanto: "16 ottobre", significato: "Battaglia", origine: "Germanica" },
+            { nome: "Edith", santo: "Sant'Edith Stein", dataSanto: "9 agosto", significato: "Che combatte per la prosperità", origine: "Anglosassone" },
+            { nome: "Edvige", santo: "Sant'Edvige", dataSanto: "16 ottobre", significato: "Combattente", origine: "Germanica" },
+            { nome: "Egle", santo: "n/a", dataSanto: "1 novembre", significato: "Splendore", origine: "Greca" },
+            { nome: "Elda", santo: "Sant'Ilda", dataSanto: "17 novembre", significato: "Battagliera", origine: "Germanica" },
+            { nome: "Elena", santo: "Sant'Elena imperatrice", dataSanto: "18 agosto", significato: "Splendore del sole, fiaccola", origine: "Greca" },
+            { nome: "Eleonora", santo: "Sant'Eleonora di Provenza", dataSanto: "21 febbraio", significato: "Cresciuta nella luce", origine: "Provenzale" },
+            { nome: "Elettra", santo: "n/a", dataSanto: "1 novembre", significato: "Ambra, brillante", origine: "Greca" },
+            { nome: "Eliana", santo: "Sant'Eliano", dataSanto: "13 gennaio", significato: "Sole", origine: "Greca" },
+            { nome: "Elide", santo: "n/a", dataSanto: "n/a", significato: "Originaria dell'Elide", origine: "Greca" },
+            { nome: "Elisa", santo: "Santa Elisa", dataSanto: "26 giugno", significato: "Il mio Dio è perfezione", origine: "Ebraica" },
+            { nome: "Elisabetta", santo: "Santa Elisabetta d'Ungheria", dataSanto: "17 novembre", significato: "Dio è il mio giuramento", origine: "Ebraica" },
+            { nome: "Elsa", santo: "Santa Elisabetta d'Ungheria", dataSanto: "17 novembre", significato: "Diminutivo di Elisabetta", origine: "Ebraica" },
+            { nome: "Elvia", santo: "Sant'Elvio", dataSanto: "27 maggio", significato: "Bionda, gialla", origine: "Latina" },
+            { nome: "Elvira", santo: "Sant'Elvira", dataSanto: "27 gennaio", significato: "Amica degli elfi, lancia degli elfi", origine: "Germanica" },
+            { nome: "Emanuela", santo: "n/a", dataSanto: "25 dicembre (Gesù Emmanuele)", significato: "Dio è con noi", origine: "Ebraica" },
+            { nome: "Emilia", santo: "Sant'Emilia de Vialar", dataSanto: "24 agosto", significato: "Cortese, rivale", origine: "Latina" },
+            { nome: "Emma", santo: "Sant'Emma di Gurk", dataSanto: "29 giugno", significato: "Universale, totale", origine: "Germanica" },
+            { nome: "Enrica", santo: "Sant'Enrico II imperatore", dataSanto: "13 luglio", significato: "Potente in patria", origine: "Germanica" },
+            { nome: "Erica", santo: "Sant'Erico IX di Svezia", dataSanto: "18 maggio", significato: "Capo unico, potente", origine: "Norrena" },
+            { nome: "Erminia", santo: "Sant'Erminio", dataSanto: "25 aprile", significato: "Grande, potente", origine: "Germanica" },
+            { nome: "Ernesta", santo: "Sant'Ernesto", dataSanto: "7 novembre", significato: "Seria, combattente", origine: "Germanica" },
+            { nome: "Ersilia", santo: "Sant'Ersilia", dataSanto: "10 maggio", significato: "Tenera, rugiada", origine: "Latina" },
+            { nome: "Esmeralda", santo: "n/a", dataSanto: "n/a", significato: "Smeraldo", origine: "Spagnola" },
+            { nome: "Ester", santo: "Regina Ester", dataSanto: "1 luglio", significato: "Stella", origine: "Persiana" },
+            { nome: "Eufemia", santo: "Sant'Eufemia di Calcedonia", dataSanto: "16 settembre", significato: "Che parla bene, di buon augurio", origine: "Greca" },
+            { nome: "Eugenia", santo: "Sant'Eugenia di Roma", dataSanto: "25 dicembre", significato: "Ben nata, nobile", origine: "Greca" },
+            { nome: "Eulalia", santo: "Sant'Eulalia di Mérida", dataSanto: "10 dicembre", significato: "Che parla dolcemente", origine: "Greca" },
+            { nome: "Eva", santo: "Sant'Eva di Liegi", dataSanto: "14 marzo", significato: "Vita, madre dei viventi", origine: "Ebraica" },
+            { nome: "Evangelina", santo: "n/a", dataSanto: "1 novembre", significato: "Portatrice di buone notizie", origine: "Greca" },
+            { nome: "Evelina", santo: "Beata Evelina", dataSanto: "1 novembre", significato: "Uccello, nocciola", origine: "Germanica/Celtica" },
+            { nome: "Fabia", santo: "San Fabio", dataSanto: "11 maggio", significato: "Coltivatrice di fave", origine: "Latina" },
+            { nome: "Fabiana", santo: "San Fabiano", dataSanto: "20 gennaio", significato: "Appartenente a Fabio", origine: "Latina" },
+            { nome: "Fabiola", santo: "Santa Fabiola", dataSanto: "27 dicembre", significato: "Piccola fava", origine: "Latina" },
+            { nome: "Fatima", santo: "Nostra Signora di Fátima", dataSanto: "13 maggio", significato: "Colei che svezza i bambini", origine: "Araba" },
+            { nome: "Fausta", santo: "Santa Fausta", dataSanto: "20 settembre", significato: "Favorevole, propizia", origine: "Latina" },
+            { nome: "Federica", santo: "San Federico di Utrecht", dataSanto: "18 luglio", significato: "Potente nella pace", origine: "Germanica" },
+            { nome: "Fedora", santo: "San Teodoro", dataSanto: "9 novembre", significato: "Dono di Dio", origine: "Greca" },
+            { nome: "Felicia", santo: "Santi Filippo e Giacomo", dataSanto: "3 maggio", significato: "Fortunata, felice", origine: "Latina" },
+            { nome: "Felicita", santo: "Sante Felicita e Perpetua", dataSanto: "7 marzo", significato: "Felicità, fortuna", origine: "Latina" },
+            { nome: "Fernanda", santo: "San Ferdinando III", dataSanto: "30 maggio", significato: "Coraggiosa nella pace", origine: "Germanica" },
+            { nome: "Fiamma", santo: "n/a", dataSanto: "1 novembre", significato: "Fuoco, ardore", origine: "Latina" },
+            { nome: "Fiammetta", santo: "n/a", dataSanto: "1 novembre", significato: "Piccola fiamma", origine: "Latina" },
+            { nome: "Filomena", santo: "Santa Filomena di Roma", dataSanto: "11 agosto", significato: "Amante del canto, amata", origine: "Greca" },
+            { nome: "Fiona", santo: "n/a", dataSanto: "n/a", significato: "Bianca, candida", origine: "Gaelica" },
+            { nome: "Fiore", santo: "San Fiore", dataSanto: "31 dicembre", significato: "Fiore", origine: "Latina" },
+            { nome: "Fiorella", santo: "San Fiore", dataSanto: "31 dicembre", significato: "Piccolo fiore", origine: "Latina" },
+            { nome: "Fiorenza", santo: "Santa Fiorenza", dataSanto: "1 dicembre", significato: "Fiorente, prospera", origine: "Latina" },
+            { nome: "Flaminia", santo: "Santa Flaminia", dataSanto: "2 maggio", significato: "Sacerdote, flamine", origine: "Latina" },
+            { nome: "Flavia", santo: "Santa Flavia Domitilla", dataSanto: "7 maggio", significato: "Bionda, dorata", origine: "Latina" },
+            { nome: "Flaviana", santo: "Santa Flaviana", dataSanto: "5 ottobre", significato: "Appartenente a Flavio", origine: "Latina" },
+            { nome: "Flora", santo: "Santa Flora di Cordova", dataSanto: "24 novembre", significato: "Fiore, dea della fioritura", origine: "Latina" },
+            { nome: "Floriana", santo: "San Floriano", dataSanto: "4 maggio", significato: "Fiorente", origine: "Latina" },
+            { nome: "Folca", santo: "San Folco", dataSanto: "26 ottobre", significato: "Popolo, combattente del popolo", origine: "Germanica" },
+            { nome: "Franca", santo: "Santa Francesca Romana", dataSanto: "9 marzo", significato: "Libera (del popolo dei Franchi)", origine: "Germanica" },
+            { nome: "Francesca", santo: "Santa Francesca Romana", dataSanto: "9 marzo", significato: "Francese, libera", origine: "Germanica" },
+            { nome: "Fulvia", santo: "San Fulvio", dataSanto: "n/a", significato: "Gialla, rossiccia", origine: "Latina" },
+            { nome: "Gabriella", santo: "San Gabriele Arcangelo", dataSanto: "29 settembre", significato: "Forza di Dio", origine: "Ebraica" },
+            { nome: "Gaia", santo: "San Gaio papa", dataSanto: "22 aprile", significato: "Vivace, allegra / Terra", origine: "Latina/Greca" },
+            { nome: "Gemma", santo: "Santa Gemma Galgani", dataSanto: "11 aprile", significato: "Pietra preziosa, bocciolo", origine: "Latina" },
+            { nome: "Genoveffa", santo: "Santa Genoveffa di Parigi", dataSanto: "3 gennaio", significato: "Donna del popolo, dalle bianche guance", origine: "Germanica/Celtica" },
+            { nome: "Gertrude", santo: "Santa Gertrude di Nivelles", dataSanto: "17 marzo", significato: "Forte con la lancia", origine: "Germanica" },
+            { nome: "Gessica", santo: "n/a", dataSanto: "n/a", significato: "Dio guarda (creazione di Shakespeare)", origine: "Letteraria/Ebraica" },
+            { nome: "Giacinta", santo: "Santa Giacinta Marescotti", dataSanto: "30 gennaio", significato: "Fiore del giacinto", origine: "Greca" },
+            { nome: "Giada", santo: "n/a", dataSanto: "1 novembre", significato: "Pietra di giada", origine: "Spagnola" },
+            { nome: "Gianna", santo: "Santa Gianna Beretta Molla", dataSanto: "28 aprile", significato: "Dono del Signore (da Giovanna)", origine: "Ebraica" },
+            { nome: "Gigliola", santo: "n/a", dataSanto: "1 novembre", significato: "Giglio", origine: "Latina" },
+            { nome: "Gilda", santo: "San Gildas", dataSanto: "29 gennaio", significato: "Sacrificio, valido", origine: "Germanica" },
+            { nome: "Ginevra", santo: "n/a", dataSanto: "n/a", significato: "Spirito bianco, elfo splendente", origine: "Celtica (Gallese)" },
+            { nome: "Gioia", santo: "n/a", dataSanto: "1 novembre", significato: "Gioia, felicità", origine: "Latina" },
+            { nome: "Gioconda", santo: "Santa Gioconda", dataSanto: "25 novembre", significato: "Allegra, felice", origine: "Latina" },
+            { nome: "Giorgia", santo: "San Giorgio", dataSanto: "23 aprile", significato: "Contadina, agricoltore", origine: "Greca" },
+            { nome: "Giovanna", santo: "San Giovanni Battista", dataSanto: "24 giugno", significato: "Dono del Signore", origine: "Ebraica" },
+            { nome: "Gisella", santo: "Beata Gisella di Baviera", dataSanto: "7 maggio", significato: "Ostaggio, freccia", origine: "Germanica" },
+            { nome: "Giulia", santo: "Santa Giulia di Corsica", dataSanto: "22 maggio", significato: "Sacra a Giove", origine: "Latina" },
+            { nome: "Giuliana", santo: "Santa Giuliana di Nicomedia", dataSanto: "16 febbraio", significato: "Appartenente a Giulio", origine: "Latina" },
+            { nome: "Giulietta", santo: "Santa Giulia di Corsica", dataSanto: "22 maggio", significato: "Sacra a Giove (diminutivo)", origine: "Latina" },
+            { nome: "Giuseppa", santo: "San Giuseppe", dataSanto: "19 marzo", significato: "Dio aggiunga, accresca", origine: "Ebraica" },
+            { nome: "Giuseppina", santo: "San Giuseppe", dataSanto: "19 marzo", significato: "Dio aggiunga, accresca", origine: "Ebraica" },
+            { nome: "Giustina", santo: "Santa Giustina di Padova", dataSanto: "7 ottobre", significato: "Giusta, onesta", origine: "Latina" },
+            { nome: "Gloria", santo: "n/a", dataSanto: "1 novembre (per il Gloria in excelsis Deo)", significato: "Gloria, onore", origine: "Latina" },
+            { nome: "Grazia", santo: "Madonna delle Grazie", dataSanto: "2 luglio", significato: "Grazia, favore", origine: "Latina" },
+            { nome: "Graziella", santo: "Madonna delle Grazie", dataSanto: "2 luglio", significato: "Piccola grazia", origine: "Latina" },
+            { nome: "Greta", santo: "Santa Margherita di Antiochia", dataSanto: "20 luglio", significato: "Perla (diminutivo di Margherita)", origine: "Greca" },
+            { nome: "Guendalina", santo: "Santa Guendolina", dataSanto: "18 ottobre", significato: "Anello bianco, sopracciglio bianco", origine: "Celtica (Gallese)" },
+            { nome: "Ilaria", santo: "Sant'Ilario di Poitiers", dataSanto: "13 gennaio", significato: "Allegra, lieta", origine: "Latina" },
+            { nome: "Ilde", santo: "Sant'Ilda di Whitby", dataSanto: "17 novembre", significato: "Battaglia", origine: "Germanica" },
+            { nome: "Immacolata", santo: "Immacolata Concezione", dataSanto: "8 dicembre", significato: "Senza macchia", origine: "Latina" },
+            { nome: "Ines", santo: "Sant'Agnese", dataSanto: "21 gennaio", significato: "Pura, casta (forma spagnola di Agnese)", origine: "Greca" },
+            { nome: "Ingrid", santo: "Santa Ingrid di Svezia", dataSanto: "2 settembre", significato: "Amazzone bella, protetta da Ing", origine: "Norrena" },
+            { nome: "Iolanda", santo: "Beata Iolanda di Polonia", dataSanto: "15 giugno", significato: "Viola", origine: "Greca" },
+            { nome: "Iole", santo: "n/a", dataSanto: "1 novembre", significato: "Viola", origine: "Greca" },
+            { nome: "Ione", santo: "n/a", dataSanto: "n/a", significato: "Viola del pensiero", origine: "Greca" },
+            { nome: "Irene", santo: "Sant'Irene da Lecce", dataSanto: "5 maggio", significato: "Pace", origine: "Greca" },
+            { nome: "Iride", santo: "n/a", dataSanto: "1 novembre", significato: "Arcobaleno, messaggera degli dei", origine: "Greca" },
+            { nome: "Iris", santo: "n/a", dataSanto: "1 novembre", significato: "Arcobaleno", origine: "Greca" },
+            { nome: "Irma", santo: "Sant'Irma di Colonia", dataSanto: "4 settembre", significato: "Grande, potente", origine: "Germanica" },
+            { nome: "Isabella", santo: "Sant'Isabella di Francia", dataSanto: "22 febbraio", significato: "Dio è il mio giuramento (variante di Elisabetta)", origine: "Ebraica" },
+            { nome: "Isidora", santo: "Sant'Isidoro di Siviglia", dataSanto: "4 aprile", significato: "Dono di Iside", origine: "Greca" },
+            { nome: "Isotta", santo: "n/a", dataSanto: "n/a", significato: "Significato incerto, forse 'scudo di ghiaccio'", origine: "Germanica/Celtica" },
+            { nome: "Italia", santo: "n/a", dataSanto: "n/a", significato: "Terra dei vitelli", origine: "Latina" },
+            { nome: "Ivana", santo: "San Giovanni Battista", dataSanto: "24 giugno", significato: "Dono del Signore (forma slava di Giovanna)", origine: "Ebraica" },
+            { nome: "Jessica", santo: "n/a", dataSanto: "n/a", significato: "Dio guarda", origine: "Letteraria/Ebraica" },
+            { nome: "Jasmine", santo: "n/a", dataSanto: "n/a", significato: "Gelsomino", origine: "Persiana" },
+            { nome: "Jennifer", santo: "n/a", dataSanto: "n/a", significato: "Onda bianca, spirito bianco (da Ginevra)", origine: "Cornica/Gallese" },
+            { nome: "Lara", santo: "San Laro", dataSanto: "26 marzo", significato: "Alloro, oppure protettrice della casa (Lari)", origine: "Greca/Latina" },
+            { nome: "Laura", santo: "Santa Laura di Cordova", dataSanto: "19 ottobre", significato: "Alloro, cinta d'alloro", origine: "Latina" },
+            { nome: "Lavinia", santo: "n/a", dataSanto: "n/a", significato: "Originaria di Lavinio, pura", origine: "Latina" },
+            { nome: "Lea", santo: "Santa Lea di Roma", dataSanto: "22 marzo", significato: "Stanca, affaticata / Leonessa", origine: "Ebraica" },
+            { nome: "Leda", santo: "n/a", dataSanto: "n/a", significato: "Donna", origine: "Greca" },
+            { nome: "Lena", santo: "Sant'Elena", dataSanto: "18 agosto", significato: "Diminutivo di Elena, Maddalena", origine: "Greca/Ebraica" },
+            { nome: "Letizia", santo: "Beata Vergine della Letizia", dataSanto: "21 agosto", significato: "Gioia, felicità", origine: "Latina" },
+            { nome: "Lia", santo: "Santa Lia", dataSanto: "22 marzo", significato: "Stanca / Leonessa", origine: "Ebraica" },
+            { nome: "Liana", santo: "n/a", dataSanto: "n/a", significato: "Diminutivo di Eliana o Giuliana", origine: "Greca/Latina" },
+            { nome: "Licia", santo: "n/a", dataSanto: "n/a", significato: "Originaria della Licia", origine: "Greca" },
+            { nome: "Lidia", santo: "Santa Lidia", dataSanto: "3 agosto", significato: "Originaria della Lidia", origine: "Greca" },
+            { nome: "Liliana", santo: "n/a", dataSanto: "n/a", significato: "Giglio", origine: "Latina" },
+            { nome: "Linda", santo: "Santa Linda", dataSanto: "22 gennaio", significato: "Morbida, tiglio, serpente", origine: "Germanica" },
+            { nome: "Lisa", santo: "Santa Elisa", dataSanto: "26 giugno", significato: "Diminutivo di Elisa/Elisabetta", origine: "Ebraica" },
+            { nome: "Livia", santo: "n/a", dataSanto: "n/a", significato: "Livida, di colore bluastro", origine: "Latina" },
+            { nome: "Liviana", santo: "n/a", dataSanto: "n/a", significato: "Appartenente a Livio", origine: "Latina" },
+            { nome: "Lodovica", santo: "San Ludovico", dataSanto: "25 agosto", significato: "Combattente gloriosa", origine: "Germanica" },
+            { nome: "Lolita", santo: "Beata Vergine Addolorata", dataSanto: "15 settembre", significato: "Dolori (diminutivo di Dolores)", origine: "Spagnola" },
+            { nome: "Lora", santo: "Santa Laura", dataSanto: "19 ottobre", significato: "Diminutivo di Laura o Eleonora", origine: "Latina/Provenzale" },
+            { nome: "Loredana", santo: "Beata Vergine di Loreto", dataSanto: "10 dicembre", significato: "Bosco di allori", origine: "Latina" },
+            { nome: "Lorella", santo: "Beata Vergine di Loreto", dataSanto: "10 dicembre", significato: "Diminutivo di Loredana", origine: "Latina" },
+            { nome: "Lorena", santo: "n/a", dataSanto: "n/a", significato: "Originaria della Lorena", origine: "Francese" },
+            { nome: "Lorenza", santo: "San Lorenzo", dataSanto: "10 agosto", significato: "Originaria di Laurento, cinta d'alloro", origine: "Latina" },
+            { nome: "Luana", santo: "n/a", dataSanto: "n/a", significato: "Felice, appagata (nome hawaiano) / Luce + Anna", origine: "Hawaiana/Composto" },
+            { nome: "Luce", santo: "Santa Lucia", dataSanto: "13 dicembre", significato: "Luce", origine: "Latina" },
+            { nome: "Lucia", santo: "Santa Lucia", dataSanto: "13 dicembre", significato: "Luminosa, nata con la luce", origine: "Latina" },
+            { nome: "Luciana", santo: "San Luciano", dataSanto: "7 gennaio", significato: "Nata nella luce", origine: "Latina" },
+            { nome: "Lucilla", santo: "Santa Lucilla", dataSanto: "31 ottobre", significato: "Piccola luce", origine: "Latina" },
+            { nome: "Lucrezia", santo: "Santa Lucrezia", dataSanto: "15 marzo", significato: "Ricchezza, guadagno", origine: "Latina" },
+            { nome: "Ludovica", santo: "San Ludovico di Francia", dataSanto: "25 agosto", significato: "Illustre combattente", origine: "Germanica" },
+            { nome: "Luigia", santo: "Beata Luigia di Savoia", dataSanto: "25 gennaio", significato: "Illustre combattente", origine: "Germanica" },
+            { nome: "Luisa", santo: "Santa Luisa de Marillac", dataSanto: "15 marzo", significato: "Illustre combattente", origine: "Germanica" },
+            { nome: "Luna", santo: "n/a", dataSanto: "n/a", significato: "Luna, satellite della Terra", origine: "Latina" },
+            { nome: "Macaria", santo: "San Macario", dataSanto: "2 gennaio", significato: "Beata, felice", origine: "Greca" },
+            { nome: "Maddalena", santo: "Santa Maria Maddalena", dataSanto: "22 luglio", significato: "Donna di Magdala", origine: "Ebraica" },
+            { nome: "Mafalda", santo: "Beata Mafalda del Portogallo", dataSanto: "2 maggio", significato: "Forte in battaglia (variante di Matilde)", origine: "Germanica" },
+            { nome: "Maia", santo: "n/a", dataSanto: "1 novembre", significato: "Grande, nutrice", origine: "Greca" },
+            { nome: "Manila", santo: "n/a", dataSanto: "n/a", significato: "Città delle Filippine", origine: "Filippina" },
+            { nome: "Manuela", santo: "n/a", dataSanto: "25 dicembre", significato: "Dio è con noi", origine: "Ebraica" },
+            { nome: "Mara", santo: "n/a", dataSanto: "n/a", significato: "Amarezza", origine: "Ebraica" },
+            { nome: "Marcella", santo: "Santa Marcella di Roma", dataSanto: "31 gennaio", significato: "Sacra a Marte", origine: "Latina" },
+            { nome: "Margherita", santo: "Santa Margherita di Antiochia", dataSanto: "20 luglio", significato: "Perla", origine: "Greca" },
+            { nome: "Maria", santo: "Santissimo Nome di Maria", dataSanto: "12 settembre", significato: "Amata, signora, goccia del mare", origine: "Ebraica" },
+            { nome: "Marianna", santo: "Santa Marianna di Gesù", dataSanto: "26 maggio", significato: "Unione di Maria e Anna", origine: "Composto" },
+            { nome: "Marica", santo: "n/a", dataSanto: "n/a", significato: "Ninfa delle acque", origine: "Latina" },
+            { nome: "Marilena", santo: "n/a", dataSanto: "n/a", significato: "Unione di Maria ed Elena", origine: "Composto" },
+            { nome: "Marina", santo: "Santa Marina di Omura", dataSanto: "18 giugno", significato: "Del mare", origine: "Latina" },
+            { nome: "Marinella", santo: "Santa Marina", dataSanto: "18 giugno", significato: "Piccola del mare", origine: "Latina" },
+            { nome: "Marisa", santo: "n/a", dataSanto: "n/a", significato: "Unione di Maria e Luisa", origine: "Composto" },
+            { nome: "Marta", santo: "Santa Marta di Betania", dataSanto: "29 luglio", significato: "Signora, padrona", origine: "Aramaica" },
+            { nome: "Martina", santo: "Santa Martina", dataSanto: "30 gennaio", significato: "Sacra a Marte", origine: "Latina" },
+            { nome: "Massima", santo: "San Massimo", dataSanto: "29 maggio", significato: "La più grande", origine: "Latina" },
+            { nome: "Matilde", santo: "Santa Matilde di Ringelheim", dataSanto: "14 marzo", significato: "Forte in battaglia", origine: "Germanica" },
+            { nome: "Maura", santo: "Santi Timoteo e Maura", dataSanto: "3 maggio", significato: "Mora, scura di pelle", origine: "Latina" },
+            { nome: "Maya", santo: "n/a", dataSanto: "1 novembre", significato: "Grande, illusione", origine: "Greca/Sanscrito" },
+            { nome: "Melania", santo: "Santa Melania la giovane", dataSanto: "31 dicembre", significato: "Nera, scura", origine: "Greca" },
+            { nome: "Melissa", santo: "Santa Melissa", dataSanto: "1 aprile", significato: "Ape", origine: "Greca" },
+            { nome: "Mercedes", santo: "Beata Vergine della Mercede", dataSanto: "24 settembre", significato: "Misericordia, ricompensa", origine: "Spagnola" },
+            { nome: "Mia", santo: "n/a", dataSanto: "n/a", significato: "Mia, amata", origine: "Latina" },
+            { nome: "Michela", santo: "San Michele Arcangelo", dataSanto: "29 settembre", significato: "Chi è come Dio?", origine: "Ebraica" },
+            { nome: "Milena", santo: "n/a", dataSanto: "n/a", significato: "Amata, graziosa", origine: "Slava" },
+            { nome: "Mimma", santo: "n/a", dataSanto: "n/a", significato: "Diminutivo affettivo", origine: "Italiana" },
+            { nome: "Mina", santo: "n/a", dataSanto: "n/a", significato: "Diminutivo di vari nomi (Guglielmina, ecc.)", origine: "Germanica" },
+            { nome: "Miranda", santo: "n/a", dataSanto: "n/a", significato: "Ammirevole, meravigliosa", origine: "Latina" },
+            { nome: "Mirella", santo: "n/a", dataSanto: "n/a", significato: "Da ammirare", origine: "Provenzale" },
+            { nome: "Miriam", santo: "Santissimo Nome di Maria", dataSanto: "12 settembre", significato: "Forma ebraica di Maria", origine: "Ebraica" },
+            { nome: "Mirta", santo: "n/a", dataSanto: "1 novembre", significato: "Pianta del mirto", origine: "Greca" },
+            { nome: "Moira", santo: "n/a", dataSanto: "n/a", significato: "Destino / Amara (da Maria)", origine: "Greca/Irlandese" },
+            { nome: "Monica", santo: "Santa Monica", dataSanto: "27 agosto", significato: "Consigliera, solitaria", origine: "Latina/Fenicia" },
+            { nome: "Morgana", santo: "n/a", dataSanto: "n/a", significato: "Nata dal mare", origine: "Celtica (Gallese)" },
+            { nome: "Nadia", santo: "Santa Speranza", dataSanto: "1 agosto", significato: "Speranza (dal russo Nadežda)", origine: "Russa" },
+            { nome: "Nancy", santo: "Sant'Anna", dataSanto: "26 luglio", significato: "Grazia (diminutivo inglese di Anna)", origine: "Ebraica" },
+            { nome: "Naomi", santo: "n/a", dataSanto: "n/a", significato: "Gioia, delizia", origine: "Ebraica" },
+            { nome: "Natalia", santo: "Santa Natalia", dataSanto: "27 luglio", significato: "Nata nel giorno di Natale", origine: "Latina" },
+            { nome: "Natascia", santo: "Santa Natalia", dataSanto: "27 luglio", significato: "Nata a Natale (forma russa di Natalia)", origine: "Russa" },
+            { nome: "Nicole", santo: "San Nicola di Bari", dataSanto: "6 dicembre", significato: "Vincitrice del popolo", origine: "Greca" },
+            { nome: "Nicoletta", santo: "Santa Coletta di Corbie", dataSanto: "6 marzo", significato: "Vincitrice del popolo", origine: "Greca" },
+            { nome: "Nina", santo: "Santa Nino", dataSanto: "15 dicembre", significato: "Diminutivo di molti nomi (Antonina, ecc.)", origine: "Russa/Georgiana" },
+            { nome: "Noa", santo: "n/a", dataSanto: "n/a", significato: "Movimento", origine: "Ebraica" },
+            { nome: "Noemi", santo: "Santa Noemi", dataSanto: "14 dicembre", significato: "Mia gioia, mia delizia", origine: "Ebraica" },
+            { nome: "Nora", santo: "Sant'Eleonora", dataSanto: "21 febbraio", significato: "Diminutivo di Eleonora, Onorina", origine: "Provenzale" },
+            { nome: "Norma", santo: "n/a", dataSanto: "n/a", significato: "Regola, squadra (nome di opera)", origine: "Latina/Letteraria" },
+            { nome: "Novella", santo: "n/a", dataSanto: "n/a", significato: "Nuova", origine: "Latina" },
+            { nome: "Nuccia", santo: "Annunciazione", dataSanto: "25 marzo", significato: "Diminutivo di Annunziata", origine: "Italiana" },
+            { nome: "Nunzia", santo: "Santissima Annunziata", dataSanto: "25 marzo", significato: "Messaggera", origine: "Latina" },
+            { nome: "Odetta", santo: "Sant'Oda", dataSanto: "23 ottobre", significato: "Ricchezza", origine: "Germanica" },
+            { nome: "Ofelia", santo: "n/a", dataSanto: "n/a", significato: "Aiuto, soccorso", origine: "Greca" },
+            { nome: "Olga", santo: "Sant'Olga di Kiev", dataSanto: "11 luglio", significato: "Santa, benedetta", origine: "Norrena" },
+            { nome: "Olimpia", santo: "Sant'Olimpia", dataSanto: "17 dicembre", significato: "Celeste, che viene dall'Olimpo", origine: "Greca" },
+            { nome: "Olinda", santo: "n/a", dataSanto: "n/a", significato: "Fico selvatico", origine: "Greca" },
+            { nome: "Olivia", santo: "Sant'Oliva di Anagni", dataSanto: "3 giugno", significato: "Ulivo, pace", origine: "Latina" },
+            { nome: "Ombretta", santo: "n/a", dataSanto: "n/a", significato: "Piccola ombra", origine: "Latina" },
+            { nome: "Ondina", santo: "n/a", dataSanto: "n/a", significato: "Piccola onda, spirito delle acque", origine: "Latina" },
+            { nome: "Onorina", santo: "Sant'Onorina", dataSanto: "27 febbraio", significato: "Onorata, rispettata", origine: "Latina" },
+            { nome: "Orchidea", santo: "n/a", dataSanto: "n/a", significato: "Fiore dell'orchidea", origine: "Greca" },
+            { nome: "Oriana", santo: "n/a", dataSanto: "n/a", significato: "Aurea, dorata", origine: "Latina" },
+            { nome: "Orietta", santo: "n/a", dataSanto: "n/a", significato: "Piccola aurea", origine: "Latina" },
+            { nome: "Orlanda", santo: "Beato Orlando de' Medici", dataSanto: "15 settembre", significato: "Famoso per la sua terra", origine: "Germanica" },
+            { nome: "Ornella", santo: "n/a", dataSanto: "n/a", significato: "Frassino da fiore", origine: "Latina" },
+            { nome: "Orsola", santo: "Sant'Orsola", dataSanto: "21 ottobre", significato: "Piccola orsa", origine: "Latina" },
+            { nome: "Ortensia", santo: "Sant'Ortensia", dataSanto: "11 gennaio", significato: "Che cura l'orto, giardiniera", origine: "Latina" },
+            { nome: "Osanna", santo: "Beata Osanna da Mantova", dataSanto: "18 giugno", significato: "Salva, ti preghiamo!", origine: "Ebraica" },
+            { nome: "Ottavia", santo: "n/a", dataSanto: "n/a", significato: "Ottava figlia", origine: "Latina" },
+            { nome: "Palmira", santo: "Domenica delle Palme", dataSanto: "Domenica prima di Pasqua", significato: "Pellegrina, che porta la palma", origine: "Latina" },
+            { nome: "Pamela", santo: "n/a", dataSanto: "n/a", significato: "Tutto miele (nome letterario)", origine: "Letteraria/Greca" },
+            { nome: "Paola", santo: "Santi Pietro e Paolo", dataSanto: "29 giugno", significato: "Piccola di statura", origine: "Latina" },
+            { nome: "Patrizia", santo: "San Patrizio", dataSanto: "17 marzo", significato: "Di nobile stirpe", origine: "Latina" },
+            { nome: "Penelope", santo: "n/a", dataSanto: "1 novembre", significato: "Tessitrice", origine: "Greca" },
+            { nome: "Perla", santo: "n/a", dataSanto: "1 novembre", significato: "Perla, gioiello", origine: "Latina" },
+            { nome: "Petra", santo: "San Pietro", dataSanto: "29 giugno", significato: "Pietra, roccia", origine: "Greca" },
+            { nome: "Pia", santo: "San Pio V", dataSanto: "30 aprile", significato: "Pia, devota", origine: "Latina" },
+            { nome: "Piera", santo: "San Pietro apostolo", dataSanto: "29 giugno", significato: "Pietra, roccia", origine: "Greca" },
+            { nome: "Prisca", santo: "Santa Priscilla", dataSanto: "18 gennaio", significato: "Antica, venerabile", origine: "Latina" },
+            { nome: "Priscilla", santo: "Santa Priscilla", dataSanto: "18 gennaio", significato: "Antica", origine: "Latina" },
+            { nome: "Rachele", santo: "Santa Rachele", dataSanto: "30 settembre", significato: "Pecorella", origine: "Ebraica" },
+            { nome: "Raffaella", santo: "San Raffaele Arcangelo", dataSanto: "29 settembre", significato: "Dio ha guarito", origine: "Ebraica" },
+            { nome: "Rebecca", santo: "Santa Rebecca", dataSanto: "23 settembre", significato: "Legame, rete", origine: "Ebraica" },
+            { nome: "Regina", santo: "Santa Regina", dataSanto: "7 settembre", significato: "Regina", origine: "Latina" },
+            { nome: "Renata", santo: "San Renato", dataSanto: "12 novembre", significato: "Rinata (a nuova vita)", origine: "Latina" },
+            { nome: "Riccarda", santo: "San Riccardo", dataSanto: "3 aprile", significato: "Ricca e potente", origine: "Germanica" },
+            { nome: "Rita", santo: "Santa Rita da Cascia", dataSanto: "22 maggio", significato: "Perla (diminutivo di Margherita)", origine: "Greca" },
+            { nome: "Roberta", santo: "San Roberto Bellarmino", dataSanto: "17 settembre", significato: "Splendente di gloria", origine: "Germanica" },
+            { nome: "Rocca", santo: "San Rocco", dataSanto: "16 agosto", significato: "Forte come una roccia", origine: "Germanica" },
+            { nome: "Romana", santo: "Santa Romana", dataSanto: "23 febbraio", significato: "Originaria di Roma", origine: "Latina" },
+            { nome: "Romilda", santo: "Santa Romilda", dataSanto: "6 settembre", significato: "Combattente gloriosa", origine: "Germanica" },
+            { nome: "Romina", santo: "n/a", dataSanto: "n/a", significato: "Diminutivo di Romana", origine: "Latina" },
+            { nome: "Romola", santo: "San Romolo", dataSanto: "6 luglio", significato: "Originaria di Roma", origine: "Latina" },
+            { nome: "Rosa", santo: "Santa Rosa da Lima", dataSanto: "23 agosto", significato: "Fiore della rosa", origine: "Latina" },
+            { nome: "Rosalia", santo: "Santa Rosalia", dataSanto: "4 settembre", significato: "Ghirlanda di rose", origine: "Latina" },
+            { nome: "Rosalinda", santo: "n/a", dataSanto: "n/a", significato: "Scudo gentile, cavallo tenero", origine: "Germanica" },
+            { nome: "Rosanna", santo: "n/a", dataSanto: "n/a", significato: "Unione di Rosa e Anna", origine: "Composto" },
+            { nome: "Rosaria", santo: "Beata Vergine del Rosario", dataSanto: "7 ottobre", significato: "Rosario", origine: "Latina" },
+            { nome: "Rossana", santo: "n/a", dataSanto: "n/a", significato: "Splendente, luminosa", origine: "Persiana" },
+            { nome: "Rossella", santo: "n/a", dataSanto: "n/a", significato: "Rosso (diminutivo)", origine: "Latina" },
+            { nome: "Rufina", santo: "Sante Rufina e Seconda", dataSanto: "10 luglio", significato: "Dai capelli rossi", origine: "Latina" },
+            { nome: "Sabina", santo: "Santa Sabina", dataSanto: "29 agosto", significato: "Originaria della Sabina", origine: "Latina" },
+            { nome: "Sabrina", santo: "n/a", dataSanto: "n/a", significato: "Nome di un fiume, ninfa", origine: "Celtica" },
+            { nome: "Samantha", santo: "n/a", dataSanto: "n/a", significato: "Colei che ascolta, nome composto", origine: "Aramaico/Inglese" },
+            { nome: "Samira", santo: "n/a", dataSanto: "n/a", significato: "Compagna di conversazione notturna", origine: "Araba" },
+            { nome: "Samuela", santo: "San Samuele", dataSanto: "20 agosto", significato: "Ascoltata da Dio", origine: "Ebraica" },
+            { nome: "Sandra", santo: "Sant'Alessandro", dataSanto: "26 agosto", significato: "Diminutivo di Alessandra", origine: "Greca" },
+            { nome: "Santina", santo: "Ognissanti", dataSanto: "1 novembre", significato: "Piccola santa", origine: "Latina" },
+            { nome: "Sara", santo: "Santa Sara di Antiochia", dataSanto: "20 aprile", significato: "Principessa, signora", origine: "Ebraica" },
+            { nome: "Savina", santo: "Santa Savina", dataSanto: "30 gennaio", significato: "Originaria della Sabina", origine: "Latina" },
+            { nome: "Sveva", santo: "n/a", dataSanto: "n/a", significato: "Appartenente al popolo degli Svevi", origine: "Germanica" },
+            { nome: "Sebastiana", santo: "San Sebastiano", dataSanto: "20 gennaio", significato: "Venerabile", origine: "Greca" },
+            { nome: "Seconda", santo: "Sante Rufina e Seconda", dataSanto: "10 luglio", significato: "Seconda nata", origine: "Latina" },
+            { nome: "Selene", santo: "n/a", dataSanto: "1 novembre", significato: "Luna", origine: "Greca" },
+            { nome: "Selvaggia", santo: "n/a", dataSanto: "n/a", significato: "Selvatica, del bosco", origine: "Latina" },
+            { nome: "Serafina", santo: "Santa Serafina", dataSanto: "12 marzo", significato: "Ardente, angelo serafino", origine: "Ebraica" },
+            { nome: "Serena", santo: "Santa Serena di Roma", dataSanto: "16 agosto", significato: "Serena, tranquilla", origine: "Latina" },
+            { nome: "Sharon", santo: "n/a", dataSanto: "n/a", significato: "Pianura fertile", origine: "Ebraica" },
+            { nome: "Sibilla", santo: "Beata Sibillina Biscossi", dataSanto: "19 marzo", significato: "Consigliera di Dio, profetessa", origine: "Greca" },
+            { nome: "Sidonia", santo: "San Sidonio", dataSanto: "21 agosto", significato: "Originaria di Sidone", origine: "Fenicia" },
+            { nome: "Silvana", santo: "San Silvano", dataSanto: "4 maggio", significato: "Abitante dei boschi", origine: "Latina" },
+            { nome: "Silvia", santo: "Santa Silvia", dataSanto: "3 novembre", significato: "Abitante dei boschi", origine: "Latina" },
+            { nome: "Simona", santo: "Santi Simone e Giuda", dataSanto: "28 ottobre", significato: "Dio ha ascoltato", origine: "Ebraica" },
+            { nome: "Simonetta", santo: "Santi Simone e Giuda", dataSanto: "28 ottobre", significato: "Dio ha ascoltato (diminutivo)", origine: "Ebraica" },
+            { nome: "Sofia", santo: "Santa Sofia", dataSanto: "30 settembre", significato: "Saggezza, sapienza", origine: "Greca" },
+            { nome: "Sonia", santo: "Santa Sofia", dataSanto: "30 settembre", significato: "Saggezza (forma russa di Sofia)", origine: "Greca/Russa" },
+            { nome: "Speranza", santo: "Santa Speranza", dataSanto: "1 agosto", significato: "Speranza", origine: "Latina" },
+            { nome: "Stefania", santo: "Santo Stefano", dataSanto: "26 dicembre", significato: "Coronata, ghirlanda", origine: "Greca" },
+            { nome: "Stella", santo: "Stella Maris (Maria)", dataSanto: "15 settembre", significato: "Stella", origine: "Latina" },
+            { nome: "Susanna", santo: "Santa Susanna", dataSanto: "11 agosto", significato: "Giglio", origine: "Ebraica" },
+            { nome: "Tabita", santo: "Santa Tabita", dataSanto: "25 ottobre", significato: "Gazzella", origine: "Aramaica" },
+            { nome: "Tamara", santo: "Santa Tamara di Georgia", dataSanto: "1 maggio", significato: "Palma da dattero", origine: "Ebraica" },
+            { nome: "Tania", santo: "Santa Taziana", dataSanto: "12 gennaio", significato: "Figlia di Tazio (forma russa di Taziana)", origine: "Latina/Russa" },
+            { nome: "Tatiana", santo: "Santa Taziana di Roma", dataSanto: "12 gennaio", significato: "Appartenente a Tazio", origine: "Latina" },
+            { nome: "Tea", santo: "Santa Tea", dataSanto: "25 luglio", significato: "Dea", origine: "Greca" },
+            { nome: "Tecla", santo: "Santa Tecla", dataSanto: "23 settembre", significato: "Gloria di Dio", origine: "Greca" },
+            { nome: "Teodora", santo: "Santa Teodora", dataSanto: "11 settembre", significato: "Dono di Dio", origine: "Greca" },
+            { nome: "Teresa", santo: "Santa Teresa d'Avila", dataSanto: "15 ottobre", significato: "Cacciatrice", origine: "Greca" },
+            { nome: "Tiziana", santo: "San Tiziano", dataSanto: "16 gennaio", significato: "Difensore", origine: "Latina" },
+            { nome: "Tosca", santo: "n/a", dataSanto: "n/a", significato: "Etrusca, toscana", origine: "Latina" },
+            { nome: "Tristana", santo: "n/a", dataSanto: "n/a", significato: "Mesta, triste (femminile di Tristano)", origine: "Celtica" },
+            { nome: "Tullia", santo: "San Tullio", dataSanto: "n/a", significato: "Appartenente a Tullio", origine: "Latina" },
+            { nome: "Ulrica", santo: "Sant'Ulrico", dataSanto: "4 luglio", significato: "Potente per la sua eredità", origine: "Germanica" },
+            { nome: "Umberta", santo: "Beato Umberto III di Savoia", dataSanto: "4 marzo", significato: "Guerriero famoso", origine: "Germanica" },
+            { nome: "Valentina", santo: "San Valentino", dataSanto: "14 febbraio", significato: "Forte, valorosa", origine: "Latina" },
+            { nome: "Valeria", santo: "Santa Valeria", dataSanto: "28 aprile", significato: "Forte, robusta", origine: "Latina" },
+            { nome: "Vanessa", santo: "n/a", dataSanto: "n/a", significato: "Farfalla (nome letterario)", origine: "Letteraria/Greca" },
+            { nome: "Vanna", santo: "San Giovanni", dataSanto: "24 giugno", significato: "Diminutivo di Giovanna", origine: "Ebraica" },
+            { nome: "Vera", santo: "Sante Fede, Speranza e Carità", dataSanto: "1 agosto", significato: "Vera, fede", origine: "Latina/Slava" },
+            { nome: "Verdiana", santo: "Santa Verdiana", dataSanto: "1 febbraio", significato: "Verde, giovane", origine: "Latina" },
+            { nome: "Veronica", santo: "Santa Veronica", dataSanto: "9 luglio", significato: "Portatrice di vittoria, vera immagine", origine: "Greca/Latina" },
+            { nome: "Viola", santo: "San Vio", dataSanto: "31 maggio", significato: "Fiore della viola", origine: "Latina" },
+            { nome: "Violante", santo: "Beata Violante", dataSanto: "6 maggio", significato: "Viola", origine: "Latina" },
+            { nome: "Virginia", santo: "Santa Virginia Centurione Bracelli", dataSanto: "15 dicembre", significato: "Vergine, pura", origine: "Latina" },
+            { nome: "Vittoria", santo: "Santa Vittoria", dataSanto: "23 dicembre", significato: "Vittoria, vincitrice", origine: "Latina" },
+            { nome: "Viviana", santo: "Santa Bibiana (Viviana)", dataSanto: "2 dicembre", significato: "Piena di vita", origine: "Latina" },
+            { nome: "Wanda", santo: "Beata Wanda Justyna", dataSanto: "23 giugno", significato: "Del popolo dei Vendi", origine: "Germanica" },
+            { nome: "Wendy", santo: "n/a", dataSanto: "n/a", significato: "Amica (nome letterario)", origine: "Letteraria/Inglese" },
+            { nome: "Wilma", santo: "n/a", dataSanto: "n/a", significato: "Elmo della volontà (da Guglielmina)", origine: "Germanica" },
+            { nome: "Xenia", santo: "Santa Xenia di San Pietroburgo", dataSanto: "24 gennaio", significato: "Ospitale, straniera", origine: "Greca" },
+            { nome: "Yara", santo: "n/a", dataSanto: "n/a", significato: "Signora delle acque, piccola farfalla", origine: "Brasiliana (Tupi)" },
+            { nome: "Ylenia", santo: "Sant'Elena", dataSanto: "18 agosto", significato: "Splendore del sole (variante di Elena)", origine: "Greca" },
+            { nome: "Yvonne", santo: "Sant'Ivo di Bretagna", dataSanto: "19 maggio", significato: "Arco di tasso", origine: "Germanica" },
+            { nome: "Zaira", santo: "Santa Zaira", dataSanto: "21 ottobre", significato: "Fiorente, luminosa", origine: "Araba" },
+            { nome: "Zelia", santo: "Santa Zelia Guérin", dataSanto: "12 luglio", significato: "Zelo, ardore", origine: "Greca" },
+            { nome: "Zita", santo: "Santa Zita", dataSanto: "27 aprile", significato: "Ragazza, fanciulla", origine: "Toscana" },
+            { nome: "Zoe", santo: "Santa Zoe di Roma", dataSanto: "2 luglio", significato: "Vita", origine: "Greca" }
+        ];
 
-<script>
-// --- DATABASE DEI NOMI ---
-// CORRETTO E AMPLIATO: Oltre 500 nomi con dati completi o "n/a" come richiesto.
-// La sintassi è stata verificata per eliminare l'errore "Unexpected token ':'".
-const nomiIniziali = [
-    { nome: "Ada", santo: "Santa Ada di Le Mans", data_santo: "4 dicembre", significato: "Di nobile aspetto, adornata", origine: "Germanica" },
-    { nome: "Addolorata", santo: "Beata Vergine Addolorata", data_santo: "15 settembre", significato: "Dolore, sofferenza", origine: "Latina" },
-    { nome: "Adelaide", santo: "Sant'Adelaide imperatrice", data_santo: "16 dicembre", significato: "Di nobile stirpe", origine: "Germanica" },
-    { nome: "Adele", santo: "Sant'Adele di Pfalzel", data_santo: "24 dicembre", significato: "Nobile", origine: "Germanica" },
-    { nome: "Adelina", santo: "Sant'Adelina", data_santo: "20 ottobre", significato: "Nobile", origine: "Germanica" },
-    { nome: "Adriana", santo: "Sant'Adriano", data_santo: "8 settembre", significato: "Nativa di Adria", origine: "Latina" },
-    { nome: "Agnese", santo: "Sant'Agnese", data_santo: "21 gennaio", significato: "Pura, casta", origine: "Greca" },
-    { nome: "Agostina", santo: "Sant'Agostino", data_santo: "28 agosto", significato: "Venerabile, consacrata", origine: "Latina" },
-    { nome: "Alba", santo: "Sant'Alba", data_santo: "17 gennaio", significato: "Bianca, luminosa", origine: "Latina" },
-    { nome: "Alberta", santo: "Sant'Alberto Magno", data_santo: "15 novembre", significato: "Molto illustre, famosa", origine: "Germanica" },
-    { nome: "Albina", santo: "Sant'Albina", data_santo: "16 dicembre", significato: "Bianca", origine: "Latina" },
-    { nome: "Alda", santo: "Beata Alda da Siena", data_santo: "26 aprile", significato: "Vecchia, saggia", origine: "Germanica" },
-    { nome: "Alessandra", santo: "Sant'Alessandro", data_santo: "26 agosto", significato: "Protettrice di uomini", origine: "Greca" },
-    { nome: "Alessia", santo: "Sant'Alessio", data_santo: "17 luglio", significato: "Colei che protegge", origine: "Greca" },
-    { nome: "Alfonsa", santo: "Sant'Alfonso Maria de' Liguori", data_santo: "1 agosto", significato: "Nobile e veloce", origine: "Germanica" },
-    { nome: "Alfreda", santo: "Sant'Alfredo", data_santo: "14 agosto", significato: "Consigliata dagli elfi", origine: "Germanica" },
-    { nome: "Alice", santo: "Sant'Alice di Schaerbeek", data_santo: "15 giugno", significato: "Di nobile aspetto", origine: "Germanica" },
-    { nome: "Allegra", santo: "n/a", data_santo: "n/a", significato: "Felice, gioiosa", origine: "Latina" },
-    { nome: "Alma", santo: "n/a", data_santo: "1 novembre", significato: "Anima, che nutre", origine: "Latina" },
-    { nome: "Amalia", santo: "Sant'Amalberga di Maubeuge", data_santo: "10 luglio", significato: "Lavoratrice", origine: "Germanica" },
-    { nome: "Amanda", santo: "Sant'Amando", data_santo: "6 febbraio", significato: "Degna di essere amata", origine: "Latina" },
-    { nome: "Ambra", santo: "Sant'Ambrogio", data_santo: "7 dicembre", significato: "Ambra, preziosa", origine: "Araba" },
-    { nome: "Amelia", santo: "Sant'Amelia", data_santo: "5 gennaio", significato: "Lavoratrice, energica", origine: "Germanica" },
-    { nome: "Amina", santo: "n/a", data_santo: "n/a", significato: "Fedele, onesta", origine: "Araba" },
-    { nome: "Anacleta", santo: "Sant'Anacleto", data_santo: "13 luglio", significato: "Invocato", origine: "Greca" },
-    { nome: "Anastasia", santo: "Sant'Anastasia di Sirmio", data_santo: "25 dicembre", significato: "Risorta", origine: "Greca" },
-    { nome: "Anatilde", santo: "n/a", data_santo: "n/a", significato: "Forma composta di Anna e Matilde", origine: "Composto" },
-    { nome: "Ancilla", santo: "Sant'Ancilla", data_santo: "1 novembre", significato: "Serva, ancella", origine: "Latina" },
-    { nome: "Andrea", santo: "Sant'Andrea apostolo", data_santo: "30 novembre", significato: "Uomo, virile", origine: "Greca" },
-    { nome: "Angela", santo: "Sant'Angela Merici", data_santo: "27 gennaio", significato: "Messaggera", origine: "Greca" },
-    { nome: "Angelica", santo: "Beata Angelica da Milazzo", data_santo: "6 dicembre", significato: "Degli angeli", origine: "Greca" },
-    { nome: "Anita", santo: "Sant'Anna", data_santo: "26 luglio", significato: "Grazia, pietà (diminutivo di Anna)", origine: "Ebraica" },
-    { nome: "Anna", santo: "Sant'Anna", data_santo: "26 luglio", significato: "Grazia, pietà", origine: "Ebraica" },
-    { nome: "Annabella", santo: "Sant'Anna", data_santo: "26 luglio", significato: "Grazia e bellezza", origine: "Composto" },
-    { nome: "Annalisa", santo: "Sant'Anna", data_santo: "26 luglio", significato: "Grazia e consacrata a Dio", origine: "Composto" },
-    { nome: "Annamaria", santo: "Sant'Anna e Santa Maria", data_santo: "26 luglio / 12 settembre", significato: "Grazia amara/amata", origine: "Composto" },
-    { nome: "Annunziata", santo: "Annunciazione del Signore", data_santo: "25 marzo", significato: "Annunciata", origine: "Latina" },
-    { nome: "Antea", santo: "Sant'Antero papa", data_santo: "3 gennaio", significato: "Colei che fiorisce", origine: "Greca" },
-    { nome: "Antonella", santo: "Sant'Antonio di Padova", data_santo: "13 giugno", significato: "Inestimabile", origine: "Latina" },
-    { nome: "Antonia", santo: "Sant'Antonio abate", data_santo: "17 gennaio", significato: "Inestimabile", origine: "Latina" },
-    { nome: "Antonietta", santo: "Beata Antonietta d'Orléans", data_santo: "28 febbraio", significato: "Inestimabile", origine: "Latina" },
-    { nome: "Apollonia", santo: "Sant'Apollonia", data_santo: "9 febbraio", significato: "Sacra ad Apollo", origine: "Greca" },
-    { nome: "Arabella", santo: "n/a", data_santo: "n/a", significato: "Altare bello", origine: "Latina" },
-    { nome: "Arianna", santo: "Sant'Arianna di Primnesso", data_santo: "18 settembre", significato: "Molto sacra, purissima", origine: "Greca" },
-    { nome: "Armida", santo: "n/a", data_santo: "n/a", significato: "Nome letterario, forse 'armata'", origine: "Letteraria" },
-    { nome: "Artemisia", santo: "Sant'Artemide Zatti", data_santo: "13 ottobre", significato: "Dedicata ad Artemide", origine: "Greca" },
-    { nome: "Asia", santo: "Sant'Asia", data_santo: "15 aprile", significato: "Oriente, terra del sole", origine: "Greca" },
-    { nome: "Assunta", santo: "Assunzione di Maria", data_santo: "15 agosto", significato: "Assunta in cielo", origine: "Latina" },
-    { nome: "Astrid", santo: "Sant'Astrid", data_santo: "27 novembre", significato: "Bellezza divina", origine: "Norrena" },
-    { nome: "Augusta", santo: "Sant'Augusta di Serravalle", data_santo: "27 marzo", significato: "Venerabile, consacrata", origine: "Latina" },
-    { nome: "Aura", santo: "Santa Aura", data_santo: "19 luglio", significato: "Soffio, brezza", origine: "Latina" },
-    { nome: "Aurelia", santo: "Sant'Aurelia di Strasburgo", data_santo: "15 ottobre", significato: "Dorata, splendente", origine: "Latina" },
-    { nome: "Aurora", santo: "Sant'Aurora", data_santo: "20 ottobre", significato: "Aurea, luminosa", origine: "Latina" },
-    { nome: "Ausilia", santo: "Maria Ausiliatrice", data_santo: "24 maggio", significato: "Aiuto", origine: "Latina" },
-    { nome: "Ave", santo: "n/a", data_santo: "1 novembre", significato: "Saluto, vita", origine: "Latina" },
-    { nome: "Azzurra", santo: "n/a", data_santo: "n/a", significato: "Colore del cielo", origine: "Persiana" },
-    { nome: "Barbara", santo: "Santa Barbara", data_santo: "4 dicembre", significato: "Straniera", origine: "Greca" },
-    { nome: "Bartolomea", santo: "Santa Bartolomea Capitanio", data_santo: "26 luglio", significato: "Figlia di Tolomeo", origine: "Aramaica" },
-    { nome: "Basilia", santo: "San Basilio Magno", data_santo: "2 gennaio", significato: "Regina", origine: "Greca" },
-    { nome: "Beatrice", santo: "Beata Beatrice d'Este", data_santo: "18 gennaio", significato: "Colei che rende felici", origine: "Latina" },
-    { nome: "Benedetta", santo: "San Benedetto da Norcia", data_santo: "11 luglio", significato: "Benedetta", origine: "Latina" },
-    { nome: "Beniamina", santo: "San Beniamino", data_santo: "31 marzo", significato: "Figlia della fortuna", origine: "Ebraica" },
-    { nome: "Bernadette", santo: "Santa Bernadette Soubirous", data_santo: "16 aprile", significato: "Coraggiosa come un orso", origine: "Germanica" },
-    { nome: "Betta", santo: "Santa Elisabetta", data_santo: "17 novembre", significato: "Diminutivo di Elisabetta", origine: "Ebraica" },
-    { nome: "Bianca", santo: "San Bianco", data_santo: "14 gennaio", significato: "Candida, lucente", origine: "Germanica" },
-    { nome: "Bibiana", santo: "Santa Bibiana", data_santo: "2 dicembre", significato: "Vivace, piena di vita", origine: "Latina" },
-    { nome: "Bice", santo: "Beata Beatrice d'Este", data_santo: "18 gennaio", significato: "Diminutivo di Beatrice", origine: "Latina" },
-    { nome: "Brigida", santo: "Santa Brigida d'Irlanda", data_santo: "1 febbraio", significato: "Eccelsa, forte", origine: "Celtica" },
-    { nome: "Bruna", santo: "San Bruno", data_santo: "6 ottobre", significato: "Di colore scuro", origine: "Germanica" },
-    { nome: "Calogera", santo: "San Calogero", data_santo: "18 giugno", significato: "Bel vecchio", origine: "Greca" },
-    { nome: "Camilla", santo: "Santa Camilla da Varano", data_santo: "31 maggio", significato: "Giovane che assiste ai sacrifici", origine: "Latina" },
-    { nome: "Candida", santo: "Santa Candida", data_santo: "10 settembre", significato: "Bianca, pura", origine: "Latina" },
-    { nome: "Capitolina", santo: "Santa Capitolina", data_santo: "27 ottobre", significato: "Del Campidoglio", origine: "Latina" },
-    { nome: "Carla", santo: "San Carlo Borromeo", data_santo: "4 novembre", significato: "Donna libera", origine: "Germanica" },
-    { nome: "Carlotta", santo: "Beata Carlotta della Visitazione", data_santo: "17 luglio", significato: "Donna libera", origine: "Germanica" },
-    { nome: "Carmela", santo: "Beata Vergine del Carmelo", data_santo: "16 luglio", significato: "Giardino, vigna di Dio", origine: "Ebraica" },
-    { nome: "Carmen", santo: "Beata Vergine del Carmelo", data_santo: "16 luglio", significato: "Poesia, canto", origine: "Latina" },
-    { nome: "Carolina", santo: "Beata Carolina Kózka", data_santo: "18 novembre", significato: "Donna libera", origine: "Germanica" },
-    { nome: "Casilda", santo: "Santa Casilda di Toledo", data_santo: "9 aprile", significato: "Donna del combattimento", origine: "Germanica" },
-    { nome: "Cassandra", santo: "n/a", data_santo: "1 novembre", significato: "Colei che splende sugli uomini", origine: "Greca" },
-    { nome: "Caterina", santo: "Santa Caterina da Siena", data_santo: "29 aprile", significato: "Pura", origine: "Greca" },
-    { nome: "Cecilia", santo: "Santa Cecilia", data_santo: "22 novembre", significato: "Cieca (dal nome della gens Cecilia)", origine: "Latina" },
-    { nome: "Celeste", santo: "San Celeste", data_santo: "14 ottobre", significato: "Del cielo", origine: "Latina" },
-    { nome: "Celestina", santo: "San Celestino V", data_santo: "19 maggio", significato: "Del cielo", origine: "Latina" },
-    { nome: "Cesira", santo: "San Cesario", data_santo: "27 agosto", significato: "Chioma, capelli lunghi", origine: "Latina" },
-    { nome: "Chanel", santo: "n/a", data_santo: "n/a", significato: "Canale (cognome francese)", origine: "Francese" },
-    { nome: "Chiara", santo: "Santa Chiara d'Assisi", data_santo: "11 agosto", significato: "Luminosa, illustre", origine: "Latina" },
-    { nome: "Cinzia", santo: "n/a", data_santo: "1 novembre", significato: "Nata a Cinto (epiteto di Artemide)", origine: "Greca" },
-    { nome: "Cira", santo: "Santi Ciro e Giovanni", data_santo: "31 gennaio", significato: "Signora, padrona", origine: "Greca" },
-    { nome: "Clara", santo: "Santa Chiara d'Assisi", data_santo: "11 agosto", significato: "Luminosa, illustre", origine: "Latina" },
-    { nome: "Claudia", santo: "Santa Claudia", data_santo: "20 marzo", significato: "Zoppa (dal nome della gens Claudia)", origine: "Latina" },
-    { nome: "Clelia", santo: "Santa Clelia Barbieri", data_santo: "13 luglio", significato: "Gloriosa", origine: "Latina" },
-    { nome: "Clementina", santo: "San Clemente", data_santo: "23 novembre", significato: "Mite, indulgente", origine: "Latina" },
-    { nome: "Cleopatra", santo: "n/a", data_santo: "1 novembre", significato: "Gloria del padre", origine: "Greca" },
-    { nome: "Cleofe", santo: "Santa Maria di Cleofa", data_santo: "9 aprile", significato: "Gloria, visione", origine: "Greca" },
-    { nome: "Clio", santo: "n/a", data_santo: "1 novembre", significato: "Colei che rende celebre (musa della storia)", origine: "Greca" },
-    { nome: "Clizia", santo: "n/a", data_santo: "1 novembre", significato: "Famosa, celebre", origine: "Greca" },
-    { nome: "Cloe", santo: "n/a", data_santo: "1 novembre", significato: "Erba tenera e verde", origine: "Greca" },
-    { nome: "Clorinda", santo: "n/a", data_santo: "n/a", significato: "Nome letterario, forse 'famosa'", origine: "Letteraria" },
-    { nome: "Colomba", santo: "Santa Colomba di Sens", data_santo: "31 dicembre", significato: "Colomba", origine: "Latina" },
-    { nome: "Concetta", santo: "Immacolata Concezione", data_santo: "8 dicembre", significato: "Concepita (senza peccato)", origine: "Latina" },
-    { nome: "Consolata", santo: "Beata Vergine Consolata", data_santo: "20 giugno", significato: "Consolata", origine: "Latina" },
-    { nome: "Cora", santo: "n/a", data_santo: "1 novembre", significato: "Fanciulla, ragazza", origine: "Greca" },
-    { nome: "Cordelia", santo: "n/a", data_santo: "n/a", significato: "Cuore, gioiello del mare", origine: "Latina/Celtica" },
-    { nome: "Corinna", santo: "n/a", data_santo: "1 novembre", significato: "Fanciulla", origine: "Greca" },
-    { nome: "Cornelia", santo: "Santi Cornelio e Cipriano", data_santo: "16 settembre", significato: "Forte come un corno", origine: "Latina" },
-    { nome: "Cosima", santo: "Santi Cosma e Damiano", data_santo: "26 settembre", significato: "Ordine, universo", origine: "Greca" },
-    { nome: "Costanza", santo: "Santa Costanza", data_santo: "18 febbraio", significato: "Costante, ferma", origine: "Latina" },
-    { nome: "Cristiana", santo: "Santa Cristiana di Termonde", data_santo: "24 luglio", significato: "Seguace di Cristo", origine: "Latina" },
-    { nome: "Cristina", santo: "Santa Cristina di Bolsena", data_santo: "24 luglio", significato: "Consacrata a Cristo", origine: "Greca" },
-    { nome: "Crocefissa", santo: "Santa Maria Crocifissa Di Rosa", data_santo: "15 dicembre", significato: "Crocifissa con Cristo", origine: "Latina" },
-    { nome: "Dalila", santo: "n/a", data_santo: "n/a", significato: "Delicata, fragile", origine: "Ebraica" },
-    { nome: "Dalma", santo: "n/a", data_santo: "n/a", significato: "Originaria della Dalmazia", origine: "Latina" },
-    { nome: "Damiana", santo: "San Damiano", data_santo: "26 settembre", significato: "Colei che doma", origine: "Greca" },
-    { nome: "Daniela", santo: "San Daniele profeta", data_santo: "21 luglio", significato: "Il mio giudice è Dio", origine: "Ebraica" },
-    { nome: "Dafne", santo: "n/a", data_santo: "1 novembre", significato: "Alloro", origine: "Greca" },
-    { nome: "Daria", santo: "Santi Crisante e Daria", data_santo: "25 ottobre", significato: "Colei che possiede il bene", origine: "Persiana" },
-    { nome: "Dea", santo: "n/a", data_santo: "n/a", significato: "Divinità femminile", origine: "Latina" },
-    { nome: "Debora", santo: "Santa Debora", data_santo: "1 novembre", significato: "Ape", origine: "Ebraica" },
-    { nome: "Delfina", santo: "Beata Delfina di Signe", data_santo: "26 novembre", significato: "Delfino, originaria di Delfi", origine: "Greca" },
-    { nome: "Delia", santo: "n/a", data_santo: "1 novembre", significato: "Nata a Delo (epiteto di Artemide)", origine: "Greca" },
-    { nome: "Demelza", santo: "n/a", data_santo: "n/a", significato: "Forte sulla collina", origine: "Cornica" },
-    { nome: "Demetria", santo: "Santa Demetria di Roma", data_santo: "21 giugno", significato: "Sacra a Demetra", origine: "Greca" },
-    { nome: "Deodata", santo: "San Deodato", data_santo: "9 ottobre", significato: "Data da Dio", origine: "Latina" },
-    { nome: "Desdemona", santo: "n/a", data_santo: "n/a", significato: "Sfortunata", origine: "Greca" },
-    { nome: "Desideria", santo: "San Desiderio", data_santo: "23 maggio", significato: "Desiderata", origine: "Latina" },
-    { nome: "Devota", santo: "Santa Devota", data_santo: "27 gennaio", significato: "Devota, consacrata", origine: "Latina" },
-    { nome: "Diamante", santo: "n/a", data_santo: "n/a", significato: "Indomabile, adamantino", origine: "Greca" },
-    { nome: "Diana", santo: "Beata Diana degli Andalò", data_santo: "10 giugno", significato: "Divina, celeste", origine: "Latina" },
-    { nome: "Diletta", santo: "n/a", data_santo: "8 maggio", significato: "Amata, prediletta", origine: "Latina" },
-    { nome: "Dina", santo: "Santa Dina", data_santo: "4 settembre", significato: "Giudicata", origine: "Ebraica" },
-    { nome: "Dionisia", santo: "San Dionigi", data_santo: "9 ottobre", significato: "Consacrata a Dioniso", origine: "Greca" },
-    { nome: "Doda", santo: "Santa Doda", data_santo: "24 aprile", significato: "Dono", origine: "Greca" },
-    { nome: "Dolly", santo: "Beata Vergine Addolorata", data_santo: "15 settembre", significato: "Bambola, diminutivo di Dolores", origine: "Spagnola/Inglese" },
-    { nome: "Dolores", santo: "Beata Vergine Addolorata", data_santo: "15 settembre", significato: "Dolori", origine: "Spagnola" },
-    { nome: "Domenica", santo: "Santa Domenica", data_santo: "6 luglio", significato: "Del Signore", origine: "Latina" },
-    { nome: "Domitilla", santo: "Santa Flavia Domitilla", data_santo: "7 maggio", significato: "Domata, addomesticata", origine: "Latina" },
-    { nome: "Donata", santo: "Santa Donata", data_santo: "31 dicembre", significato: "Donata da Dio", origine: "Latina" },
-    { nome: "Donatella", santo: "Santa Donata", data_santo: "31 dicembre", significato: "Piccolo dono", origine: "Latina" },
-    { nome: "Donna", santo: "n/a", data_santo: "1 novembre", significato: "Signora", origine: "Latina" },
-    { nome: "Dora", santo: "Santa Dorotea", data_santo: "6 febbraio", significato: "Dono di Dio", origine: "Greca" },
-    { nome: "Doriana", santo: "n/a", data_santo: "n/a", significato: "Originaria della Doride", origine: "Greca" },
-    { nome: "Dorotea", santo: "Santa Dorotea", data_santo: "6 febbraio", significato: "Dono di Dio", origine: "Greca" },
-    { nome: "Druina", santo: "n/a", data_santo: "n/a", significato: "Forza, quercia", origine: "Celtica" },
-    { nome: "Dulina", santo: "Santa Dula", data_santo: "25 marzo", significato: "Serva", origine: "Greca" },
-    { nome: "Ebe", santo: "n/a", data_santo: "1 novembre", significato: "Giovinezza", origine: "Greca" },
-    { nome: "Edda", santo: "Sant'Edvige", data_santo: "16 ottobre", significato: "Battaglia", origine: "Germanica" },
-    { nome: "Edith", santo: "Sant'Edith Stein", data_santo: "9 agosto", significato: "Che combatte per la prosperità", origine: "Anglosassone" },
-    { nome: "Edvige", santo: "Sant'Edvige", data_santo: "16 ottobre", significato: "Combattente", origine: "Germanica" },
-    { nome: "Egle", santo: "n/a", data_santo: "1 novembre", significato: "Splendore", origine: "Greca" },
-    { nome: "Elda", santo: "Sant'Ilda", data_santo: "17 novembre", significato: "Battagliera", origine: "Germanica" },
-    { nome: "Elena", santo: "Sant'Elena imperatrice", data_santo: "18 agosto", significato: "Splendore del sole, fiaccola", origine: "Greca" },
-    { nome: "Eleonora", santo: "Sant'Eleonora di Provenza", data_santo: "21 febbraio", significato: "Cresciuta nella luce", origine: "Provenzale" },
-    { nome: "Elettra", santo: "n/a", data_santo: "1 novembre", significato: "Ambra, brillante", origine: "Greca" },
-    { nome: "Eliana", santo: "Sant'Eliano", data_santo: "13 gennaio", significato: "Sole", origine: "Greca" },
-    { nome: "Elide", santo: "n/a", data_santo: "n/a", significato: "Originaria dell'Elide", origine: "Greca" },
-    { nome: "Elisa", santo: "Santa Elisa", data_santo: "26 giugno", significato: "Il mio Dio è perfezione", origine: "Ebraica" },
-    { nome: "Elisabetta", santo: "Santa Elisabetta d'Ungheria", data_santo: "17 novembre", significato: "Dio è il mio giuramento", origine: "Ebraica" },
-    { nome: "Elsa", santo: "Santa Elisabetta d'Ungheria", data_santo: "17 novembre", significato: "Diminutivo di Elisabetta", origine: "Ebraica" },
-    { nome: "Elvia", santo: "Sant'Elvio", data_santo: "27 maggio", significato: "Bionda, gialla", origine: "Latina" },
-    { nome: "Elvira", santo: "Sant'Elvira", data_santo: "27 gennaio", significato: "Amica degli elfi, lancia degli elfi", origine: "Germanica" },
-    { nome: "Emanuela", santo: "n/a", data_santo: "25 dicembre (Gesù Emmanuele)", significato: "Dio è con noi", origine: "Ebraica" },
-    { nome: "Emilia", santo: "Sant'Emilia de Vialar", data_santo: "24 agosto", significato: "Cortese, rivale", origine: "Latina" },
-    { nome: "Emma", santo: "Sant'Emma di Gurk", data_santo: "29 giugno", significato: "Universale, totale", origine: "Germanica" },
-    { nome: "Enrica", santo: "Sant'Enrico II imperatore", data_santo: "13 luglio", significato: "Potente in patria", origine: "Germanica" },
-    { nome: "Erica", santo: "Sant'Erico IX di Svezia", data_santo: "18 maggio", significato: "Capo unico, potente", origine: "Norrena" },
-    { nome: "Erminia", santo: "Sant'Erminio", data_santo: "25 aprile", significato: "Grande, potente", origine: "Germanica" },
-    { nome: "Ernesta", santo: "Sant'Ernesto", data_santo: "7 novembre", significato: "Seria, combattente", origine: "Germanica" },
-    { nome: "Ersilia", santo: "Sant'Ersilia", data_santo: "10 maggio", significato: "Tenera, rugiada", origine: "Latina" },
-    { nome: "Esmeralda", santo: "n/a", data_santo: "n/a", significato: "Smeraldo", origine: "Spagnola" },
-    { nome: "Ester", santo: "Regina Ester", data_santo: "1 luglio", significato: "Stella", origine: "Persiana" },
-    { nome: "Eufemia", santo: "Sant'Eufemia di Calcedonia", data_santo: "16 settembre", significato: "Che parla bene, di buon augurio", origine: "Greca" },
-    { nome: "Eugenia", santo: "Sant'Eugenia di Roma", data_santo: "25 dicembre", significato: "Ben nata, nobile", origine: "Greca" },
-    { nome: "Eulalia", santo: "Sant'Eulalia di Mérida", data_santo: "10 dicembre", significato: "Che parla dolcemente", origine: "Greca" },
-    { nome: "Eva", santo: "Sant'Eva di Liegi", data_santo: "14 marzo", significato: "Vita, madre dei viventi", origine: "Ebraica" },
-    { nome: "Evangelina", santo: "n/a", data_santo: "1 novembre", significato: "Portatrice di buone notizie", origine: "Greca" },
-    { nome: "Evelina", santo: "Beata Evelina", data_santo: "1 novembre", significato: "Uccello, nocciola", origine: "Germanica/Celtica" },
-    { nome: "Fabia", santo: "San Fabio", data_santo: "11 maggio", significato: "Coltivatrice di fave", origine: "Latina" },
-    { nome: "Fabiana", santo: "San Fabiano", data_santo: "20 gennaio", significato: "Appartenente a Fabio", origine: "Latina" },
-    { nome: "Fabiola", santo: "Santa Fabiola", data_santo: "27 dicembre", significato: "Piccola fava", origine: "Latina" },
-    { nome: "Fatima", santo: "Nostra Signora di Fátima", data_santo: "13 maggio", significato: "Colei che svezza i bambini", origine: "Araba" },
-    { nome: "Fausta", santo: "Santa Fausta", data_santo: "20 settembre", significato: "Favorevole, propizia", origine: "Latina" },
-    { nome: "Federica", santo: "San Federico di Utrecht", data_santo: "18 luglio", significato: "Potente nella pace", origine: "Germanica" },
-    { nome: "Fedora", santo: "San Teodoro", data_santo: "9 novembre", significato: "Dono di Dio", origine: "Greca" },
-    { nome: "Felicia", santo: "Santi Filippo e Giacomo", data_santo: "3 maggio", significato: "Fortunata, felice", origine: "Latina" },
-    { nome: "Felicita", santo: "Sante Felicita e Perpetua", data_santo: "7 marzo", significato: "Felicità, fortuna", origine: "Latina" },
-    { nome: "Fernanda", santo: "San Ferdinando III", data_santo: "30 maggio", significato: "Coraggiosa nella pace", origine: "Germanica" },
-    { nome: "Fiamma", santo: "n/a", data_santo: "1 novembre", significato: "Fuoco, ardore", origine: "Latina" },
-// Ho incluso un'ampia selezione qui. Per brevità non metto tutti i 500+ nomi nel codice di esempio, ma questo database è robusto, corretto e molto più grande di prima.
-// Puoi continuare ad aggiungere nomi tramite l'interfaccia dell'app.
-    { nome: "Fiammetta", santo: "n/a", data_santo: "1 novembre", significato: "Piccola fiamma", origine: "Latina" },
-    { nome: "Filomena", santo: "Santa Filomena di Roma", data_santo: "11 agosto", significato: "Amante del canto, amata", origine: "Greca" },
-    { nome: "Fiona", santo: "n/a", data_santo: "n/a", significato: "Bianca, candida", origine: "Gaelica" },
-    { nome: "Fiore", santo: "San Fiore", data_santo: "31 dicembre", significato: "Fiore", origine: "Latina" },
-    { nome: "Fiorella", santo: "San Fiore", data_santo: "31 dicembre", significato: "Piccolo fiore", origine: "Latina" },
-    { nome: "Fiorenza", santo: "Santa Fiorenza", data_santo: "1 dicembre", significato: "Fiorente, prospera", origine: "Latina" },
-    { nome: "Flaminia", santo: "Santa Flaminia", data_santo: "2 maggio", significato: "Sacerdote, flamine", origine: "Latina" },
-    { nome: "Flavia", santo: "Santa Flavia Domitilla", data_santo: "7 maggio", significato: "Bionda, dorata", origine: "Latina" },
-    { nome: "Flaviana", santo: "Santa Flaviana", data_santo: "5 ottobre", significato: "Appartenente a Flavio", origine: "Latina" },
-    { nome: "Flora", santo: "Santa Flora di Cordova", data_santo: "24 novembre", significato: "Fiore, dea della fioritura", origine: "Latina" },
-    { nome: "Floriana", santo: "San Floriano", data_santo: "4 maggio", significato: "Fiorente", origine: "Latina" },
-    { nome: "Folca", santo: "San Folco", data_santo: "26 ottobre", significato: "Popolo, combattente del popolo", origine: "Germanica" },
-    { nome: "Franca", santo: "Santa Francesca Romana", data_santo: "9 marzo", significato: "Libera (del popolo dei Franchi)", origine: "Germanica" },
-    { nome: "Francesca", santo: "Santa Francesca Romana", data_santo: "9 marzo", significato: "Francese, libera", origine: "Germanica" },
-    { nome: "Fulvia", santo: "San Fulvio", data_santo: "n/a", significato: "Gialla, rossiccia", origine: "Latina" },
-    { nome: "Gabriella", santo: "San Gabriele Arcangelo", data_santo: "29 settembre", significato: "Forza di Dio", origine: "Ebraica" },
-    { nome: "Gaia", santo: "San Gaio papa", data_santo: "22 aprile", significato: "Vivace, allegra / Terra", origine: "Latina/Greca" },
-    { nome: "Gemma", santo: "Santa Gemma Galgani", data_santo: "11 aprile", significato: "Pietra preziosa, bocciolo", origine: "Latina" },
-    { nome: "Genoveffa", santo: "Santa Genoveffa di Parigi", data_santo: "3 gennaio", significato: "Donna del popolo, dalle bianche guance", origine: "Germanica/Celtica" },
-    { nome: "Gertrude", santo: "Santa Gertrude di Nivelles", data_santo: "17 marzo", significato: "Forte con la lancia", origine: "Germanica" },
-    { nome: "Gessica", santo: "n/a", data_santo: "n/a", significato: "Dio guarda (creazione di Shakespeare)", origine: "Letteraria/Ebraica" },
-    { nome: "Giacinta", santo: "Santa Giacinta Marescotti", data_santo: "30 gennaio", significato: "Fiore del giacinto", origine: "Greca" },
-    { nome: "Giada", santo: "n/a", data_santo: "1 novembre", significato: "Pietra di giada", origine: "Spagnola" },
-    { nome: "Gianna", santo: "Santa Gianna Beretta Molla", data_santo: "28 aprile", significato: "Dono del Signore (da Giovanna)", origine: "Ebraica" },
-    { nome: "Gigliola", santo: "n/a", data_santo: "1 novembre", significato: "Giglio", origine: "Latina" },
-    { nome: "Gilda", santo: "San Gildas", data_santo: "29 gennaio", significato: "Sacrificio, valido", origine: "Germanica" },
-    { nome: "Ginevra", santo: "n/a", data_santo: "n/a", significato: "Spirito bianco, elfo splendente", origine: "Celtica (Gallese)" },
-    { nome: "Gioia", santo: "n/a", data_santo: "1 novembre", significato: "Gioia, felicità", origine: "Latina" },
-    { nome: "Gioconda", santo: "Santa Gioconda", data_santo: "25 novembre", significato: "Allegra, felice", origine: "Latina" },
-    { nome: "Giorgia", santo: "San Giorgio", data_santo: "23 aprile", significato: "Contadina, agricoltore", origine: "Greca" },
-    { nome: "Giovanna", santo: "San Giovanni Battista", data_santo: "24 giugno", significato: "Dono del Signore", origine: "Ebraica" },
-    { nome: "Gisella", santo: "Beata Gisella di Baviera", data_santo: "7 maggio", significato: "Ostaggio, freccia", origine: "Germanica" },
-    { nome: "Giulia", santo: "Santa Giulia di Corsica", data_santo: "22 maggio", significato: "Sacra a Giove", origine: "Latina" },
-    { nome: "Giuliana", santo: "Santa Giuliana di Nicomedia", data_santo: "16 febbraio", significato: "Appartenente a Giulio", origine: "Latina" },
-    { nome: "Giulietta", santo: "Santa Giulia di Corsica", data_santo: "22 maggio", significato: "Sacra a Giove (diminutivo)", origine: "Latina" },
-    { nome: "Giuseppa", santo: "San Giuseppe", data_santo: "19 marzo", significato: "Dio aggiunga, accresca", origine: "Ebraica" },
-    { nome: "Giuseppina", santo: "San Giuseppe", data_santo: "19 marzo", significato: "Dio aggiunga, accresca", origine: "Ebraica" },
-    { nome: "Giustina", santo: "Santa Giustina di Padova", data_santo: "7 ottobre", significato: "Giusta, onesta", origine: "Latina" },
-    { nome: "Gloria", santo: "n/a", data_santo: "1 novembre (per il Gloria in excelsis Deo)", significato: "Gloria, onore", origine: "Latina" },
-    { nome: "Grazia", santo: "Madonna delle Grazie", data_santo: "2 luglio", significato: "Grazia, favore", origine: "Latina" },
-    { nome: "Graziella", santo: "Madonna delle Grazie", data_santo: "2 luglio", significato: "Piccola grazia", origine: "Latina" },
-    { nome: "Greta", santo: "Santa Margherita di Antiochia", data_santo: "20 luglio", significato: "Perla (diminutivo di Margherita)", origine: "Greca" },
-    { nome: "Guendalina", santo: "Santa Guendolina", data_santo: "18 ottobre", significato: "Anello bianco, sopracciglio bianco", origine: "Celtica (Gallese)" },
-    { nome: "Ilaria", santo: "Sant'Ilario di Poitiers", data_santo: "13 gennaio", significato: "Allegra, lieta", origine: "Latina" },
-    { nome: "Ilde", santo: "Sant'Ilda di Whitby", data_santo: "17 novembre", significato: "Battaglia", origine: "Germanica" },
-    { nome: "Immacolata", santo: "Immacolata Concezione", data_santo: "8 dicembre", significato: "Senza macchia", origine: "Latina" },
-    { nome: "Ines", santo: "Sant'Agnese", data_santo: "21 gennaio", significato: "Pura, casta (forma spagnola di Agnese)", origine: "Greca" },
-    { nome: "Ingrid", santo: "Santa Ingrid di Svezia", data_santo: "2 settembre", significato: "Amazzone bella, protetta da Ing", origine: "Norrena" },
-    { nome: "Iolanda", santo: "Beata Iolanda di Polonia", data_santo: "15 giugno", significato: "Viola", origine: "Greca" },
-    { nome: "Iole", santo: "n/a", data_santo: "1 novembre", significato: "Viola", origine: "Greca" },
-    { nome: "Ione", santo: "n/a", data_santo: "n/a", significato: "Viola del pensiero", origine: "Greca" },
-    { nome: "Irene", santo: "Sant'Irene da Lecce", data_santo: "5 maggio", significato: "Pace", origine: "Greca" },
-    { nome: "Iride", santo: "n/a", data_santo: "1 novembre", significato: "Arcobaleno, messaggera degli dei", origine: "Greca" },
-    { nome: "Iris", santo: "n/a", data_santo: "1 novembre", significato: "Arcobaleno", origine: "Greca" },
-    { nome: "Irma", santo: "Sant'Irma di Colonia", data_santo: "4 settembre", significato: "Grande, potente", origine: "Germanica" },
-    { nome: "Isabella", santo: "Sant'Isabella di Francia", data_santo: "22 febbraio", significato: "Dio è il mio giuramento (variante di Elisabetta)", origine: "Ebraica" },
-    { nome: "Isidora", santo: "Sant'Isidoro di Siviglia", data_santo: "4 aprile", significato: "Dono di Iside", origine: "Greca" },
-    { nome: "Isotta", santo: "n/a", data_santo: "n/a", significato: "Significato incerto, forse 'scudo di ghiaccio'", origine: "Germanica/Celtica" },
-    { nome: "Italia", santo: "n/a", data_santo: "n/a", significato: "Terra dei vitelli", origine: "Latina" },
-    { nome: "Ivana", santo: "San Giovanni Battista", data_santo: "24 giugno", significato: "Dono del Signore (forma slava di Giovanna)", origine: "Ebraica" },
-    { nome: "Jessica", santo: "n/a", data_santo: "n/a", significato: "Dio guarda", origine: "Letteraria/Ebraica" },
-    { nome: "Jasmine", santo: "n/a", data_santo: "n/a", significato: "Gelsomino", origine: "Persiana" },
-    { nome: "Jennifer", santo: "n/a", data_santo: "n/a", significato: "Onda bianca, spirito bianco (da Ginevra)", origine: "Cornica/Gallese" },
-    { nome: "Lara", santo: "San Laro", data_santo: "26 marzo", significato: "Alloro, oppure protettrice della casa (Lari)", origine: "Greca/Latina" },
-    { nome: "Laura", santo: "Santa Laura di Cordova", data_santo: "19 ottobre", significato: "Alloro, cinta d'alloro", origine: "Latina" },
-    { nome: "Lavinia", santo: "n/a", data_santo: "n/a", significato: "Originaria di Lavinio, pura", origine: "Latina" },
-    { nome: "Lea", santo: "Santa Lea di Roma", data_santo: "22 marzo", significato: "Stanca, affaticata / Leonessa", origine: "Ebraica" },
-    { nome: "Leda", santo: "n/a", data_santo: "n/a", significato: "Donna", origine: "Greca" },
-    { nome: "Lena", santo: "Sant'Elena", data_santo: "18 agosto", significato: "Diminutivo di Elena, Maddalena", origine: "Greca/Ebraica" },
-    { nome: "Letizia", santo: "Beata Vergine della Letizia", data_santo: "21 agosto", significato: "Gioia, felicità", origine: "Latina" },
-    { nome: "Lia", santo: "Santa Lia", data_santo: "22 marzo", significato: "Stanca / Leonessa", origine: "Ebraica" },
-    { nome: "Liana", santo: "n/a", data_santo: "n/a", significato: "Diminutivo di Eliana o Giuliana", origine: "Greca/Latina" },
-    { nome: "Licia", santo: "n/a", data_santo: "n/a", significato: "Originaria della Licia", origine: "Greca" },
-    { nome: "Lidia", santo: "Santa Lidia", data_santo: "3 agosto", significato: "Originaria della Lidia", origine: "Greca" },
-    { nome: "Liliana", santo: "n/a", data_santo: "n/a", significato: "Giglio", origine: "Latina" },
-    { nome: "Linda", santo: "Santa Linda", data_santo: "22 gennaio", significato: "Morbida, tiglio, serpente", origine: "Germanica" },
-    { nome: "Lisa", santo: "Santa Elisa", data_santo: "26 giugno", significato: "Diminutivo di Elisa/Elisabetta", origine: "Ebraica" },
-    { nome: "Livia", santo: "n/a", data_santo: "n/a", significato: "Livida, di colore bluastro", origine: "Latina" },
-    { nome: "Liviana", santo: "n/a", data_santo: "n/a", significato: "Appartenente a Livio", origine: "Latina" },
-    { nome: "Lodovica", santo: "San Ludovico", data_santo: "25 agosto", significato: "Combattente gloriosa", origine: "Germanica" },
-    { nome: "Lolita", santo: "Beata Vergine Addolorata", data_santo: "15 settembre", significato: "Dolori (diminutivo di Dolores)", origine: "Spagnola" },
-    { nome: "Lora", santo: "Santa Laura", data_santo: "19 ottobre", significato: "Diminutivo di Laura o Eleonora", origine: "Latina/Provenzale" },
-    { nome: "Loredana", santo: "Beata Vergine di Loreto", data_santo: "10 dicembre", significato: "Bosco di allori", origine: "Latina" },
-    { nome: "Lorella", santo: "Beata Vergine di Loreto", data_santo: "10 dicembre", significato: "Diminutivo di Loredana", origine: "Latina" },
-    { nome: "Lorena", santo: "n/a", data_santo: "n/a", significato: "Originaria della Lorena", origine: "Francese" },
-    { nome: "Lorenza", santo: "San Lorenzo", data_santo: "10 agosto", significato: "Originaria di Laurento, cinta d'alloro", origine: "Latina" },
-    { nome: "Luana", santo: "n/a", data_santo: "n/a", significato: "Felice, appagata (nome hawaiano) / Luce + Anna", origine: "Hawaiana/Composto" },
-    { nome: "Luce", santo: "Santa Lucia", data_santo: "13 dicembre", significato: "Luce", origine: "Latina" },
-    { nome: "Lucia", santo: "Santa Lucia", data_santo: "13 dicembre", significato: "Luminosa, nata con la luce", origine: "Latina" },
-    { nome: "Luciana", santo: "San Luciano", data_santo: "7 gennaio", significato: "Nata nella luce", origine: "Latina" },
-    { nome: "Lucilla", santo: "Santa Lucilla", data_santo: "31 ottobre", significato: "Piccola luce", origine: "Latina" },
-    { nome: "Lucrezia", santo: "Santa Lucrezia", data_santo: "15 marzo", significato: "Ricchezza, guadagno", origine: "Latina" },
-    { nome: "Ludovica", santo: "San Ludovico di Francia", data_santo: "25 agosto", significato: "Illustre combattente", origine: "Germanica" },
-    { nome: "Luigia", santo: "Beata Luigia di Savoia", data_santo: "25 gennaio", significato: "Illustre combattente", origine: "Germanica" },
-    { nome: "Luisa", santo: "Santa Luisa de Marillac", data_santo: "15 marzo", significato: "Illustre combattente", origine: "Germanica" },
-    { nome: "Luna", santo: "n/a", data_santo: "n/a", significato: "Luna, satellite della Terra", origine: "Latina" },
-    { nome: "Macaria", santo: "San Macario", data_santo: "2 gennaio", significato: "Beata, felice", origine: "Greca" },
-    { nome: "Maddalena", santo: "Santa Maria Maddalena", data_santo: "22 luglio", significato: "Donna di Magdala", origine: "Ebraica" },
-    { nome: "Mafalda", santo: "Beata Mafalda del Portogallo", data_santo: "2 maggio", significato: "Forte in battaglia (variante di Matilde)", origine: "Germanica" },
-    { nome: "Maia", santo: "n/a", data_santo: "1 novembre", significato: "Grande, nutrice", origine: "Greca" },
-    { nome: "Manila", santo: "n/a", data_santo: "n/a", significato: "Città delle Filippine", origine: "Filippina" },
-    { nome: "Manuela", santo: "n/a", data_santo: "25 dicembre", significato: "Dio è con noi", origine: "Ebraica" },
-    { nome: "Mara", santo: "n/a", data_santo: "n/a", significato: "Amarezza", origine: "Ebraica" },
-    { nome: "Marcella", santo: "Santa Marcella di Roma", data_santo: "31 gennaio", significato: "Sacra a Marte", origine: "Latina" },
-    { nome: "Margherita", santo: "Santa Margherita di Antiochia", data_santo: "20 luglio", significato: "Perla", origine: "Greca" },
-    { nome: "Maria", santo: "Santissimo Nome di Maria", data_santo: "12 settembre", significato: "Amata, signora, goccia del mare", origine: "Ebraica" },
-    { nome: "Marianna", santo: "Santa Marianna di Gesù", data_santo: "26 maggio", significato: "Unione di Maria e Anna", origine: "Composto" },
-    { nome: "Marica", santo: "n/a", data_santo: "n/a", significato: "Ninfa delle acque", origine: "Latina" },
-    { nome: "Marilena", santo: "n/a", data_santo: "n/a", significato: "Unione di Maria ed Elena", origine: "Composto" },
-    { nome: "Marina", santo: "Santa Marina di Omura", data_santo: "18 giugno", significato: "Del mare", origine: "Latina" },
-    { nome: "Marinella", santo: "Santa Marina", data_santo: "18 giugno", significato: "Piccola del mare", origine: "Latina" },
-    { nome: "Marisa", santo: "n/a", data_santo: "n/a", significato: "Unione di Maria e Luisa", origine: "Composto" },
-    { nome: "Marta", santo: "Santa Marta di Betania", data_santo: "29 luglio", significato: "Signora, padrona", origine: "Aramaica" },
-    { nome: "Martina", santo: "Santa Martina", data_santo: "30 gennaio", significato: "Sacra a Marte", origine: "Latina" },
-    { nome: "Massima", santo: "San Massimo", data_santo: "29 maggio", significato: "La più grande", origine: "Latina" },
-    { nome: "Matilde", santo: "Santa Matilde di Ringelheim", data_santo: "14 marzo", significato: "Forte in battaglia", origine: "Germanica" },
-    { nome: "Maura", santo: "Santi Timoteo e Maura", data_santo: "3 maggio", significato: "Mora, scura di pelle", origine: "Latina" },
-    { nome: "Maya", santo: "n/a", data_santo: "1 novembre", significato: "Grande, illusione", origine: "Greca/Sanscrito" },
-    { nome: "Melania", santo: "Santa Melania la giovane", data_santo: "31 dicembre", significato: "Nera, scura", origine: "Greca" },
-    { nome: "Melissa", santo: "Santa Melissa", data_santo: "1 aprile", significato: "Ape", origine: "Greca" },
-    { nome: "Mercedes", santo: "Beata Vergine della Mercede", data_santo: "24 settembre", significato: "Misericordia, ricompensa", origine: "Spagnola" },
-    { nome: "Mia", santo: "n/a", data_santo: "n/a", significato: "Mia, amata", origine: "Latina" },
-    { nome: "Michela", santo: "San Michele Arcangelo", data_santo: "29 settembre", significato: "Chi è come Dio?", origine: "Ebraica" },
-    { nome: "Milena", santo: "n/a", data_santo: "n/a", significato: "Amata, graziosa", origine: "Slava" },
-    { nome: "Mimma", santo: "n/a", data_santo: "n/a", significato: "Diminutivo affettivo", origine: "Italiana" },
-    { nome: "Mina", santo: "n/a", data_santo: "n/a", significato: "Diminutivo di vari nomi (Guglielmina, ecc.)", origine: "Germanica" },
-    { nome: "Miranda", santo: "n/a", data_santo: "n/a", significato: "Ammirevole, meravigliosa", origine: "Latina" },
-    { nome: "Mirella", santo: "n/a", data_santo: "n/a", significato: "Da ammirare", origine: "Provenzale" },
-    { nome: "Miriam", santo: "Santissimo Nome di Maria", data_santo: "12 settembre", significato: "Forma ebraica di Maria", origine: "Ebraica" },
-    { nome: "Mirta", santo: "n/a", data_santo: "1 novembre", significato: "Pianta del mirto", origine: "Greca" },
-    { nome: "Moira", santo: "n/a", data_santo: "n/a", significato: "Destino / Amara (da Maria)", origine: "Greca/Irlandese" },
-    { nome: "Monica", santo: "Santa Monica", data_santo: "27 agosto", significato: "Consigliera, solitaria", origine: "Latina/Fenicia" },
-    { nome: "Morgana", santo: "n/a", data_santo: "n/a", significato: "Nata dal mare", origine: "Celtica (Gallese)" },
-    { nome: "Nadia", santo: "Santa Speranza", data_santo: "1 agosto", significato: "Speranza (dal russo Nadežda)", origine: "Russa" },
-    { nome: "Nancy", santo: "Sant'Anna", data_santo: "26 luglio", significato: "Grazia (diminutivo inglese di Anna)", origine: "Ebraica" },
-    { nome: "Naomi", santo: "n/a", data_santo: "n/a", significato: "Gioia, delizia", origine: "Ebraica" },
-    { nome: "Natalia", santo: "Santa Natalia", data_santo: "27 luglio", significato: "Nata nel giorno di Natale", origine: "Latina" },
-    { nome: "Natascia", santo: "Santa Natalia", data_santo: "27 luglio", significato: "Nata a Natale (forma russa di Natalia)", origine: "Russa" },
-    { nome: "Nicole", santo: "San Nicola di Bari", data_santo: "6 dicembre", significato: "Vincitrice del popolo", origine: "Greca" },
-    { nome: "Nicoletta", santo: "Santa Coletta di Corbie", data_santo: "6 marzo", significato: "Vincitrice del popolo", origine: "Greca" },
-    { nome: "Nina", santo: "Santa Nino", data_santo: "15 dicembre", significato: "Diminutivo di molti nomi (Antonina, ecc.)", origine: "Russa/Georgiana" },
-    { nome: "Noa", santo: "n/a", data_santo: "n/a", significato: "Movimento", origine: "Ebraica" },
-    { nome: "Noemi", santo: "Santa Noemi", data_santo: "14 dicembre", significato: "Mia gioia, mia delizia", origine: "Ebraica" },
-    { nome: "Nora", santo: "Sant'Eleonora", data_santo: "21 febbraio", significato: "Diminutivo di Eleonora, Onorina", origine: "Provenzale" },
-    { nome: "Norma", santo: "n/a", data_santo: "n/a", significato: "Regola, squadra (nome di opera)", origine: "Latina/Letteraria" },
-    { nome: "Novella", santo: "n/a", data_santo: "n/a", significato: "Nuova", origine: "Latina" },
-    { nome: "Nuccia", santo: "Annunciazione", data_santo: "25 marzo", significato: "Diminutivo di Annunziata", origine: "Italiana" },
-    { nome: "Nunzia", santo: "Santissima Annunziata", data_santo: "25 marzo", significato: "Messaggera", origine: "Latina" },
-    { nome: "Odetta", santo: "Sant'Oda", data_santo: "23 ottobre", significato: "Ricchezza", origine: "Germanica" },
-    { nome: "Ofelia", santo: "n/a", data_santo: "n/a", significato: "Aiuto, soccorso", origine: "Greca" },
-    { nome: "Olga", santo: "Sant'Olga di Kiev", data_santo: "11 luglio", significato: "Santa, benedetta", origine: "Norrena" },
-    { nome: "Olimpia", santo: "Sant'Olimpia", data_santo: "17 dicembre", significato: "Celeste, che viene dall'Olimpo", origine: "Greca" },
-    { nome: "Olinda", santo: "n/a", data_santo: "n/a", significato: "Fico selvatico", origine: "Greca" },
-    { nome: "Olivia", santo: "Sant'Oliva di Anagni", data_santo: "3 giugno", significato: "Ulivo, pace", origine: "Latina" },
-    { nome: "Ombretta", santo: "n/a", data_santo: "n/a", significato: "Piccola ombra", origine: "Latina" },
-    { nome: "Ondina", santo: "n/a", data_santo: "n/a", significato: "Piccola onda, spirito delle acque", origine: "Latina" },
-    { nome: "Onorina", santo: "Sant'Onorina", data_santo: "27 febbraio", significato: "Onorata, rispettata", origine: "Latina" },
-    { nome: "Orchidea", santo: "n/a", data_santo: "n/a", significato: "Fiore dell'orchidea", origine: "Greca" },
-    { nome: "Oriana", santo: "n/a", data_santo: "n/a", significato: "Aurea, dorata", origine: "Latina" },
-    { nome: "Orietta", santo: "n/a", data_santo: "n/a", significato: "Piccola aurea", origine: "Latina" },
-    { nome: "Orlanda", santo: "Beato Orlando de' Medici", data_santo: "15 settembre", significato: "Famoso per la sua terra", origine: "Germanica" },
-    { nome: "Ornella", santo: "n/a", data_santo: "n/a", significato: "Frassino da fiore", origine: "Latina" },
-    { nome: "Orsola", santo: "Sant'Orsola", data_santo: "21 ottobre", significato: "Piccola orsa", origine: "Latina" },
-    { nome: "Ortensia", santo: "Sant'Ortensia", data_santo: "11 gennaio", significato: "Che cura l'orto, giardiniera", origine: "Latina" },
-    { nome: "Osanna", santo: "Beata Osanna da Mantova", data_santo: "18 giugno", significato: "Salva, ti preghiamo!", origine: "Ebraica" },
-    { nome: "Ottavia", santo: "n/a", data_santo: "n/a", significato: "Ottava figlia", origine: "Latina" },
-    { nome: "Palmira", santo: "Domenica delle Palme", data_santo: "Domenica prima di Pasqua", significato: "Pellegrina, che porta la palma", origine: "Latina" },
-    { nome: "Pamela", santo: "n/a", data_santo: "n/a", significato: "Tutto miele (nome letterario)", origine: "Letteraria/Greca" },
-    { nome: "Paola", santo: "Santi Pietro e Paolo", data_santo: "29 giugno", significato: "Piccola di statura", origine: "Latina" },
-    { nome: "Patrizia", santo: "San Patrizio", data_santo: "17 marzo", significato: "Di nobile stirpe", origine: "Latina" },
-    { nome: "Penelope", santo: "n/a", data_santo: "1 novembre", significato: "Tessitrice", origine: "Greca" },
-    { nome: "Perla", santo: "n/a", data_santo: "1 novembre", significato: "Perla, gioiello", origine: "Latina" },
-    { nome: "Petra", santo: "San Pietro", data_santo: "29 giugno", significato: "Pietra, roccia", origine: "Greca" },
-    { nome: "Pia", santo: "San Pio V", data_santo: "30 aprile", significato: "Pia, devota", origine: "Latina" },
-    { nome: "Piera", santo: "San Pietro apostolo", data_santo: "29 giugno", significato: "Pietra, roccia", origine: "Greca" },
-    { nome: "Prisca", santo: "Santa Priscilla", data_santo: "18 gennaio", significato: "Antica, venerabile", origine: "Latina" },
-    { nome: "Priscilla", santo: "Santa Priscilla", data_santo: "18 gennaio", significato: "Antica", origine: "Latina" },
-    { nome: "Rachele", santo: "Santa Rachele", data_santo: "30 settembre", significato: "Pecorella", origine: "Ebraica" },
-    { nome: "Raffaella", santo: "San Raffaele Arcangelo", data_santo: "29 settembre", significato: "Dio ha guarito", origine: "Ebraica" },
-    { nome: "Rebecca", santo: "Santa Rebecca", data_santo: "23 settembre", significato: "Legame, rete", origine: "Ebraica" },
-    { nome: "Regina", santo: "Santa Regina", data_santo: "7 settembre", significato: "Regina", origine: "Latina" },
-    { nome: "Renata", santo: "San Renato", data_santo: "12 novembre", significato: "Rinata (a nuova vita)", origine: "Latina" },
-    { nome: "Riccarda", santo: "San Riccardo", data_santo: "3 aprile", significato: "Ricca e potente", origine: "Germanica" },
-    { nome: "Rita", santo: "Santa Rita da Cascia", data_santo: "22 maggio", significato: "Perla (diminutivo di Margherita)", origine: "Greca" },
-    { nome: "Roberta", santo: "San Roberto Bellarmino", data_santo: "17 settembre", significato: "Splendente di gloria", origine: "Germanica" },
-    { nome: "Rocca", santo: "San Rocco", data_santo: "16 agosto", significato: "Forte come una roccia", origine: "Germanica" },
-    { nome: "Romana", santo: "Santa Romana", data_santo: "23 febbraio", significato: "Originaria di Roma", origine: "Latina" },
-    { nome: "Romilda", santo: "Santa Romilda", data_santo: "6 settembre", significato: "Combattente gloriosa", origine: "Germanica" },
-    { nome: "Romina", santo: "n/a", data_santo: "n/a", significato: "Diminutivo di Romana", origine: "Latina" },
-    { nome: "Romola", santo: "San Romolo", data_santo: "6 luglio", significato: "Originaria di Roma", origine: "Latina" },
-    { nome: "Rosa", santo: "Santa Rosa da Lima", data_santo: "23 agosto", significato: "Fiore della rosa", origine: "Latina" },
-    { nome: "Rosalia", santo: "Santa Rosalia", data_santo: "4 settembre", significato: "Ghirlanda di rose", origine: "Latina" },
-    { nome: "Rosalinda", santo: "n/a", data_santo: "n/a", significato: "Scudo gentile, cavallo tenero", origine: "Germanica" },
-    { nome: "Rosanna", santo: "n/a", data_santo: "n/a", significato: "Unione di Rosa e Anna", origine: "Composto" },
-    { nome: "Rosaria", santo: "Beata Vergine del Rosario", data_santo: "7 ottobre", significato: "Rosario", origine: "Latina" },
-    { nome: "Rossana", santo: "n/a", data_santo: "n/a", significato: "Splendente, luminosa", origine: "Persiana" },
-    { nome: "Rossella", santo: "n/a", data_santo: "n/a", significato: "Rosso (diminutivo)", origine: "Latina" },
-    { nome: "Rufina", santo: "Sante Rufina e Seconda", data_santo: "10 luglio", significato: "Dai capelli rossi", origine: "Latina" },
-    { nome: "Sabina", santo: "Santa Sabina", data_santo: "29 agosto", significato: "Originaria della Sabina", origine: "Latina" },
-    { nome: "Sabrina", santo: "n/a", data_santo: "n/a", significato: "Nome di un fiume, ninfa", origine: "Celtica" },
-    { nome: "Samantha", santo: "n/a", data_santo: "n/a", significato: "Colei che ascolta, nome composto", origine: "Aramaico/Inglese" },
-    { nome: "Samira", santo: "n/a", data_santo: "n/a", significato: "Compagna di conversazione notturna", origine: "Araba" },
-    { nome: "Samuela", santo: "San Samuele", data_santo: "20 agosto", significato: "Ascoltata da Dio", origine: "Ebraica" },
-    { nome: "Sandra", santo: "Sant'Alessandro", data_santo: "26 agosto", significato: "Diminutivo di Alessandra", origine: "Greca" },
-    { nome: "Santina", santo: "Ognissanti", data_santo: "1 novembre", significato: "Piccola santa", origine: "Latina" },
-    { nome: "Sara", santo: "Santa Sara di Antiochia", data_santo: "20 aprile", significato: "Principessa, signora", origine: "Ebraica" },
-    { nome: "Savina", santo: "Santa Savina", data_santo: "30 gennaio", significato: "Originaria della Sabina", origine: "Latina" },
-    { nome: "Sveva", santo: "n/a", data_santo: "n/a", significato: "Appartenente al popolo degli Svevi", origine: "Germanica" },
-    { nome: "Sebastiana", santo: "San Sebastiano", data_santo: "20 gennaio", significato: "Venerabile", origine: "Greca" },
-    { nome: "Seconda", santo: "Sante Rufina e Seconda", data_santo: "10 luglio", significato: "Seconda nata", origine: "Latina" },
-    { nome: "Selene", santo: "n/a", data_santo: "1 novembre", significato: "Luna", origine: "Greca" },
-    { nome: "Selvaggia", santo: "n/a", data_santo: "n/a", significato: "Selvatica, del bosco", origine: "Latina" },
-    { nome: "Serafina", santo: "Santa Serafina", data_santo: "12 marzo", significato: "Ardente, angelo serafino", origine: "Ebraica" },
-    { nome: "Serena", santo: "Santa Serena di Roma", data_santo: "16 agosto", significato: "Serena, tranquilla", origine: "Latina" },
-    { nome: "Sharon", santo: "n/a", data_santo: "n/a", significato: "Pianura fertile", origine: "Ebraica" },
-    { nome: "Sibilla", santo: "Beata Sibillina Biscossi", data_santo: "19 marzo", significato: "Consigliera di Dio, profetessa", origine: "Greca" },
-    { nome: "Sidonia", santo: "San Sidonio", data_santo: "21 agosto", significato: "Originaria di Sidone", origine: "Fenicia" },
-    { nome: "Silvana", santo: "San Silvano", data_santo: "4 maggio", significato: "Abitante dei boschi", origine: "Latina" },
-    { nome: "Silvia", santo: "Santa Silvia", data_santo: "3 novembre", significato: "Abitante dei boschi", origine: "Latina" },
-    { nome: "Simona", santo: "Santi Simone e Giuda", data_santo: "28 ottobre", significato: "Dio ha ascoltato", origine: "Ebraica" },
-    { nome: "Simonetta", santo: "Santi Simone e Giuda", data_santo: "28 ottobre", significato: "Dio ha ascoltato (diminutivo)", origine: "Ebraica" },
-    { nome: "Sofia", santo: "Santa Sofia", data_santo: "30 settembre", significato: "Saggezza, sapienza", origine: "Greca" },
-    { nome: "Sonia", santo: "Santa Sofia", data_santo: "30 settembre", significato: "Saggezza (forma russa di Sofia)", origine: "Greca/Russa" },
-    { nome: "Speranza", santo: "Santa Speranza", data_santo: "1 agosto", significato: "Speranza", origine: "Latina" },
-    { nome: "Stefania", santo: "Santo Stefano", data_santo: "26 dicembre", significato: "Coronata, ghirlanda", origine: "Greca" },
-    { nome: "Stella", santo: "Stella Maris (Maria)", data_santo: "15 settembre", significato: "Stella", origine: "Latina" },
-    { nome: "Susanna", santo: "Santa Susanna", data_santo: "11 agosto", significato: "Giglio", origine: "Ebraica" },
-    { nome: "Tabita", santo: "Santa Tabita", data_santo: "25 ottobre", significato: "Gazzella", origine: "Aramaica" },
-    { nome: "Tamara", santo: "Santa Tamara di Georgia", data_santo: "1 maggio", significato: "Palma da dattero", origine: "Ebraica" },
-    { nome: "Tania", santo: "Santa Taziana", data_santo: "12 gennaio", significato: "Figlia di Tazio (forma russa di Taziana)", origine: "Latina/Russa" },
-    { nome: "Tatiana", santo: "Santa Taziana di Roma", data_santo: "12 gennaio", significato: "Appartenente a Tazio", origine: "Latina" },
-    { nome: "Tea", santo: "Santa Tea", data_santo: "25 luglio", significato: "Dea", origine: "Greca" },
-    { nome: "Tecla", santo: "Santa Tecla", data_santo: "23 settembre", significato: "Gloria di Dio", origine: "Greca" },
-    { nome: "Teodora", santo: "Santa Teodora", data_santo: "11 settembre", significato: "Dono di Dio", origine: "Greca" },
-    { nome: "Teresa", santo: "Santa Teresa d'Avila", data_santo: "15 ottobre", significato: "Cacciatrice", origine: "Greca" },
-    { nome: "Tiziana", santo: "San Tiziano", data_santo: "16 gennaio", significato: "Difensore", origine: "Latina" },
-    { nome: "Tosca", santo: "n/a", data_santo: "n/a", significato: "Etrusca, toscana", origine: "Latina" },
-    { nome: "Tristana", santo: "n/a", data_santo: "n/a", significato: "Mesta, triste (femminile di Tristano)", origine: "Celtica" },
-    { nome: "Tullia", santo: "San Tullio", data_santo: "n/a", significato: "Appartenente a Tullio", origine: "Latina" },
-    { nome: "Ulrica", santo: "Sant'Ulrico", data_santo: "4 luglio", significato: "Potente per la sua eredità", origine: "Germanica" },
-    { nome: "Umberta", santo: "Beato Umberto III di Savoia", data_santo: "4 marzo", significato: "Guerriero famoso", origine: "Germanica" },
-    { nome: "Valentina", santo: "San Valentino", data_santo: "14 febbraio", significato: "Forte, valorosa", origine: "Latina" },
-    { nome: "Valeria", santo: "Santa Valeria", data_santo: "28 aprile", significato: "Forte, robusta", origine: "Latina" },
-    { nome: "Vanessa", santo: "n/a", data_santo: "n/a", significato: "Farfalla (nome letterario)", origine: "Letteraria/Greca" },
-    { nome: "Vanna", santo: "San Giovanni", data_santo: "24 giugno", significato: "Diminutivo di Giovanna", origine: "Ebraica" },
-    { nome: "Vera", santo: "Sante Fede, Speranza e Carità", data_santo: "1 agosto", significato: "Vera, fede", origine: "Latina/Slava" },
-    { nome: "Verdiana", santo: "Santa Verdiana", data_santo: "1 febbraio", significato: "Verde, giovane", origine: "Latina" },
-    { nome: "Veronica", santo: "Santa Veronica", data_santo: "9 luglio", significato: "Portatrice di vittoria, vera immagine", origine: "Greca/Latina" },
-    { nome: "Viola", santo: "San Vio", data_santo: "31 maggio", significato: "Fiore della viola", origine: "Latina" },
-    { nome: "Violante", santo: "Beata Violante", data_santo: "6 maggio", significato: "Viola", origine: "Latina" },
-    { nome: "Virginia", santo: "Santa Virginia Centurione Bracelli", data_santo: "15 dicembre", significato: "Vergine, pura", origine: "Latina" },
-    { nome: "Vittoria", santo: "Santa Vittoria", data_santo: "23 dicembre", significato: "Vittoria, vincitrice", origine: "Latina" },
-    { nome: "Viviana", santo: "Santa Bibiana (Viviana)", data_santo: "2 dicembre", significato: "Piena di vita", origine: "Latina" },
-    { nome: "Wanda", santo: "Beata Wanda Justyna", data_santo: "23 giugno", significato: "Del popolo dei Vendi", origine: "Germanica" },
-    { nome: "Wendy", santo: "n/a", data_santo: "n/a", significato: "Amica (nome letterario)", origine: "Letteraria/Inglese" },
-    { nome: "Wilma", santo: "n/a", data_santo: "n/a", significato: "Elmo della volontà (da Guglielmina)", origine: "Germanica" },
-    { nome: "Xenia", santo: "Santa Xenia di San Pietroburgo", data_santo: "24 gennaio", significato: "Ospitale, straniera", origine: "Greca" },
-    { nome: "Yara", santo: "n/a", data_santo: "n/a", significato: "Signora delle acque, piccola farfalla", origine: "Brasiliana (Tupi)" },
-    { nome: "Ylenia", santo: "Sant'Elena", data_santo: "18 agosto", significato: "Splendore del sole (variante di Elena)", origine: "Greca" },
-    { nome: "Yvonne", santo: "Sant'Ivo di Bretagna", data_santo: "19 maggio", significato: "Arco di tasso", origine: "Germanica" },
-    { nome: "Zaira", santo: "Santa Zaira", data_santo: "21 ottobre", significato: "Fiorente, luminosa", origine: "Araba" },
-    { nome: "Zelia", santo: "Santa Zelia Guérin", data_santo: "12 luglio", significato: "Zelo, ardore", origine: "Greca" },
-    { nome: "Zita", santo: "Santa Zita", data_santo: "27 aprile", significato: "Ragazza, fanciulla", origine: "Toscana" },
-    { nome: "Zoe", santo: "Santa Zoe di Roma", data_santo: "2 luglio", significato: "Vita", origine: "Greca" }
-];
+        // --- LOGICA DELL'APPLICAZIONE (invariata dal codice fornito, ma adattata) ---
+        let currentUser = null;
+        let currentUserEmail = null;
+        let familyData = null;
+        let currentTab = 'names';
+        let searchTerm = '';
+        let selectedLetter = '';
 
-
-// --- LOGICA DELL'APPLICAZIONE ---
-
-let state = {
-    users: [],
-    nomi: [],
-    voti: [],
-    currentUser: null,
-    currentFamily: null
-};
-
-// Funzioni di utilità per Local Storage
-const saveData = () => {
-    localStorage.setItem('sceltaNomeApp', JSON.stringify(state));
-};
-
-const loadData = () => {
-    const data = localStorage.getItem('sceltaNomeApp');
-    if (data) {
-        state = JSON.parse(data);
-    } else {
-        // Inizializza con i nomi base se non ci sono dati salvati
-        state.nomi = nomiIniziali.map((n, index) => ({ id: index + 1, ...n, comments: [] }));
-    }
-};
-
-// Funzioni di autenticazione
-const b64Encode = str => btoa(unescape(encodeURIComponent(str)));
-const b64Decode = str => decodeURIComponent(escape(atob(str)));
-
-const login = (email, password, name = null, familyCode = null) => {
-    const user = state.users.find(u => u.email === email);
-
-    if (user) { // Login
-        if (user.passwordHash === b64Encode(password)) {
-            state.currentUser = user;
-            state.currentFamily = state.users.filter(u => u.familyId === user.familyId);
-            saveData();
-            return { success: true };
-        } else {
-            return { success: false, message: "Password errata." };
-        }
-    } else { // Registrazione
-        if (!name) {
-            return { success: false, message: "Per la registrazione è richiesto il nome." };
-        }
-        let familyId;
-        if (familyCode) {
-            const family = state.users.find(u => u.familyId === familyCode);
-            if (family) {
-                familyId = familyCode;
-            } else {
-                return { success: false, message: "Codice famiglia non valido." };
+        function init() {
+            const savedEmail = localStorage.getItem('currentUserEmail');
+            if (savedEmail) {
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+                const user = users[savedEmail];
+                if (user) {
+                    currentUser = user.name;
+                    currentUserEmail = savedEmail;
+                    loadFamilyData(user.familyCode);
+                }
             }
-        } else {
-            familyId = `fam-${Date.now()}`;
+            updateUserInfo();
+            switchTab('names');
         }
 
-        const newUser = {
-            id: `user-${Date.now()}`,
-            email,
-            passwordHash: b64Encode(password),
-            name,
-            familyId
-        };
-        state.users.push(newUser);
-        state.currentUser = newUser;
-        state.currentFamily = state.users.filter(u => u.familyId === newUser.familyId);
-        saveData();
-        return { success: true };
-    }
-};
-
-const logout = () => {
-    state.currentUser = null;
-    state.currentFamily = null;
-    // Non puliamo i dati, solo lo stato di login
-    localStorage.setItem('currentUserEmail', ''); // Pulisci l'utente loggato
-    updateUI();
-};
-
-const checkPersistentLogin = () => {
-    const userEmail = localStorage.getItem('currentUserEmail');
-    if(userEmail) {
-        const user = state.users.find(u => u.email === userEmail);
-        if(user) {
-            state.currentUser = user;
-            state.currentFamily = state.users.filter(u => u.familyId === user.familyId);
-        }
-    }
-}
-
-// Funzioni principali dell'interfaccia
-const renderNomi = (filter = '') => {
-    const list = document.getElementById('nomi-list');
-    list.innerHTML = '';
-    const filteredNomi = state.nomi
-        .filter(n => n.nome.toLowerCase().includes(filter.toLowerCase()))
-        .sort((a, b) => a.nome.localeCompare(b.nome));
-
-    filteredNomi.forEach(nome => {
-        const userVote = state.voti.find(v => v.userId === state.currentUser.id && v.nomeId === nome.id);
-        const voteValue = userVote ? userVote.voto : 0;
-        
-        const listItem = document.createElement('div');
-        listItem.className = 'list-item';
-        if (voteValue > 0) {
-            listItem.classList.add(`vote-color-${voteValue}`);
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
         }
 
-        let commentsCount = nome.comments ? nome.comments.length : 0;
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
 
-        listItem.innerHTML = `
-            <div class="item-main">
-                <div class="item-info">
-                    <h3>${nome.nome}</h3>
-                    <p><strong>Santo:</strong> ${nome.santo} (${nome.data_santo})</p>
-                    <p><strong>Significato:</strong> ${nome.significato}</p>
-                    <p><strong>Origine:</strong> ${nome.origine}</p>
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value.trim();
+            const name = document.getElementById('loginName').value.trim();
+            const code = document.getElementById('familyCode').value.trim().toUpperCase();
+            
+            if (!email || !password) {
+                alert('Per favore inserisci email e password');
+                return;
+            }
+            
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Per favore inserisci un\'email valida');
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            if (users[email]) {
+                if (users[email].password !== btoa(password)) {
+                    alert('Password errata');
+                    return;
+                }
+                currentUser = users[email].name;
+                currentUserEmail = email;
+                
+                if (users[email].familyCode) {
+                    loadFamilyData(users[email].familyCode);
+                } else if (code) {
+                    loadFamilyData(code);
+                    users[email].familyCode = code;
+                } else {
+                    alert('Errore: nessun codice famiglia trovato. Creane uno nuovo o inseriscine uno esistente.');
+                    return;
+                }
+            } else {
+                if (!name) {
+                    alert('Per registrarti inserisci anche il tuo nome');
+                    return;
+                }
+                
+                const familyCode = code || generateFamilyCode();
+                
+                users[email] = {
+                    name: name,
+                    password: btoa(password),
+                    familyCode: familyCode
+                };
+                
+                currentUser = name;
+                currentUserEmail = email;
+                
+                loadFamilyData(familyCode);
+            }
+            
+            localStorage.setItem('currentUserEmail', currentUserEmail);
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+            
+            updateUserInfo();
+            closeModal('loginModal');
+            
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginName').value = '';
+            document.getElementById('familyCode').value = '';
+            
+            switchTab(currentTab);
+        }
+
+        function logout() {
+            currentUser = null;
+            currentUserEmail = null;
+            familyData = null;
+            localStorage.removeItem('currentUserEmail');
+            updateUserInfo();
+            switchTab(currentTab);
+        }
+
+        function updateUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            if (currentUserEmail) {
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+                const name = users[currentUserEmail]?.name || 'Utente';
+                userInfo.innerHTML = `
+                    <span>👤 ${name}</span>
+                    <button class="btn btn-secondary" onclick="logout()">Esci</button>
+                `;
+            } else {
+                userInfo.innerHTML = `
+                    <span>Benvenuto! Accedi per iniziare</span>
+                    <button class="btn" onclick="showLoginModal()">Accedi</button>
+                `;
+            }
+        }
+
+        function generateFamilyCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        function initializeFamilyData(code) {
+            familyData = {
+                code: code,
+                names: [...initialNames],
+                votes: {},
+                comments: {},
+                users: [currentUserEmail]
+            };
+            saveFamilyData();
+        }
+
+        function loadFamilyData(code) {
+            const saved = localStorage.getItem(`family_${code}`);
+            if (saved) {
+                familyData = JSON.parse(saved);
+                if (!familyData.users.includes(currentUserEmail)) {
+                    familyData.users.push(currentUserEmail);
+                    saveFamilyData();
+                }
+            } else {
+                initializeFamilyData(code);
+            }
+        }
+
+        function saveFamilyData() {
+            if (familyData) {
+                localStorage.setItem(`family_${familyData.code}`, JSON.stringify(familyData));
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const tabButtons = Array.from(document.querySelectorAll('.tab'));
+            const activeTabIndex = ['names', 'personal', 'ranking', 'stats', 'share'].indexOf(tab);
+            if (activeTabIndex > -1) {
+                tabButtons[activeTabIndex].classList.add('active');
+            }
+
+            const content = document.getElementById('content');
+            
+            if (!currentUserEmail && tab !== 'share') {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <h2>👋 Benvenuto!</h2>
+                        <p style="margin: 20px 0; color: #666;">Per iniziare a votare e aggiungere nomi, accedi con la tua email.</p>
+                        <button class="btn" onclick="showLoginModal()">Accedi ora</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            switch(tab) {
+                case 'names': loadNamesTab(); break;
+                case 'personal': loadPersonalTab(); break;
+                case 'ranking': loadRankingTab(); break;
+                case 'stats': loadStatsTab(); break;
+                case 'share': loadShareTab(); break;
+            }
+        }
+
+        function loadNamesTab() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="search-add-container">
+                    <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Cerca un nome..." oninput="handleSearch()" value="${searchTerm}">
+                    <button class="btn" onclick="showAddNameModal()">+ Aggiungi</button>
                 </div>
-                <div class="item-actions">
-                    <select class="vote-select" data-id="${nome.id}">
-                        <option value="0">Vota</option>
-                        ${[...Array(10).keys()].map(i => `<option value="${i+1}" ${voteValue === i+1 ? 'selected' : ''}>${i+1}</option>`).join('')}
-                    </select>
-                    <button class="button-secondary" data-id="${nome.id}" data-action="comment">Commenti (${commentsCount})</button>
+                <div class="alphabet-filter" id="alphabetFilter"></div>
+                <div id="namesList"></div>
+            `;
+            
+            const alphabetFilter = document.getElementById('alphabetFilter');
+            alphabetFilter.innerHTML = `<button class="letter-btn ${selectedLetter === '' ? 'active' : ''}" onclick="filterByLetter('')">Tutti</button>`;
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                alphabetFilter.innerHTML += `<button class="letter-btn ${selectedLetter === letter ? 'active' : ''}" onclick="filterByLetter('${letter}')">${letter}</button>`;
+            }
+            
+            displayNames();
+        }
+        
+        function handleSearch() {
+            searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            displayNames();
+        }
+
+        function filterByLetter(letter) {
+            selectedLetter = letter;
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+            // `event` might not be available if called programmatically, robust selection needed
+            const buttons = document.querySelectorAll('.letter-btn');
+            const targetButton = Array.from(buttons).find(b => b.textContent === letter || (letter === '' && b.textContent === 'Tutti'));
+            if(targetButton) targetButton.classList.add('active');
+
+            displayNames();
+        }
+
+        function displayNames() {
+            const namesList = document.getElementById('namesList');
+            if(!namesList) return;
+
+            let filteredNames = [...familyData.names];
+            
+            if (searchTerm) {
+                filteredNames = filteredNames.filter(n => 
+                    n.nome.toLowerCase().includes(searchTerm) ||
+                    (n.santo && n.santo.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (selectedLetter) {
+                filteredNames = filteredNames.filter(n => n.nome.toUpperCase().startsWith(selectedLetter));
+            }
+            
+            filteredNames.sort((a, b) => a.nome.localeCompare(b.nome));
+            
+            if (filteredNames.length === 0) {
+                namesList.innerHTML = `<p style="text-align:center; padding: 40px; color: #666;">Nessun nome trovato.</p>`;
+                return;
+            }
+
+            namesList.innerHTML = filteredNames.map(name => {
+                const userVote = getUserVote(name.nome);
+                const avgRating = getAverageRating(name.nome);
+                const cardClass = getCardClass(userVote);
+                
+                return `
+                    <div class="name-card ${cardClass}" id="card-${name.nome.replace(/\s+/g, '-')}">
+                        <div class="name-header">
+                            <h3 class="name-title">${name.nome}</h3>
+                            ${avgRating > 0 ? `<span style="color: #666;">Media: ${avgRating.toFixed(1)} ⭐</span>` : ''}
+                        </div>
+                        ${name.santo && name.santo !== 'n/a' ? `<div class="santo-info">🙏 ${name.santo} - ${name.dataSanto}</div>` : ''}
+                        ${name.significato && name.significato !== 'n/a' ? `
+                            <div class="info-section">
+                                <h4>📖 Significato</h4>
+                                <p>${name.significato}</p>
+                                ${name.origine && name.origine !== 'n/a' ? `<p style="margin-top:5px;"><strong>Origine:</strong> ${name.origine}</p>` : ''}
+                            </div>
+                        ` : ''}
+                        <div class="rating-container">
+                            <span style="font-weight: 500;">Il tuo voto:</span>
+                            ${[1,2,3,4,5,6,7,8,9,10].map(rating => 
+                                `<button class="rating-btn ${userVote === rating ? 'selected' : ''}" 
+                                        onclick="vote('${name.nome}', ${rating})">${rating}</button>`
+                            ).join('')}
+                        </div>
+                        ${getCommentsSection(name.nome)}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getCardClass(vote) {
+            if (!vote) return '';
+            if (vote <= 5) return 'red';
+            if (vote <= 9) return 'green';
+            return 'dark-green';
+        }
+
+        function getUserVote(nome) {
+            return familyData.votes[nome]?.[currentUserEmail] || 0;
+        }
+
+        function getAverageRating(nome) {
+            const votes = familyData.votes[nome];
+            if (!votes) return 0;
+            const voteValues = Object.values(votes);
+            if (voteValues.length === 0) return 0;
+            return voteValues.reduce((a, b) => a + b, 0) / voteValues.length;
+        }
+
+        function vote(nome, rating) {
+            if (!familyData.votes[nome]) {
+                familyData.votes[nome] = {};
+            }
+            // Toggle off if clicking the same vote again
+            if (familyData.votes[nome][currentUserEmail] === rating) {
+                delete familyData.votes[nome][currentUserEmail];
+            } else {
+                familyData.votes[nome][currentUserEmail] = rating;
+            }
+            saveFamilyData();
+            
+            // Re-render just the updated card instead of the whole list for performance
+            const cardElement = document.getElementById(`card-${nome.replace(/\s+/g, '-')}`);
+            if(cardElement) {
+                const userVote = getUserVote(nome);
+                const avgRating = getAverageRating(nome);
+                const cardClass = getCardClass(userVote);
+
+                cardElement.className = `name-card ${cardClass}`;
+                cardElement.querySelector('.name-header span').innerHTML = avgRating > 0 ? `Media: ${avgRating.toFixed(1)} ⭐` : '';
+                cardElement.querySelectorAll('.rating-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    if (parseInt(btn.textContent) === userVote) {
+                        btn.classList.add('selected');
+                    }
+                });
+            } else {
+                displayNames(); // Fallback to full re-render
+            }
+        }
+        
+        function getCommentsSection(nome) {
+            const comments = familyData.comments[nome] || [];
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            let html = '<div class="comment-section">';
+            
+            if (comments.length > 0) {
+                html += '<h4>💬 Commenti</h4>';
+                comments.forEach((comment, index) => {
+                    const authorName = users[comment.authorEmail]?.name || 'Utente';
+                    const isMyComment = comment.authorEmail === currentUserEmail;
+                    html += `
+                        <div class="comment" style="position: relative;">
+                            <div class="comment-author">${authorName}</div>
+                            <div>${comment.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
+                            ${isMyComment ? `
+                                <button onclick="deleteComment('${nome}', ${index})" 
+                                        style="position: absolute; top: 8px; right: 8px; 
+                                        background: #ff3b30; color: white; border: none; 
+                                        border-radius: 50%; width: 24px; height: 24px; cursor: pointer; 
+                                        font-size: 14px; line-height: 24px; padding: 0;">×</button>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `
+                <div class="add-comment">
+                    <input type="text" placeholder="Aggiungi un commento..." id="comment-${nome.replace(/\s+/g, '-')}">
+                    <button class="btn" onclick="addComment('${nome}')">Invia</button>
                 </div>
             </div>
-            <div class="comment-section" id="comments-for-${nome.id}" style="display: none;"></div>
-        `;
-        list.appendChild(listItem);
-    });
-
-    // Aggiungi event listeners
-    document.querySelectorAll('.vote-select').forEach(select => {
-        select.addEventListener('change', (e) => {
-            const nomeId = parseInt(e.target.dataset.id);
-            const voto = parseInt(e.target.value);
-            addOrUpdateVote(nomeId, voto);
-            renderNomi(document.getElementById('search-bar').value); // Rirenderizza per il colore
-        });
-    });
-
-    document.querySelectorAll('[data-action="comment"]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const nomeId = parseInt(e.target.dataset.id);
-            openCommentModal(nomeId);
-        });
-    });
-};
-
-const addOrUpdateVote = (nomeId, voto) => {
-    const existingVoteIndex = state.voti.findIndex(v => v.userId === state.currentUser.id && v.nomeId === nomeId);
-    if (existingVoteIndex > -1) {
-        if (voto === 0) {
-            state.voti.splice(existingVoteIndex, 1);
-        } else {
-            state.voti[existingVoteIndex].voto = voto;
-        }
-    } else if (voto > 0) {
-        state.voti.push({
-            id: `voto-${Date.now()}`,
-            userId: state.currentUser.id,
-            nomeId: nomeId,
-            voto: voto,
-            timestamp: Date.now()
-        });
-    }
-    saveData();
-};
-
-const renderClassifica = () => {
-    const list = document.getElementById('classifica-list');
-    list.innerHTML = '';
-
-    const classifica = state.nomi.map(nome => {
-        const votiPerNome = state.voti.filter(v => v.nomeId === nome.id && state.currentFamily.some(member => member.id === v.userId));
-        const totalVotes = votiPerNome.length;
-        if (totalVotes === 0) {
-            return { ...nome, media: 0, totalVotes: 0 };
-        }
-        const sum = votiPerNome.reduce((acc, curr) => acc + curr.voto, 0);
-        const media = sum / totalVotes;
-        return { ...nome, media: parseFloat(media.toFixed(2)), totalVotes };
-    }).sort((a, b) => b.media - a.media || b.totalVotes - a.totalVotes);
-
-    classifica.forEach(item => {
-        const listItem = document.createElement('div');
-        listItem.className = 'list-item';
-        listItem.innerHTML = `
-            <h3>${item.nome}</h3>
-            <p><strong>Media Voti:</strong> ${item.media} su 10</p>
-            <p><strong>Numero Votanti:</strong> ${item.totalVotes} / ${state.currentFamily.length}</p>
-        `;
-        list.appendChild(listItem);
-    });
-};
-
-const renderMieScelte = () => {
-    const list = document.getElementById('mie-scelte-list');
-    const statsDiv = document.getElementById('my-stats');
-    list.innerHTML = '';
-
-    const mieiVoti = state.voti
-        .filter(v => v.userId === state.currentUser.id)
-        .map(voto => ({
-            ...voto,
-            nome: state.nomi.find(n => n.id === voto.nomeId)?.nome || 'Nome non trovato'
-        }))
-        .sort((a, b) => b.voto - a.voto);
-    
-    if (mieiVoti.length === 0) {
-        list.innerHTML = '<p style="text-align:center; padding: 20px;">Non hai ancora votato nessun nome.</p>';
-        statsDiv.innerHTML = '';
-        return;
-    }
-
-    const totalVoted = mieiVoti.length;
-    const averageVote = (mieiVoti.reduce((acc, curr) => acc + curr.voto, 0) / totalVoted).toFixed(2);
-    statsDiv.innerHTML = `<p style="text-align:center;">Hai votato <strong>${totalVoted}</strong> nomi, con una media di <strong>${averageVote}</strong>.</p>`;
-
-    mieiVoti.forEach(voto => {
-        const listItem = document.createElement('div');
-        listItem.className = 'list-item';
-        listItem.classList.add(`vote-color-${voto.voto}`);
-        listItem.innerHTML = `
-             <h3>${voto.nome}</h3>
-             <p><strong>Il tuo voto:</strong> ${voto.voto}</p>
-        `;
-        list.appendChild(listItem);
-    });
-};
-
-const updateUI = () => {
-    const authContainer = document.getElementById('auth-container');
-    const mainContent = document.getElementById('main-content');
-    const loginPromptButton = document.getElementById('login-prompt-button');
-    const logoutButton = document.getElementById('logout-button');
-    const authStatus = document.getElementById('auth-status');
-
-    if (state.currentUser) {
-        loginPromptButton.style.display = 'none';
-        logoutButton.style.display = 'block';
-        mainContent.style.display = 'block';
-        authStatus.textContent = `Ciao, ${state.currentUser.name}! (Famiglia: ${state.currentUser.familyId})`;
-        localStorage.setItem('currentUserEmail', state.currentUser.email);
-        
-        openTab('nomi'); // Apre la tab dei nomi di default
-        document.getElementById('family-code-display').value = state.currentUser.familyId;
-    } else {
-        loginPromptButton.style.display = 'block';
-        logoutButton.style.display = 'none';
-        mainContent.style.display = 'none';
-        authStatus.textContent = '';
-    }
-};
-
-const openTab = (tabName) => {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabName).classList.add('active');
-    document.querySelector(`.tab-button[onclick="openTab('${tabName}')"]`).classList.add('active');
-
-    // Funzioni di render per ogni tab
-    if (tabName === 'nomi') renderNomi(document.getElementById('search-bar').value);
-    if (tabName === 'classifica') renderClassifica();
-    if (tabName === 'mie-scelte') renderMieScelte();
-};
-
-const copyFamilyCode = () => {
-    const codeInput = document.getElementById('family-code-display');
-    codeInput.select();
-    document.execCommand('copy');
-    alert('Codice famiglia copiato!');
-};
-
-
-// Modals logic
-const loginModal = document.getElementById('login-modal');
-const addNameModal = document.getElementById('add-name-modal');
-const commentModal = document.getElementById('comment-modal');
-
-const setupModals = () => {
-    // Login Modal
-    document.getElementById('login-prompt-button').onclick = () => loginModal.style.display = 'flex';
-    document.getElementById('close-login').onclick = () => loginModal.style.display = 'none';
-    document.getElementById('login-button').onclick = () => {
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
-        const name = document.getElementById('name-input').value;
-        const familyCode = document.getElementById('family-code-input').value;
-
-        if(!email || !password) {
-            document.getElementById('login-error').textContent = "Email e password sono obbligatori.";
-            return;
-        }
-
-        const result = login(email, password, name, familyCode);
-        if (result.success) {
-            loginModal.style.display = 'none';
-            document.getElementById('login-error').textContent = '';
-            document.getElementById('email-input').value = '';
-            document.getElementById('password-input').value = '';
-            document.getElementById('name-input').value = '';
-            document.getElementById('family-code-input').value = '';
-            updateUI();
-        } else {
-            document.getElementById('login-error').textContent = result.message;
-        }
-    };
-
-    // Add Name Modal
-    document.getElementById('add-name-button').onclick = () => addNameModal.style.display = 'flex';
-    document.getElementById('close-add-name').onclick = () => addNameModal.style.display = 'none';
-    document.getElementById('save-name-button').onclick = () => {
-        const nome = document.getElementById('new-name-nome').value;
-        if (!nome) {
-            alert('Il nome è obbligatorio.');
-            return;
-        }
-        const newName = {
-            id: state.nomi.length > 0 ? Math.max(...state.nomi.map(n => n.id)) + 1 : 1,
-            nome: nome,
-            santo: document.getElementById('new-name-santo').value || 'n/a',
-            data_santo: document.getElementById('new-name-data').value || 'n/a',
-            significato: document.getElementById('new-name-significato').value || 'n/a',
-            origine: document.getElementById('new-name-origine').value || 'n/a',
-            comments: []
-        };
-        state.nomi.push(newName);
-        saveData();
-        addNameModal.style.display = 'none';
-        renderNomi();
-    };
-
-    // Comment Modal
-    document.getElementById('close-comment').onclick = () => commentModal.style.display = 'none';
-
-    // Close modals on outside click
-    window.onclick = (event) => {
-        if (event.target == loginModal) loginModal.style.display = "none";
-        if (event.target == addNameModal) addNameModal.style.display = "none";
-        if (event.target == commentModal) commentModal.style.display = "none";
-    }
-};
-
-let currentCommentNomeId = null;
-
-const openCommentModal = (nomeId) => {
-    currentCommentNomeId = nomeId;
-    const nome = state.nomi.find(n => n.id === nomeId);
-    document.getElementById('comment-modal-title').innerText = `Commenti per ${nome.nome}`;
-    
-    const commentList = document.getElementById('comment-list');
-    commentList.innerHTML = '';
-    
-    if (nome.comments && nome.comments.length > 0) {
-        nome.comments.forEach(comment => {
-            const author = state.users.find(u => u.id === comment.userId);
-            const commentDiv = document.createElement('div');
-            commentDiv.className = 'comment';
-            commentDiv.innerHTML = `
-                <p><span class="comment-author">${author ? author.name : 'Utente sconosciuto'}:</span> ${comment.text}</p>
-                ${comment.userId === state.currentUser.id ? `<button class="button-danger" data-comment-id="${comment.id}" style="padding: 5px 10px; font-size: 0.8rem;">Elimina</button>` : ''}
             `;
-            commentList.appendChild(commentDiv);
-        });
-    } else {
-        commentList.innerHTML = '<p>Nessun commento. Sii il primo!</p>';
-    }
-
-    // Add event listeners for delete buttons
-    document.querySelectorAll('.button-danger[data-comment-id]').forEach(btn => {
-        btn.onclick = (e) => {
-            const commentId = e.target.dataset.commentId;
-            deleteComment(nomeId, commentId);
+            
+            return html;
         }
-    })
 
-    commentModal.style.display = 'flex';
-};
+        function addComment(nome) {
+            const input = document.getElementById(`comment-${nome.replace(/\s+/g, '-')}`);
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            if (!familyData.comments[nome]) {
+                familyData.comments[nome] = [];
+            }
+            
+            familyData.comments[nome].push({
+                authorEmail: currentUserEmail,
+                text: text,
+                date: new Date().toISOString()
+            });
+            
+            saveFamilyData();
+            input.value = '';
+            // Re-render just the comments section for that card
+            const cardElement = document.getElementById(`card-${nome.replace(/\s+/g, '-')}`);
+            if(cardElement) {
+                 cardElement.querySelector('.comment-section').innerHTML = getCommentsSection(nome).match(/<div class="comment-section">([\s\S]*)<\/div>/)[1];
+            }
+        }
 
-document.getElementById('save-comment-button').onclick = () => {
-    const commentInput = document.getElementById('comment-input');
-    const text = commentInput.value;
-    if (!text.trim()) return;
+        function deleteComment(nome, index) {
+            if (confirm('Vuoi eliminare questo commento?')) {
+                familyData.comments[nome].splice(index, 1);
+                if (familyData.comments[nome].length === 0) {
+                    delete familyData.comments[nome];
+                }
+                saveFamilyData();
+                const cardElement = document.getElementById(`card-${nome.replace(/\s+/g, '-')}`);
+                if(cardElement) {
+                     cardElement.querySelector('.comment-section').innerHTML = getCommentsSection(nome).match(/<div class="comment-section">([\s\S]*)<\/div>/)[1];
+                }
+            }
+        }
+        
+        function showAddNameModal() {
+            document.getElementById('addNameModal').style.display = 'flex';
+        }
 
-    const nome = state.nomi.find(n => n.id === currentCommentNomeId);
-    if (!nome.comments) {
-        nome.comments = [];
-    }
-    nome.comments.push({
-        id: `comment-${Date.now()}`,
-        userId: state.currentUser.id,
-        text: text
-    });
+        function addName() {
+            const nome = document.getElementById('newNameInput').value.trim();
+            const santo = document.getElementById('newSantoInput').value.trim();
+            const dataSanto = document.getElementById('newDataInput').value.trim();
+            const significato = document.getElementById('newSignificatoInput').value.trim();
+            const origine = document.getElementById('newOrigineInput').value.trim();
+            
+            if (!nome) {
+                alert('Il nome è obbligatorio');
+                return;
+            }
+            
+            if (familyData.names.find(n => n.nome.toLowerCase() === nome.toLowerCase())) {
+                alert('Questo nome è già presente');
+                return;
+            }
+            
+            familyData.names.push({
+                nome: nome.charAt(0).toUpperCase() + nome.slice(1),
+                santo: santo || 'n/a',
+                dataSanto: dataSanto || 'n/a',
+                significato: significato || 'n/a',
+                origine: origine || 'n/a',
+                addedBy: currentUserEmail
+            });
+            
+            saveFamilyData();
+            closeModal('addNameModal');
+            
+            document.getElementById('newNameInput').value = '';
+            document.getElementById('newSantoInput').value = '';
+            document.getElementById('newDataInput').value = '';
+            document.getElementById('newSignificatoInput').value = '';
+            document.getElementById('newOrigineInput').value = '';
+            
+            switchTab('names');
+        }
 
-    saveData();
-    commentInput.value = '';
-    openCommentModal(currentCommentNomeId); // Ricarica la vista dei commenti
-    renderNomi(document.getElementById('search-bar').value); // Aggiorna il conteggio
-};
+        function loadPersonalTab() {
+            const content = document.getElementById('content');
+            const myVotes = getMyVotes();
+            const favorites = myVotes.filter(v => v.vote >= 8).sort((a, b) => b.vote - a.vote);
+            const mediumVotes = myVotes.filter(v => v.vote >= 6 && v.vote <= 7).sort((a, b) => b.vote - a.vote);
+            const lowVotes = myVotes.filter(v => v.vote <= 5).sort((a, b) => a.vote - b.vote);
+            
+            content.innerHTML = `
+                <h2>⭐ Le Mie Scelte Personali</h2>
+                
+                ${favorites.length > 0 ? `
+                    <div style="margin-top: 24px;">
+                        <h3 style="color: #2e7d32; margin-bottom: 16px;">💚 I Miei Preferiti (voto 8-10)</h3>
+                        ${favorites.map(item => `
+                            <div class="name-card dark-green" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 24px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                                ${item.data.santo && item.data.santo !== 'n/a' ? `<div class="santo-info">🙏 ${item.data.santo} - ${item.data.dataSanto}</div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${mediumVotes.length > 0 ? `
+                    <div style="margin-top: 32px;">
+                        <h3 style="color: #4caf50; margin-bottom: 16px;">💚 Voti Medi (6-7)</h3>
+                        ${mediumVotes.map(item => `
+                            <div class="name-card green" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 20px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${lowVotes.length > 0 ? `
+                    <div style="margin-top: 32px;">
+                        <h3 style="color: #f44336; margin-bottom: 16px;">❌ Voti Bassi (1-5)</h3>
+                        ${lowVotes.map(item => `
+                            <div class="name-card red" style="margin-bottom: 12px;">
+                                <div class="name-header">
+                                    <h3 class="name-title">${item.nome}</h3>
+                                    <span style="font-size: 20px; font-weight: bold;">${item.vote} ⭐</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${myVotes.length === 0 ? `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <p style="color: #666;">Non hai ancora votato nessun nome.</p>
+                        <button class="btn" onclick="switchTab('names')">Inizia a votare</button>
+                    </div>
+                ` : ''}
+            `;
+        }
+        
+        function getMyVotes() {
+            const votes = [];
+            Object.entries(familyData.votes).forEach(([nome, userVotes]) => {
+                if (userVotes[currentUserEmail]) {
+                    const nameData = familyData.names.find(n => n.nome === nome);
+                    if (nameData) {
+                        votes.push({
+                            nome: nome,
+                            vote: userVotes[currentUserEmail],
+                            data: nameData
+                        });
+                    }
+                }
+            });
+            return votes;
+        }
 
-const deleteComment = (nomeId, commentId) => {
-    if(!confirm('Sei sicuro di voler eliminare questo commento?')) return;
+        function loadRankingTab() {
+            const content = document.getElementById('content');
+            const rankings = calculateRankings();
+            
+            content.innerHTML = `
+                <h2>🏆 Classifica Generale</h2>
+                <p style="color: #666; margin-bottom: 24px;">Media dei voti di tutti i partecipanti della famiglia.</p>
+                <div id="rankingList">
+                    ${rankings.length > 0 ? rankings.map((item, index) => `
+                        <div class="ranking-item">
+                            <div class="ranking-position">${index + 1}°</div>
+                            <div class="ranking-name">${item.nome}</div>
+                            <div style="text-align: right;">
+                                <div class="ranking-score">${item.average.toFixed(1)} ⭐</div>
+                                <div style="font-size: 14px; color: #666;">${item.voters} vot${item.voters === 1 ? 'o' : 'i'}</div>
+                            </div>
+                        </div>
+                    `).join('') : '<p style="text-align:center; padding: 40px; color: #666;">Nessun voto ancora registrato.</p>'}
+                </div>
+            `;
+        }
 
-    const nome = state.nomi.find(n => n.id === nomeId);
-    const commentIndex = nome.comments.findIndex(c => c.id === commentId);
+        function calculateRankings() {
+            const rankings = [];
+            
+            familyData.names.forEach(name => {
+                const votes = familyData.votes[name.nome];
+                if (votes && Object.keys(votes).length > 0) {
+                    const voteValues = Object.values(votes);
+                    const average = voteValues.reduce((a, b) => a + b, 0) / voteValues.length;
+                    rankings.push({
+                        nome: name.nome,
+                        average: average,
+                        voters: voteValues.length
+                    });
+                }
+            });
+            
+            rankings.sort((a, b) => b.average - a.average || b.voters - a.voters);
+            return rankings;
+        }
 
-    if (commentIndex > -1 && nome.comments[commentIndex].userId === state.currentUser.id) {
-        nome.comments.splice(commentIndex, 1);
-        saveData();
-        openCommentModal(nomeId); // Ricarica la vista dei commenti
-        renderNomi(document.getElementById('search-bar').value); // Aggiorna il conteggio
-    }
-}
+        function loadStatsTab() {
+            const content = document.getElementById('content');
+            const stats = calculateStats();
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            content.innerHTML = `
+                <h2>📊 Statistiche</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.totalNames}</div>
+                        <div class="stat-label">Nomi totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.votedNames}</div>
+                        <div class="stat-label">Nomi votati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.totalVotes}</div>
+                        <div class="stat-label">Voti totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.users}</div>
+                        <div class="stat-label">Partecipanti</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 32px;">👥 Partecipanti</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px;">
+                    ${familyData.users.map(email => `
+                        <div style="background: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                            ${users[email]?.name || email} (${getUserVoteCount(email)} voti)
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
 
+        function calculateStats() {
+            const totalVotes = Object.values(familyData.votes).reduce((total, nameVotes) => 
+                total + Object.keys(nameVotes).length, 0
+            );
+            
+            return {
+                totalNames: familyData.names.length,
+                votedNames: Object.keys(familyData.votes).length,
+                totalVotes: totalVotes,
+                users: familyData.users.length
+            };
+        }
 
-// Inizializzazione
-document.addEventListener('DOMContentLoaded', () => {
-    loadData();
-    checkPersistentLogin(); // Controlla se un utente era già loggato
-    updateUI();
-    setupModals();
-    
-    document.getElementById('search-bar').addEventListener('input', (e) => {
-        renderNomi(e.target.value);
-    });
-    
-    document.getElementById('logout-button').addEventListener('click', logout);
-});
+        function getUserVoteCount(email) {
+            let count = 0;
+            Object.values(familyData.votes).forEach(nameVotes => {
+                if (nameVotes[email]) count++;
+            });
+            return count;
+        }
+        
+        function loadShareTab() {
+            const content = document.getElementById('content');
+            
+            if (!familyData) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <h2>🔗 Condividi con la famiglia</h2>
+                        <p style="margin: 20px 0; color: #666;">Accedi per creare o unirti a un gruppo famiglia.</p>
+                        <button class="btn" onclick="showLoginModal()">Accedi ora</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <h2>🔗 Condividi con la famiglia</h2>
+                <div class="share-section">
+                    <p>Condividi questo codice con i tuoi familiari per permettere loro di votare:</p>
+                    <div class="share-code">${familyData.code}</div>
+                    <button class="btn" onclick="copyCode()">📋 Copia codice</button>
+                </div>
+                
+                <div style="margin-top: 32px;">
+                    <h3>📱 Come funziona?</h3>
+                    <ol style="padding-left: 20px; line-height: 2;">
+                        <li>Condividi il codice <strong>${familyData.code}</strong> con i familiari.</li>
+                        <li>Loro dovranno cliccare su "Accedi", compilare i campi per la registrazione e inserire il tuo codice famiglia.</li>
+                        <li>Tutti potranno votare e vedere la classifica aggiornata.</li>
+                    </ol>
+                </div>
+            `;
+        }
 
-</script>
+        function copyCode() {
+            navigator.clipboard.writeText(familyData.code).then(() => {
+                alert('Codice copiato negli appunti!');
+            }, () => {
+                alert('Errore nella copia del codice.');
+            });
+        }
+        
+        // Initialize the app on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
