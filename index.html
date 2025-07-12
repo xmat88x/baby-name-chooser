@@ -415,11 +415,11 @@
                 <input type="password" id="loginPassword" placeholder="Password">
             </div>
             <div class="form-group">
-                <label>Il tuo nome</label>
+                <label>Il tuo nome (solo per nuova registrazione)</label>
                 <input type="text" id="loginName" placeholder="Es: Maria">
             </div>
             <div class="form-group">
-                <label>Codice famiglia (lascia vuoto per crearne uno nuovo)</label>
+                <label>Codice famiglia (opzionale)</label>
                 <input type="text" id="familyCode" placeholder="Es: ABC123">
             </div>
             <div style="display: flex; gap: 12px;">
@@ -427,7 +427,8 @@
                 <button class="btn btn-secondary" onclick="closeModal('loginModal')">Annulla</button>
             </div>
             <p style="margin-top: 16px; font-size: 14px; color: #666;">
-                I tuoi dati sono salvati localmente e puoi riaccedere con email e password.
+                <strong>Già registrato?</strong> Inserisci solo email e password.<br>
+                <strong>Nuovo utente?</strong> Compila tutti i campi per registrarti.
             </p>
         </div>
     </div>
@@ -587,8 +588,8 @@
             const name = document.getElementById('loginName').value.trim();
             const code = document.getElementById('familyCode').value.trim();
             
-            if (!email || !password || !name) {
-                alert('Per favore compila tutti i campi');
+            if (!email || !password) {
+                alert('Per favore inserisci email e password');
                 return;
             }
             
@@ -603,7 +604,7 @@
             
             // Check if user exists
             if (users[email]) {
-                // Verify password
+                // Existing user - verify password
                 if (users[email].password !== btoa(password)) {
                     alert('Password errata');
                     return;
@@ -615,13 +616,27 @@
                 // Load their family data
                 if (users[email].familyCode) {
                     loadFamilyData(users[email].familyCode);
+                } else if (code) {
+                    // User exists but wants to join a new family
+                    loadFamilyData(code);
+                    users[email].familyCode = code;
+                } else {
+                    alert('Errore: nessun codice famiglia trovato');
+                    return;
                 }
             } else {
-                // Register new user
+                // New user registration
+                if (!name) {
+                    alert('Per registrarti inserisci anche il tuo nome');
+                    return;
+                }
+                
+                const familyCode = code || generateFamilyCode();
+                
                 users[email] = {
                     name: name,
                     password: btoa(password), // Simple encoding
-                    familyCode: code || generateFamilyCode()
+                    familyCode: familyCode
                 };
                 localStorage.setItem('registeredUsers', JSON.stringify(users));
                 
@@ -631,7 +646,7 @@
                 if (code) {
                     loadFamilyData(code);
                 } else {
-                    initializeFamilyData(users[email].familyCode);
+                    initializeFamilyData(familyCode);
                 }
             }
             
@@ -646,6 +661,13 @@
             
             updateUserInfo();
             closeModal('loginModal');
+            
+            // Clear form fields
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginName').value = '';
+            document.getElementById('familyCode').value = '';
+            
             switchTab(currentTab);
         }
 
